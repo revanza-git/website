@@ -1,38 +1,44 @@
 [
 	{
-		"name": "Email.ML",
-		"description": "Minimalist temporary Email.",
-		"image": "/assets/images/projects/email.ml.png",
-		"url": "https://email.ml"
+		"name": "nusantararegas.com",
+		"description": "Nusantara's Regas Official Website.",
+		"image": "/assets/images/projects/nrwebsite.png",
+		"url": "https://nusantararegas.com/Beranda/eng",
+		"stacks": ["Blazor", "ASP.NET", "SQL Server"]
 	},
 	{
 		"name": "DNS.Surf",
 		"description": "Querying DNS Resolution Results in Different Regions Worldwide.",
 		"image": "/assets/images/projects/dns.surf.png",
-		"url": "https://dns.surf"
+		"url": "https://dns.surf",
+		"stacks": ["Blazor", "ASP.NET", "SQL Server"]
 	},
 	{
 		"name": "HTML.ZONE",
 		"description": "Web Toolbox.",
 		"image": "/assets/images/projects/html.zone.png",
-		"url": "https://html.zone"
+		"url": "https://html.zone",
+		"stacks": ["Blazor", "ASP.NET", "SQL Server"]
 	},
 	{
 		"name": "Sink",
 		"description": "A Simple / Speedy / Secure Link Shortener with Analytics.",
 		"image": "/assets/images/projects/sink.cool.png",
-		"url": "https://sink.cool"
+		"url": "https://sink.cool",
+		"stacks": ["Blazor", "ASP.NET", "SQL Server"]
 	},
 	{
 		"name": "BroadcastChannel",
 		"description": "Turn your Telegram Channel into a MicroBlog.",
 		"image": "/assets/images/projects/broadcast-channel.png",
-		"url": "https://github.com/ccbikai/BroadcastChannel"
+		"url": "https://github.com/ccbikai/BroadcastChannel",
+		"stacks": ["Blazor", "ASP.NET", "SQL Server"]
 	},
 	{
 		"name": "L(O*62).ONG",
 		"description": "Make your URL looooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooonger",
 		"image": "/assets/images/projects/long.png",
-		"url": "https://loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo.ong"
+		"url": "https://loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo.ong",
+		"stacks": ["Blazor", "ASP.NET", "SQL Server"]
 	}
 ]

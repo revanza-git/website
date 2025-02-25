@@ -1,23 +1,37 @@
 [
 	{
-		"dates": "June 2018 · Present",
-		"role": "Front-end Engineer",
-		"company": "Full Truck Alliance",
-		"description": "Responsible for customer service and CRM system front-end development.",
-		"logo": "/assets/images/experiences/fta.ico"
+		"dates": "November 2021 · Present",
+		"role": "System Planning & Integration Engineer",
+		"company": "Nusantara Regas",
+		"description": "Spearheaded SDLC, Data Integration, and Software Engineering processes, overseeing the internal system architecture, including databases, and providing strategic technical consultation within a subsidiary of Indonesia’s largest state-owned energy company, Pertamina. Directed the seamless integration of our holding entity and its largest subsidiary, Gas Negara, into our company’s systems, collaborating closely with stakeholders and vendors to ensure solutions aligned with business objectives, met rigorous quality standards, and were built for scalability.",
+		"logo": "/assets/images/experiences/nr-logo.ico"
 	},
 	{
-		"dates": "July 2015 · June 2018",
-		"role": "Front-end Engineer",
-		"company": "YOHO!",
-		"description": "Responsible for mobile front-end development of e-commerce platform.",
-		"logo": "/assets/images/experiences/yoho.ico"
+		"dates": "October 2018 · November 2021",
+		"role": "Back-end Engineer",
+		"company": "SALT Indonesia",
+		"description": "Experience in large-scale Agile projects: managed transactions for the nation’s leading modem provider using microservices; led the development of performance and pricing data features for Indonesia's largest pricing management system, servicing the country’s largest supermarket chains; developed transaction APIs for one of Indonesia's top banks; standardized OAuth2-secured APIs for a major learning management system supporting medical professionals.",
+		"logo": "/assets/images/experiences/salt-indonesia.ico"
 	},
 	{
-		"dates": "September 2014 · July 2015 ",
-		"role": "Node.JS Developer",
-		"company": "WuLian",
-		"description": "Intern, involved in the development of Internet of Things cloud systems.",
-		"logo": "/assets/images/experiences/wulian.ico"
+		"dates": "October 2018 · October 2020",
+		"role": "IT Business Supprt & Application Staff",
+		"company": "Equity Life Indonesia",
+		"description": "Responsible for building and maintaining enterprise web apps: crafting secure, scalable back-end APIs for seamless data integration, developing intuitive front-end interfaces, and supporting QA/UAT for production-ready quality, while collaborating directly with users for precise requirement alignment.",
+		"logo": "/assets/images/experiences/equity-life.ico"
+	},
+	{
+		"dates": "Agustus 2015 · Mei 2018",
+		"role": "Business Development Staff",
+		"company": "Global Technology Resource ID",
+		"description": "Built and maintained HealingSolutions.id’s core brand, ensuring seamless execution of management’s business decisions. Led e-commerce development, managed social media accounts, and produced daily content in collaboration with cross-departmental teams.",
+		"logo": "/assets/images/experiences/global-tech.ico"
+	},
+	{
+		"dates": "January 2016 · April 2016 ",
+		"role": "Web Developer",
+		"company": "Huma Shadian",
+		"description": "Intern, involved in the development company profile website from scratch, and maintained The Web for Content Updates",
+		"logo": "/assets/images/experiences/huma-shadian.ico"
 	}
 ]
