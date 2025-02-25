@@ -1,24 +1,55 @@
-# build output
+# Build & Generated
 dist/
-# generated types
 .astro/
+*.tsbuildinfo
 
-# dependencies
+# Dependencies
 node_modules/
+.pnpm-store/
 
-# logs
+# Environment
+.env
+.env.*
+!.env.example
+
+# Logs
+logs/
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
+# Cache & Temporary
+.cache/
+.temp/
+.tmp/
 
-# environment variables
-.env
-.env.production
-
-# macOS-specific files
-.DS_Store
-
-# jetbrains setting folder
+# Editor & IDE
+.vscode/*
+!.vscode/extensions.json
+!.vscode/launch.json
 .idea/
+*.sublime-*
+*.swp
+*.swo
+
+# OS Generated
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Build Cache
+.netlify/
+.vercel/
+.cloudflare/
+
+# Testing
+coverage/
+
+# Optional: Astro specific
+src/env.d.ts
