@@ -1,37 +1,37 @@
 [
 	{
-		"dates": "November 2021 · Present",
-		"role": "System Planning & Integration Engineer",
-		"company": "Nusantara Regas",
-		"description": "Spearheaded SDLC, Data Integration, and Software Engineering processes, overseeing the internal system architecture, including databases, and providing strategic technical consultation within a subsidiary of Indonesia’s largest state-owned energy company, Pertamina. Directed the seamless integration of our holding entity and its largest subsidiary, Gas Negara, into our company’s systems, collaborating closely with stakeholders and vendors to ensure solutions aligned with business objectives, met rigorous quality standards, and were built for scalability.",
-		"logo": "/assets/images/experiences/nr-logo.ico"
+	  "dates": "Nov 2021 – Present",
+	  "role": "System Planning & Integration Engineer",
+	  "company": "PT Nusantara Regas (Pertamina Subs.)",
+	  "description": "Engineered 5 SCADA-to-cloud data pipelines (100 + tables, 3 TB/day), collapsed 6 silos and freed ~80 staff-hours/month. Built an in-house SQL Server lake-house and real-time Power BI suite—merging 30 + apps, enabling same-day insights, and avoiding Rp 1.9 B (≈ US $120 K) in vendor spend. Led 5 Agile squads, delivered 95 % of roadmap on time/under budget, and won two Silver CIP awards for SINV inventory & risk-containment platforms.",
+	  "logo": "/assets/images/experiences/nr-logo.ico"
 	},
 	{
-		"dates": "October 2018 · November 2021",
-		"role": "Back-end Engineer",
-		"company": "SALT Indonesia",
-		"description": "Experience in large-scale Agile projects: managed transactions for the nation’s leading modem provider using microservices; led the development of performance and pricing data features for Indonesia's largest pricing management system, servicing the country’s largest supermarket chains; developed transaction APIs for one of Indonesia's top banks; standardized OAuth2-secured APIs for a major learning management system supporting medical professionals.",
-		"logo": "/assets/images/experiences/salt-indonesia.ico"
+	  "dates": "Oct 2020 – Nov 2021",
+	  "role": "Back-End / Data Engineer",
+	  "company": "SALT Indonesia",
+	  "description": "Managed 5 TB + modem telemetry and synced to Google BigQuery for nationwide analytics. Led a 3-person team to ship Danone’s doctor-facing LMS (launched on schedule, thousands of users). Built a Laravel reporting engine for MyOrbit → Telkom, cutting runtime 70 % and delivering T + 0 reports. Tuned AWS EC2 pricing-service fleet—performance ↑ 50 %, infra cost ↓.",
+	  "logo": "/assets/images/experiences/salt-indonesia.ico"
 	},
 	{
-		"dates": "October 2018 · October 2020",
-		"role": "IT Business Supprt & Application Staff",
-		"company": "Equity Life Indonesia",
-		"description": "Responsible for building and maintaining enterprise web apps: crafting secure, scalable back-end APIs for seamless data integration, developing intuitive front-end interfaces, and supporting QA/UAT for production-ready quality, while collaborating directly with users for precise requirement alignment.",
-		"logo": "/assets/images/experiences/equity-life.ico"
+	  "dates": "Oct 2018 – Oct 2020",
+	  "role": "IT Business Support & App Delivery",
+	  "company": "Equity Life Indonesia",
+	  "description": "Automated HCI claim/pay reports (CSV engine via SFTP) → KPI lead-time 3 days → same-day. Rolled out Laravel + React compensation platform—month-end effort ↓ 50 %. Delivered E-PDD policy-printing service (24 h → < 1 h). Integrated SPAJ OCR into EDITS/DMS for paperless onboarding. Built Dockerised React/Redux fronts and OAuth2-secured APIs; partnered with QA & business during SIT/UAT for production-ready releases.",
+	  "logo": "/assets/images/experiences/equity-life.ico"
 	},
 	{
-		"dates": "Agustus 2015 · Mei 2018",
-		"role": "Business Development Staff",
-		"company": "Global Technology Resource ID",
-		"description": "Built and maintained HealingSolutions.id’s core brand, ensuring seamless execution of management’s business decisions. Led e-commerce development, managed social media accounts, and produced daily content in collaboration with cross-departmental teams.",
-		"logo": "/assets/images/experiences/global-tech.ico"
+	  "dates": "Aug 2015 – May 2018",
+	  "role": "Business Development / Digital Ops",
+	  "company": "Global Technology Resource ID",
+	  "description": "Launched and ran HealingSolutions.id e-commerce stack (WordPress, WooCommerce) and social channels, driving the brand’s initial online revenue. Produced daily creative assets (Photoshop) and executed FB Ads/SEO campaigns, translating management strategy into measurable digital growth.",
+	  "logo": "/assets/images/experiences/global-tech.ico"
 	},
 	{
-		"dates": "January 2016 · April 2016 ",
-		"role": "Web Developer",
-		"company": "Huma Shadian",
-		"description": "Intern, involved in the development company profile website from scratch, and maintained The Web for Content Updates",
-		"logo": "/assets/images/experiences/huma-shadian.ico"
+	  "dates": "Jan 2016 – Apr 2016",
+	  "role": "Web Developer Intern",
+	  "company": "Huma Shadian",
+	  "description": "Built the company-profile site from scratch (HTML/CSS/JS, PHP) and created a lightweight CMS for content updates—giving the firm its first searchable web presence.",
+	  "logo": "/assets/images/experiences/huma-shadian.ico"
 	}
-]
+  ]  

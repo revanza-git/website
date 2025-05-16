@@ -3,7 +3,7 @@
 		"name": "nusantararegas.com",
 		"description": "Nusantara's Regas Official Website.",
 		"image": "/assets/images/projects/nrwebsite.png",
-		"url": "https://nusantararegas.com/Beranda/eng",
+		"url": "https://nusantararegas.com/",
 		"stacks": ["Blazor", "ASP.NET", "SQL Server"]
 	},
 	{
