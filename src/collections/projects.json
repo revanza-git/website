@@ -7,11 +7,11 @@
 		"stacks": ["Blazor", "ASP.NET", "SQL Server"]
 	},
 	{
-		"name": "DNS.Surf",
-		"description": "Querying DNS Resolution Results in Different Regions Worldwide.",
-		"image": "/assets/images/projects/dns.surf.png",
-		"url": "https://dns.surf",
-		"stacks": ["Blazor", "ASP.NET", "SQL Server"]
+		"name": "Iventory Management System",
+		"description": "Award-winning inventory management system for managing inventory in a warehouse.",
+		"image": "/assets/images/projects/sinv1.png",
+		"url": "https://github.com/revanza-git/Inventory-management",
+		"stacks": ["Blade", "Laravel", "MySQL"]
 	},
 	{
 		"name": "HTML.ZONE",
