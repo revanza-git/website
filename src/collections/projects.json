@@ -7,18 +7,18 @@
 		"stacks": ["Blazor", "ASP.NET", "SQL Server"]
 	},
 	{
-		"name": "Iventory Management System",
+		"name": "Inventory Management System",
 		"description": "Award-winning inventory management system for managing inventory in a warehouse.",
-		"image": "/assets/images/projects/sinv1.png",
+		"image": "/assets/images/projects/sinv1.jpg",
 		"url": "https://github.com/revanza-git/Inventory-management",
 		"stacks": ["Blade", "Laravel", "MySQL"]
 	},
 	{
-		"name": "HTML.ZONE",
-		"description": "Web Toolbox.",
-		"image": "/assets/images/projects/html.zone.png",
-		"url": "https://html.zone",
-		"stacks": ["Blazor", "ASP.NET", "SQL Server"]
+		"name": "SEMAR Policy Document Management System",
+		"description": "a comprehensive dashboard designed to manage policy documents. a modern, user-friendly interface for document management, policy tracking, and administrative tasks.",
+		"image": "/assets/images/projects/semar1.jpg",
+		"url": "https://github.com/revanza-git/semar",
+		"stacks": ["NextJS", "ASP.NET", "SQL Server"]
 	},
 	{
 		"name": "Sink",
