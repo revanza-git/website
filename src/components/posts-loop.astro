@@ -5,10 +5,10 @@ const allPosts = await getCollection("post");
 const { count } = Astro.props;
 
 const postsLoop = allPosts.slice(0, count).map((post) => {
-	return {
-		...(post.data || {}),
-		link: `/post/${post.slug}`,
-	};
+  return {
+    ...(post.data || {}),
+    link: `/post/${post.slug}`,
+  };
 });
 ---
 
@@ -77,6 +77,6 @@ const postsLoop = allPosts.slice(0, count).map((post) => {
           </div>
         </div>
       </div>
-    )
+    );
   })
 }

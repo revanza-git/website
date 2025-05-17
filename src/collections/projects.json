@@ -7,6 +7,13 @@
 		"stacks": ["NextJS", "ASP.NET Core" , "TailwindCSS" ,"React-Admin", "SQL Server"]
 	},
 	{
+		"name": "Nutricia Professional",
+		"description": "LMS for Danone’s medical-professional program",
+		"image": "/assets/images/projects/nupro1.png",
+		"url": "https://nutriciaprofessional.id/",
+		"stacks": ["NextJS", "Lumen", "MySQL", "AWS EC2","AWS RDS"]
+	},
+	{
 		"name": "Inventory Management System",
 		"description": "Award-winning inventory management system",
 		"image": "/assets/images/projects/sinv0.jpg",
@@ -35,10 +42,10 @@
 		"stacks": ["Blazor", "ASP.NET Core", "Bootstrap","Jquery", "SQL Server"]
 	},
 	{
-		"name": "L(O*62).ONG",
-		"description": "Make your URL looooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooonger",
-		"image": "/assets/images/projects/long.png",
-		"url": "https://loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo.ong",
-		"stacks": ["Blazor", "ASP.NET", "SQL Server"]
+		"name": "Tokopedia Scraper API",
+		"description": "Tokopedia Product Scraper With API Interface",
+		"image": "/assets/images/projects/tokpedscraper1.png",
+		"url": "https://github.com/revanza-git/tokopedia-scraper-api",
+		"stacks": ["Phyton","Flask", "BeautifulSoup", "Selenium", "PostgreSQL"]
 	}
 ]

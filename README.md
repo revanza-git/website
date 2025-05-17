@@ -21,7 +21,7 @@ A modern, responsive portfolio website built with Astro, Tailwind CSS, and TypeS
 
 ```bash
 git clone <repository-url>
-cd astro-aria
+cd astro-revanza
 ```
 
 2. Install dependencies using pnpm:
