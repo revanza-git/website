@@ -4,35 +4,35 @@
 		"description": "Nusantara's Regas Official Website.",
 		"image": "/assets/images/projects/nrwebsite.png",
 		"url": "https://nusantararegas.com/",
-		"stacks": ["Blazor", "ASP.NET", "SQL Server"]
+		"stacks": ["NextJS", "ASP.NET Core" , "TailwindCSS" ,"React-Admin", "SQL Server"]
 	},
 	{
 		"name": "Inventory Management System",
-		"description": "Award-winning inventory management system for managing inventory in a warehouse.",
-		"image": "/assets/images/projects/sinv1.jpg",
+		"description": "Award-winning inventory management system",
+		"image": "/assets/images/projects/sinv0.jpg",
 		"url": "https://github.com/revanza-git/Inventory-management",
 		"stacks": ["Blade", "Laravel", "MySQL"]
 	},
 	{
 		"name": "SEMAR Policy Document Management System",
-		"description": "a comprehensive dashboard designed to manage policy documents. a modern, user-friendly interface for document management, policy tracking, and administrative tasks.",
-		"image": "/assets/images/projects/semar1.jpg",
+		"description": "Designed to manage policy documents.",
+		"image": "/assets/images/projects/semar0.jpg",
 		"url": "https://github.com/revanza-git/semar",
-		"stacks": ["NextJS", "ASP.NET", "SQL Server"]
+		"stacks": ["NextJS", "ASP.NET Core", "SQL Server"]
 	},
 	{
-		"name": "Sink",
-		"description": "A Simple / Speedy / Secure Link Shortener with Analytics.",
-		"image": "/assets/images/projects/sink.cool.png",
-		"url": "https://sink.cool",
-		"stacks": ["Blazor", "ASP.NET", "SQL Server"]
+		"name": "E-Procurement Ecosystem",
+		"description": "A comprehensive e-procurement system",
+		"image": "/assets/images/projects/eproc_flow.jpg",
+		"url": "https://github.com/revanza-git/eproc-vms",
+		"stacks": ["Bootstrap", "CI", "MySQL"]
 	},
 	{
-		"name": "BroadcastChannel",
-		"description": "Turn your Telegram Channel into a MicroBlog.",
-		"image": "/assets/images/projects/broadcast-channel.png",
-		"url": "https://github.com/ccbikai/BroadcastChannel",
-		"stacks": ["Blazor", "ASP.NET", "SQL Server"]
+		"name": "Portal Dashboard",
+		"description": "Designed for gas operations management",
+		"image": "/assets/images/projects/portal1.jpg",
+		"url": "https://github.com/revanza-git/portal-gas",
+		"stacks": ["Blazor", "ASP.NET Core", "Bootstrap","Jquery", "SQL Server"]
 	},
 	{
 		"name": "L(O*62).ONG",
