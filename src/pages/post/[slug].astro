@@ -2,7 +2,7 @@
 import Layout from "../../layouts/Layout.astro";
 import { getPost, getPosts, type Post } from "../../lib/sanity";
 import { urlFor } from "../../lib/sanity";
-import { PortableText } from "@portabletext/react";
+import { toHTML } from "@portabletext/to-html";
 
 export async function getStaticPaths() {
   const posts = await getPosts();
@@ -13,6 +13,16 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
+
+const html = toHTML(post.body, {
+  components: {
+    types: {
+      image: ({ value }) => {
+        return `<img src="${urlFor(value).width(800).url()}" alt="${value.alt || ""}" />`;
+      },
+    },
+  },
+});
 ---
 
 <Layout title={post.title}>
@@ -30,8 +40,6 @@ const { post } = Astro.props;
     <p class="text-gray-600 mb-8">
       {new Date(post.publishedAt).toLocaleDateString()}
     </p>
-    <div class="prose prose-lg max-w-none">
-      <PortableText value={post.body} />
-    </div>
+    <div class="prose prose-lg max-w-none" set:html={html} />
   </article>
 </Layout>
