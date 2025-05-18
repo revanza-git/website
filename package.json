@@ -19,6 +19,7 @@
 		"@biomejs/biome": "1.7.3",
 		"@sanity/cli": "^3.88.3",
 		"@tailwindcss/typography": "^0.5.13",
+		"@types/rss": "^0.0.32",
 		"astro": "^4.8.2",
 		"sanity": "^3.88.3",
 		"tailwindcss": "^3.4.3",
