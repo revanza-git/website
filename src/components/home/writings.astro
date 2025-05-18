@@ -2,7 +2,7 @@
 import Button from "../button.astro";
 import PostsLoop from "../posts-loop.astro";
 
-const feed = "https://feed.miantiao.me/";
+const feed = import.meta.env.FEED_URL || "/rss.xml";
 ---
 
 <section class="max-w-4xl mx-auto px-7 lg:px-0">
