@@ -1,3 +1,19 @@
-import post from './post';
+// Import your schema types here
+// Example:
+// import post from './post'
+// import author from './author'
 
-export const schemaTypes = [post]; 
+import post from './post'
+import author from './author'
+import category from './category'
+
+// Export all schema types
+export const schemaTypes = [
+  post,
+  author,
+  category,
+  // Add your schema types here
+  // Example:
+  // post,
+  // author,
+] 
