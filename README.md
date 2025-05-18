@@ -1,6 +1,11 @@
 # Astro Aria Portfolio
 
-A modern, responsive portfolio website built with Astro, Tailwind CSS, TypeScript, and Sanity CMS. This project serves as a personal portfolio and blog platform with a focus on performance and developer experience.
+This is my personal portfolio website, built from scratch using Astro Aria and integrated with Sanity CMS for blog functionality. The project showcases my work, thoughts, and experiences while maintaining a focus on performance and developer experience.
+
+## 👨‍💻 About Me
+
+- Email: [revanza.raytama@gmail.com](mailto:revanza.raytama@gmail.com)
+- LinkedIn: [@revanzaraytama](https://www.linkedin.com/in/revanzaraytama/)
 
 ## 🚀 Tech Stack
 
