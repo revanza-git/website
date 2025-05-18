@@ -1,6 +1,6 @@
 # Personal Portfolio Website
 
-A modern, responsive portfolio website built with Astro, Tailwind CSS, and TypeScript.
+A modern, responsive portfolio website built with Astro, Tailwind CSS, TypeScript, and Sanity CMS.
 
 ## 🚀 Tech Stack
 
@@ -9,11 +9,14 @@ A modern, responsive portfolio website built with Astro, Tailwind CSS, and TypeS
 - [TypeScript](https://www.typescriptlang.org/) - Type Safety
 - [Biome](https://biomejs.dev/) - Code Formatter and Linter
 - [@tailwindcss/typography](https://tailwindcss.com/docs/typography-plugin) - Typography Plugin
+- [Sanity CMS](https://www.sanity.io/) - Headless Content Management System
+- [RSS](https://www.rssboard.org/rss-specification) - RSS Feed Generation
 
 ## 📋 Prerequisites
 
 - Node.js v20 or higher
 - pnpm v9.12.2 or higher
+- Sanity CLI (for local development)
 
 ## 🛠️ Installation
 
@@ -30,6 +33,14 @@ cd astro-revanza
 pnpm install
 ```
 
+3. Set up environment variables:
+   Create a `.env` file in the root directory with your Sanity project credentials:
+
+```env
+SANITY_PROJECT_ID=your_project_id
+SANITY_DATASET=production
+```
+
 ## 🚀 Development
 
 Start the development server:
@@ -38,7 +49,14 @@ Start the development server:
 pnpm dev
 ```
 
+Start Sanity Studio (in a separate terminal):
+
+```bash
+pnpm sanity dev
+```
+
 The site will be available at `http://localhost:4321`
+Sanity Studio will be available at `http://localhost:3333`
 
 ## 🔧 Available Scripts
 
@@ -46,6 +64,7 @@ The site will be available at `http://localhost:4321`
 - `pnpm build` - Build for production
 - `pnpm preview` - Preview production build
 - `pnpm check` - Run Biome checks and auto-fix issues
+- `pnpm sanity` - Start Sanity Studio
 
 ## 🏗️ Project Structure
 
@@ -62,12 +81,16 @@ The site will be available at `http://localhost:4321`
 │   │   └── config.js
 │   ├── layouts/
 │   │   └── main.astro
-│   └── pages/
-│       └── index.astro
+│   ├── pages/
+│   │   └── index.astro
+│   └── schemas/
+│       └── [your-sanity-schemas]
 ├── public/
 │   └── assets/
 │       └── images/
+├── .sanity/
 ├── astro.config.mjs
+├── sanity.config.ts
 ├── tailwind.config.mjs
 ├── package.json
 └── .node-version
@@ -83,10 +106,20 @@ The site will be available at `http://localhost:4321`
 - Modern UI with Tailwind CSS
 - Performance optimized
 - SEO friendly
+- Sanity CMS integration for content management
+- RSS feed generation for blog posts
+- Portable Text support for rich content
 
 ## 📝 Content Management
 
-Content is managed through Astro's content collections. Blog posts can be added in the `src/content` directory following the schema defined in `src/content/config.js`.
+Content is managed through Sanity CMS, providing a user-friendly interface for managing:
+
+- Blog posts
+- Projects
+- Site settings
+- Media assets
+
+The content is fetched using GROQ queries and rendered using Portable Text components.
 
 ## 🌐 Deployment
 
