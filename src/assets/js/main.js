@@ -1,6 +1,6 @@
 // Add your javascript here
 
-window.darkMode = false;
+window.darkMode = true;
 
 const stickyClasses = ["fixed", "h-14"];
 const unstickyClasses = ["absolute", "h-20"];

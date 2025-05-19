@@ -17,7 +17,7 @@
 		"name": "SF Telkom Data To BigQuery",
 		"description": "5 TB+ MyOrbit's Data Sync To BigQuery",
 		"image": "/assets/images/projects/sftelkombq1.png",
-		"url": "http://localhost:4323/blog/rewiring-5tb-data-pipeline-at-home",
+		"url": "https://revanza.vercel.app/blog/rewiring-5tb-data-pipeline-at-home",
 		"stacks": ["AWS EC2", "AWS RDS", "Google BigQuery", "Apache Airflow","Apache Beam"]
 	},
 	{
