@@ -3,7 +3,7 @@
 	  "dates": "Nov 2021 – Present",
 	  "role": "System Planning & Integration Engineer",
 	  "company": "PT Nusantara Regas (Pertamina Subs.)",
-	  "description": "Engineered 5 SCADA-to-cloud data pipelines (100 + tables, 3 TB/day), collapsed 6 silos and freed ~80 staff-hours/month. Built an in-house SQL Server lake-house and real-time Power BI suite—merging 30 + apps, enabling same-day insights, and avoiding Rp 1.9 B (≈ US $120 K) in vendor spend. Led 5 Agile squads, delivered 95 % of roadmap on time/under budget, and won two Silver CIP awards for SINV inventory & risk-containment platforms.",
+	  "description": "Engineered 5 SCADA-to-cloud data pipelines (100+ tables), collapsed 6 silos and freed ~80 staff-hours/month. Built an in-house SQL Server lake-house and real-time Power BI suite—merging 30 + apps, enabling same-day insights, and avoiding Rp 1.9 B (≈ US $120 K) in vendor spend. Led 5 Agile squads, delivered 95 % of roadmap on time/under budget, and won two Silver CIP awards for SINV inventory & risk-containment platforms.",
 	  "logo": "/assets/images/experiences/nr-logo.ico"
 	},
 	{
