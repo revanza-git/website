@@ -13,16 +13,7 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
-
-const html = toHTML(post.body, {
-  components: {
-    types: {
-      image: ({ value }) => {
-        return `<img src="${urlFor(value).width(800).url()}" alt="${value.alt || ""}" />`;
-      },
-    },
-  },
-});
+const html = toHTML(post.body);
 ---
 
 <Layout title={post.title}>
