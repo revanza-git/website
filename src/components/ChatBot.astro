@@ -22,7 +22,7 @@
 
   <div
     id="chat-container"
-    class="hidden fixed bottom-20 right-4 w-96 h-[600px] bg-white rounded-lg shadow-xl flex flex-col"
+    class="hidden fixed bottom-20 right-4 w-96 h-[600px] bg-white dark:bg-neutral-900 rounded-lg shadow-xl flex flex-col"
   >
     <div class="p-4 bg-blue-600 text-white rounded-t-lg flex justify-between items-center">
       <h3 class="font-semibold">Portfolio Assistant</h3>
@@ -53,18 +53,19 @@
       class="flex-1 overflow-y-auto p-4 space-y-4"
     ></div>
 
-    <div class="p-4 border-t">
+    <div class="p-4 border-t dark:border-neutral-700">
       <form id="chat-form" class="flex gap-2">
         <input
           type="text"
           id="chat-input"
-          class="flex-1 p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          class="flex-1 p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-neutral-800 dark:border-neutral-700 dark:text-white"
           placeholder="Ask me anything..."
           required
         />
         <button
           type="submit"
-          class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+          class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          id="send-button"
         >
           Send
         </button>
@@ -74,74 +75,50 @@
 </div>
 
 <script>
-  let chatContainer: HTMLElement;
-  let chatToggle: HTMLElement;
-  let closeChat: HTMLElement;
-  let chatForm: HTMLFormElement;
-  let chatInput: HTMLInputElement;
-  let chatMessages: HTMLElement;
+  import type { MLCEngine } from '@mlc-ai/web-llm';
 
-  document.addEventListener('DOMContentLoaded', () => {
-    chatContainer = document.getElementById('chat-container') as HTMLElement;
-    chatToggle = document.getElementById('chat-toggle') as HTMLElement;
-    closeChat = document.getElementById('close-chat') as HTMLElement;
-    chatForm = document.getElementById('chat-form') as HTMLFormElement;
-    chatInput = document.getElementById('chat-input') as HTMLInputElement;
-    chatMessages = document.getElementById('chat-messages') as HTMLElement;
+  interface ChatMessage {
+    role: 'user' | 'assistant';
+    content: string;
+  }
 
-    // Add initial greeting
-    addMessage('Hello! I\'m your portfolio assistant. How can I help you today?', 'bot');
+  let chatContainer: HTMLElement | null;
+  let chatToggle: HTMLElement | null;
+  let closeChat: HTMLElement | null;
+  let chatForm: HTMLFormElement | null;
+  let chatInput: HTMLInputElement | null;
+  let chatMessages: HTMLElement | null;
+  let sendButton: HTMLButtonElement | null;
+  let chatHistory: ChatMessage[] = [];
+  let client: MLCEngine | null = null;
+  let modelLoaded = false;
 
-    chatToggle.addEventListener('click', () => {
-      chatContainer.classList.toggle('hidden');
-    });
+  // Initialize WebLLM
+  async function initModel() {
+    if (!navigator.gpu) {
+      addMessage("⚠️ Your browser doesn't support WebGPU. Some features may be limited.", 'bot');
+      return;
+    }
 
-    closeChat.addEventListener('click', () => {
-      chatContainer.classList.add('hidden');
-    });
-
-    chatForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const message = chatInput.value.trim();
-      if (!message) return;
-
-      // Add user message
-      addMessage(message, 'user');
-      chatInput.value = '';
-
-      // Show loading state
-      const loadingId = addMessage('Thinking...', 'bot', true);
-
-      try {
-        const response = await fetch('/api/chat', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ message }),
-        });
-
-        const data = await response.json();
-
-        // Remove loading message
-        const loadingMessage = document.getElementById(loadingId);
-        if (loadingMessage) {
-          loadingMessage.remove();
-        }
-
-        // Add bot response
-        addMessage(data.response, 'bot');
-      } catch (error) {
-        console.error('Error:', error);
-        // Remove loading message
-        const loadingMessage = document.getElementById(loadingId);
-        if (loadingMessage) {
-          loadingMessage.remove();
-        }
-        addMessage('Sorry, I encountered an error. Please try again.', 'bot');
+    try {
+      console.log("Starting model initialization...");
+      const { CreateMLCEngine } = await import("@mlc-ai/web-llm");
+      console.log("Module loaded successfully");
+      
+      client = await CreateMLCEngine("Qwen2-0.5B-Instruct-q4f16_0");
+      console.log("MLCEngine created and model loaded");
+      
+      modelLoaded = true;
+      addMessage("AI model loaded and ready!", 'bot');
+    } catch (error) {
+      console.error("Failed to load model:", error);
+      if (error instanceof Error) {
+        console.error("Error details:", error.message);
+        console.error("Error stack:", error.stack);
       }
-    });
-  });
+      addMessage("Failed to load AI model. Please check the console for details and refresh the page.", 'bot');
+    }
+  }
 
   function addMessage(text: string, sender: 'user' | 'bot', isLoading = false): string {
     const messageDiv = document.createElement('div');
@@ -150,10 +127,10 @@
     messageDiv.className = `flex ${sender === 'user' ? 'justify-end' : 'justify-start'}`;
 
     const messageBubble = document.createElement('div');
-    messageBubble.className = `max-w-[80%] p-3 rounded-lg ${
+    messageBubble.className = `message-bubble max-w-[80%] p-3 rounded-lg ${
       sender === 'user'
         ? 'bg-blue-600 text-white rounded-br-none'
-        : 'bg-gray-100 text-gray-800 rounded-bl-none'
+        : 'bg-gray-100 dark:bg-neutral-800 text-gray-800 dark:text-gray-200 rounded-bl-none'
     }`;
 
     if (isLoading) {
@@ -169,9 +146,103 @@
     }
 
     messageDiv.appendChild(messageBubble);
-    chatMessages.appendChild(messageDiv);
-    chatMessages.scrollTop = chatMessages.scrollHeight;
+    chatMessages?.appendChild(messageDiv);
+    chatMessages?.scrollTo(0, chatMessages.scrollHeight);
 
     return messageId;
   }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    chatContainer = document.getElementById('chat-container');
+    chatToggle = document.getElementById('chat-toggle');
+    closeChat = document.getElementById('close-chat');
+    chatForm = document.getElementById('chat-form') as HTMLFormElement;
+    chatInput = document.getElementById('chat-input') as HTMLInputElement;
+    chatMessages = document.getElementById('chat-messages');
+    sendButton = document.getElementById('send-button') as HTMLButtonElement;
+
+    // Add initial greeting
+    addMessage('Hello! I\'m your portfolio assistant. How can I help you today?', 'bot');
+    chatHistory.push({ role: 'assistant', content: "Hello! I'm your portfolio assistant. How can I help you today?" });
+
+    // Initialize the model
+    initModel();
+
+    chatToggle?.addEventListener('click', () => {
+      chatContainer?.classList.toggle('hidden');
+    });
+
+    closeChat?.addEventListener('click', () => {
+      chatContainer?.classList.add('hidden');
+    });
+
+    chatForm?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!chatInput || !chatInput.value.trim()) return;
+
+      const message = chatInput.value.trim();
+
+      // Disable input while processing
+      chatInput.disabled = true;
+      sendButton!.disabled = true;
+
+      // Add user message
+      addMessage(message, 'user');
+      chatHistory.push({ role: 'user', content: message });
+      chatInput.value = '';
+
+      // Show loading state
+      const loadingId = addMessage('Thinking...', 'bot', true);
+
+      try {
+        if (modelLoaded && client) {
+          // Use local model
+          let botResponse = '';
+          for await (const chunk of client.chat.completions.stream({
+            messages: [{ role: 'user', content: message }]
+          })) {
+            botResponse += chunk.choices[0].delta.content ?? '';
+            // Update the loading message with the current response
+            const loadingMessage = document.getElementById(loadingId);
+            if (loadingMessage) {
+              const messageBubble = loadingMessage.querySelector('.message-bubble');
+              if (messageBubble) {
+                messageBubble.textContent = botResponse;
+              }
+            }
+          }
+          
+          // Remove loading message and add final response
+          const loadingMessage = document.getElementById(loadingId);
+          if (loadingMessage) {
+            loadingMessage.remove();
+          }
+          addMessage(botResponse, 'bot');
+          chatHistory.push({ role: 'assistant', content: botResponse });
+        } else {
+          // Remove loading message
+          const loadingMessage = document.getElementById(loadingId);
+          if (loadingMessage) {
+            loadingMessage.remove();
+          }
+          addMessage("I'm still loading my brain. Please try again in a moment!", 'bot');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        // Remove loading message
+        const loadingMessage = document.getElementById(loadingId);
+        if (loadingMessage) {
+          loadingMessage.remove();
+        }
+        addMessage('Sorry, I encountered an error. Please try again.', 'bot');
+      } finally {
+        // Re-enable input
+        if (chatInput && sendButton) {
+          chatInput.disabled = false;
+          sendButton.disabled = false;
+          chatInput.focus();
+        }
+      }
+    });
+  });
 </script> 
