@@ -184,6 +184,11 @@
     // Initialize the model
     initModel();
 
+    // Add loading state message if model is not loaded
+    if (!modelLoaded) {
+      addMessage("I'm still loading my brain. Please wait a moment...", "assistant");
+    }
+
     chatToggle?.addEventListener("click", () => {
       chatContainer?.classList.toggle("hidden");
     });
