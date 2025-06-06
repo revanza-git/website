@@ -117,6 +117,22 @@ Sanity Studio will be available at `http://localhost:3333`
 - Portable Text support for rich content
 - Environment variable management with dotenv
 - Code quality enforcement with Biome
+- AI-powered chat bot for interactive portfolio exploration
+
+## 🤖 AI Chat Bot
+
+The portfolio includes an AI-powered chat bot that helps visitors explore the portfolio content interactively. The chat bot is built using:
+
+- [WebLLM](https://github.com/mlc-ai/web-llm) - For running the AI model directly in the browser
+- Qwen2.5-0.5B-Instruct model - A lightweight but capable language model
+- Real-time chat interface with loading states and error handling
+- Context-aware responses based on portfolio content
+
+The chat bot provides:
+- Interactive exploration of portfolio content
+- Real-time responses without server dependencies
+- Graceful loading states and error handling
+- Dark mode support matching the site theme
 
 ## 📝 Content Management
 
