@@ -1,27 +1,29 @@
 ---
-import Layout from "../../layouts/Layout.astro";
-import { getPost, getPosts, type Post } from "../../lib/sanity";
-import { urlFor } from "../../lib/sanity";
 import { toHTML } from "@portabletext/to-html";
+import Layout from "../../layouts/Layout.astro";
+import { type Post, getPosts } from "../../lib/sanity";
+import { urlFor } from "../../lib/sanity";
 
 export async function getStaticPaths() {
-  const posts = await getPosts();
-  return posts.map((post: Post) => ({
-    params: { slug: post.slug.current },
-    props: { post },
-  }));
+	const posts = await getPosts();
+	return posts.map((post: Post) => ({
+		params: { slug: post.slug.current },
+		props: { post },
+	}));
 }
 
 const { post } = Astro.props;
 
 const html = toHTML(post.body, {
-  components: {
-    types: {
-      image: ({ value }) => {
-        return `<img src="${urlFor(value).width(800).url()}" alt="${value.alt || ""}" />`;
-      },
-    },
-  },
+	components: {
+		types: {
+			image: ({ value }) => {
+				return `<img src="${urlFor(value).width(800).url()}" alt="${
+					value.alt || ""
+				}" />`;
+			},
+		},
+	},
 });
 ---
 

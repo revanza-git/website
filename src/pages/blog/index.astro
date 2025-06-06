@@ -1,6 +1,6 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import { getPosts, type Post } from "../../lib/sanity";
+import { type Post, getPosts } from "../../lib/sanity";
 import { urlFor } from "../../lib/sanity";
 
 const posts = await getPosts();

@@ -5,16 +5,16 @@ const { count } = Astro.props;
 const allPosts = await getPosts();
 
 const postsLoop = allPosts.slice(0, count).map((post) => {
-  return {
-    title: post.title,
-    description: post.excerpt || "",
-    dateFormatted: new Date(post.publishedAt).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    }),
-    link: `/blog/${post.slug.current}`,
-  };
+	return {
+		title: post.title,
+		description: post.excerpt || "",
+		dateFormatted: new Date(post.publishedAt).toLocaleDateString("en-US", {
+			year: "numeric",
+			month: "long",
+			day: "numeric",
+		}),
+		link: `/blog/${post.slug.current}`,
+	};
 });
 ---
 

@@ -4,21 +4,33 @@
 		"description": "Nusantara's Regas Official Website.",
 		"image": "/assets/images/projects/nrwebsite.png",
 		"url": "https://nusantararegas.com/",
-		"stacks": ["NextJS", "ASP.NET Core" , "TailwindCSS" ,"React-Admin", "SQL Server"]
+		"stacks": [
+			"NextJS",
+			"ASP.NET Core",
+			"TailwindCSS",
+			"React-Admin",
+			"SQL Server"
+		]
 	},
 	{
 		"name": "Nutricia Professional",
 		"description": "LMS for Danone’s medical-professional program",
 		"image": "/assets/images/projects/nupro1.png",
 		"url": "https://nutriciaprofessional.id/",
-		"stacks": ["NextJS", "Lumen", "MySQL", "AWS EC2","AWS RDS"]
+		"stacks": ["NextJS", "Lumen", "MySQL", "AWS EC2", "AWS RDS"]
 	},
 	{
 		"name": "SF Telkom Data To BigQuery",
 		"description": "5 TB+ MyOrbit's Data Sync To BigQuery",
 		"image": "/assets/images/projects/sftelkombq1.png",
 		"url": "https://revanza.vercel.app/blog/rewiring-5tb-data-pipeline-at-home",
-		"stacks": ["AWS EC2", "AWS RDS", "Google BigQuery", "Apache Airflow","Apache Beam"]
+		"stacks": [
+			"AWS EC2",
+			"AWS RDS",
+			"Google BigQuery",
+			"Apache Airflow",
+			"Apache Beam"
+		]
 	},
 	{
 		"name": "Inventory Management System",
@@ -46,13 +58,13 @@
 		"description": "Designed for gas operations management",
 		"image": "/assets/images/projects/portal1.jpg",
 		"url": "https://github.com/revanza-git/portal-gas",
-		"stacks": ["Blazor", "ASP.NET Core", "Bootstrap","Jquery", "SQL Server"]
+		"stacks": ["Blazor", "ASP.NET Core", "Bootstrap", "Jquery", "SQL Server"]
 	},
 	{
 		"name": "Tokopedia Scraper API",
 		"description": "Tokopedia Product Scraper With API Interface",
 		"image": "/assets/images/projects/tokpedscraper1.png",
 		"url": "https://github.com/revanza-git/tokopedia-scraper-api",
-		"stacks": ["Phyton","Flask", "BeautifulSoup", "Selenium", "PostgreSQL"]
+		"stacks": ["Phyton", "Flask", "BeautifulSoup", "Selenium", "PostgreSQL"]
 	}
 ]
