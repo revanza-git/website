@@ -21,7 +21,7 @@ This is my personal portfolio website, built from scratch using Astro Aria and i
 ## 📋 Prerequisites
 
 - Node.js v20 or higher
-- pnpm v9.12.2 or higher
+- npm v6 or higher
 - Sanity CLI (for local development)
 
 ## 🛠️ Installation
@@ -33,10 +33,10 @@ git clone <repository-url>
 cd astro-revanza
 ```
 
-2. Install dependencies using pnpm:
+2. Install dependencies using npm:
 
 ```bash
-pnpm install
+npm install
 ```
 
 3. Set up environment variables:
@@ -52,13 +52,13 @@ SANITY_DATASET=production
 Start the development server:
 
 ```bash
-pnpm dev
+npm run dev
 ```
 
 Start Sanity Studio (in a separate terminal):
 
 ```bash
-pnpm sanity dev
+npm run sanity:dev
 ```
 
 The site will be available at `http://localhost:4321`
@@ -66,14 +66,14 @@ Sanity Studio will be available at `http://localhost:3333`
 
 ## 🔧 Available Scripts
 
-- `pnpm dev` - Start development server
-- `pnpm start` - Alias for dev server
-- `pnpm build` - Build for production
-- `pnpm preview` - Preview production build
-- `pnpm check` - Run Biome checks and auto-fix issues
-- `pnpm sanity` - Start Sanity Studio
-- `pnpm sanity:deploy` - Deploy Sanity Studio
-- `pnpm sanity:build` - Build Sanity Studio
+- `npm run dev` - Start development server
+- `npm start` - Alias for dev server
+- `npm run build` - Build for production
+- `npm run preview` - Preview production build
+- `npm run check` - Run Biome checks and auto-fix issues
+- `npm run sanity` - Start Sanity Studio
+- `npm run sanity:deploy` - Deploy Sanity Studio
+- `npm run sanity:build` - Build Sanity Studio
 
 ## 🏗️ Project Structure
 
@@ -158,9 +158,9 @@ The content is fetched using GROQ queries and rendered using Portable Text compo
    - Import your repository
    - Configure the project settings:
      - Framework Preset: Astro
-     - Build Command: `pnpm build`
+     - Build Command: `npm run build`
      - Output Directory: `dist`
-     - Install Command: `pnpm install`
+     - Install Command: `npm install`
 
 3. Add Environment Variables in Vercel:
 
@@ -176,7 +176,7 @@ The content is fetched using GROQ queries and rendered using Portable Text compo
    - Create a new project in Vercel for Sanity Studio
    - Set the root directory to `.sanity`
    - Configure build settings:
-     - Build Command: `pnpm build`
+     - Build Command: `npm run build`
      - Output Directory: `dist`
    - Add the same environment variables as above
 
@@ -191,7 +191,7 @@ If you prefer to deploy Sanity Studio separately:
 1. Deploy Sanity Studio to [Sanity's hosting](https://www.sanity.io/manage):
 
    ```bash
-   pnpm sanity deploy
+   npm run sanity:deploy
    ```
 
 2. Deploy your Astro site to Vercel as described above
@@ -211,10 +211,10 @@ After deployment:
 
    ```bash
    # Terminal 1 - Main site
-   pnpm dev
+   npm run dev
 
    # Terminal 2 - Sanity Studio
-   pnpm sanity dev
+   npm run sanity:dev
    ```
 
 2. Production:
