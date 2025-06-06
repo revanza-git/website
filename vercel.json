@@ -3,5 +3,10 @@
 	"devCommand": "npm run dev",
 	"installCommand": "npm install",
 	"framework": "astro",
-	"outputDirectory": "dist"
+	"outputDirectory": "dist",
+	"build": {
+		"env": {
+			"NODE_OPTIONS": "--max-old-space-size=4096"
+		}
+	}
 }

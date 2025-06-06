@@ -73,7 +73,6 @@
 </div>
 
 <script>
-  import type { MLCEngine } from "@mlc-ai/web-llm";
   import { portfolioContext } from "../data/portfolioContext";
 
   interface ChatMessage {
@@ -89,21 +88,28 @@
   let chatMessages: HTMLElement | null;
   let sendButton: HTMLButtonElement | null;
   let chatHistory: ChatMessage[] = [];
-  let client: MLCEngine | null = null;
+  let client: any = null;
   let modelLoaded = false;
+  let modelLoading = false;
 
-  // Initialize WebLLM
+  // Initialize WebLLM only when needed
   async function initModel() {
-    if (!navigator.gpu) {
-      addMessage(
-        "⚠️ Your browser doesn't support WebGPU. Some features may be limited.",
-        "assistant"
-      );
+    if (modelLoading || modelLoaded || !navigator.gpu) {
+      if (!navigator.gpu) {
+        addMessage(
+          "⚠️ Your browser doesn't support WebGPU. Some features may be limited.",
+          "assistant"
+        );
+      }
       return;
     }
 
+    modelLoading = true;
+
     try {
       console.log("Starting model initialization...");
+      
+      // Dynamic import to reduce initial bundle size
       const { CreateMLCEngine } = await import("@mlc-ai/web-llm");
       console.log("Module loaded successfully");
 
@@ -111,9 +117,11 @@
       console.log("MLCEngine created and model loaded");
 
       modelLoaded = true;
+      modelLoading = false;
       addMessage("AI is ready to help you!", "assistant");
     } catch (error) {
       console.error("Failed to load model:", error);
+      modelLoading = false;
       if (error instanceof Error) {
         console.error("Error details:", error.message);
         console.error("Error stack:", error.stack);
@@ -181,9 +189,6 @@
         "Hello! I'm your AI assistant, powered by WebLLM. I can provide detailed information about Revanza's professional experience, projects, and expertise. What would you like to know?",
     });
 
-    // Initialize the model
-    initModel();
-
     // Add loading state message if model is not loaded
     if (!modelLoaded) {
       addMessage("I'm still loading my brain. Please wait a moment...", "assistant");
@@ -191,6 +196,11 @@
 
     chatToggle?.addEventListener("click", () => {
       chatContainer?.classList.toggle("hidden");
+      
+      // Initialize model when chat is first opened
+      if (!modelLoaded && !modelLoading) {
+        initModel();
+      }
     });
 
     closeChat?.addEventListener("click", () => {
