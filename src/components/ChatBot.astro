@@ -28,25 +28,35 @@
       class="p-4 bg-blue-600 text-white rounded-t-lg flex justify-between items-center"
     >
       <h3 class="font-semibold">Ask the AI</h3>
-      <button
-        id="close-chat"
-        class="text-white hover:text-gray-200"
-        aria-label="Close chat"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-6 w-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
+      <div class="flex gap-2">
+        <button
+          id="clear-chat"
+          class="text-white hover:text-gray-200 text-sm px-2 py-1 rounded"
+          aria-label="Clear chat"
+          title="Clear conversation"
         >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M6 18L18 6M6 6l12 12"></path>
-        </svg>
-      </button>
+          Clear
+        </button>
+        <button
+          id="close-chat"
+          class="text-white hover:text-gray-200"
+          aria-label="Close chat"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
     </div>
 
     <div id="chat-messages" class="flex-1 overflow-y-auto p-4 space-y-4"></div>
@@ -92,6 +102,44 @@
   let modelLoaded = false;
   let modelLoading = false;
 
+  // Context window management
+  const MAX_CONTEXT_TOKENS = 3500; // Leave some buffer for model response
+  const SLIDING_WINDOW_SIZE = 10; // Keep last 10 messages
+
+  // Rough token estimation (approximate 4 chars per token)
+  function estimateTokens(text: string): number {
+    return Math.ceil(text.length / 4);
+  }
+
+  // Manage context window size by keeping recent messages
+  function manageContextWindow(messages: ChatMessage[]): ChatMessage[] {
+    const systemTokens = estimateTokens(portfolioContext);
+    let totalTokens = systemTokens;
+    const managedMessages: ChatMessage[] = [];
+
+    // Start from the most recent messages and work backwards
+    for (let i = messages.length - 1; i >= 0; i--) {
+      const messageTokens = estimateTokens(messages[i].content);
+
+      if (totalTokens + messageTokens > MAX_CONTEXT_TOKENS) {
+        break;
+      }
+
+      totalTokens += messageTokens;
+      managedMessages.unshift(messages[i]);
+
+      // Also limit by sliding window size
+      if (managedMessages.length >= SLIDING_WINDOW_SIZE) {
+        break;
+      }
+    }
+
+    console.log(
+      `Context management: Using ${managedMessages.length} messages, ~${totalTokens} tokens`
+    );
+    return managedMessages;
+  }
+
   // Initialize WebLLM only when needed
   async function initModel() {
     if (modelLoading || modelLoaded || !navigator.gpu) {
@@ -108,7 +156,7 @@
 
     try {
       console.log("Starting model initialization...");
-      
+
       // Dynamic import to reduce initial bundle size
       const { CreateMLCEngine } = await import("@mlc-ai/web-llm");
       console.log("Module loaded successfully");
@@ -139,7 +187,7 @@
     isLoading = false
   ): string {
     const messageDiv = document.createElement("div");
-    const messageId = `msg-${Date.now()}`;
+    const messageId = `msg-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
     messageDiv.id = messageId;
     messageDiv.className = `flex ${sender === "user" ? "justify-end" : "justify-start"}`;
 
@@ -166,13 +214,73 @@
     chatMessages?.appendChild(messageDiv);
     chatMessages?.scrollTo(0, chatMessages.scrollHeight);
 
+    console.log(`Added message with ID: ${messageId}, isLoading: ${isLoading}`);
     return messageId;
+  }
+
+  // Helper function to safely remove loading messages
+  function removeLoadingMessage(loadingId: string): boolean {
+    const loadingMessage = document.getElementById(loadingId);
+    if (loadingMessage) {
+      console.log(`Removing loading message with ID: ${loadingId}`);
+      loadingMessage.remove();
+      return true;
+    } else {
+      console.warn(`Loading message with ID ${loadingId} not found`);
+      return false;
+    }
+  }
+
+  // Helper function to clear any stuck loading messages
+  function clearStuckLoadingMessages() {
+    if (!chatMessages) return;
+
+    const allMessages = chatMessages.querySelectorAll('[id^="msg-"]');
+    allMessages.forEach((msg) => {
+      const loadingElement = msg.querySelector(".animate-bounce");
+      if (loadingElement) {
+        console.log(`Removing stuck loading message: ${msg.id}`);
+        msg.remove();
+      }
+    });
+  }
+
+  // Function to clear all chat messages
+  function clearAllMessages() {
+    if (chatMessages) {
+      chatMessages.innerHTML = "";
+      chatHistory = [];
+      console.log("Cleared all chat messages and history");
+
+      // Add initial greeting again
+      addMessage(
+        "Hello! I'm your AI assistant, powered by WebLLM. I can provide detailed information about Revanza's professional experience, projects, and expertise. What would you like to know?",
+        "assistant"
+      );
+      chatHistory.push({
+        role: "assistant",
+        content:
+          "Hello! I'm your AI assistant, powered by WebLLM. I can provide detailed information about Revanza's professional experience, projects, and expertise. What would you like to know?",
+      });
+    }
+  }
+
+  // Debug function to check chat state
+  function debugChatState() {
+    console.log("=== Chat Debug Info ===");
+    console.log("Chat History Length:", chatHistory.length);
+    console.log("DOM Messages Count:", chatMessages?.children.length || 0);
+    console.log("Model Loaded:", modelLoaded);
+    console.log("Model Loading:", modelLoading);
+    console.log("Recent Chat History:", chatHistory.slice(-3));
+    console.log("======================");
   }
 
   document.addEventListener("DOMContentLoaded", () => {
     chatContainer = document.getElementById("chat-container");
     chatToggle = document.getElementById("chat-toggle");
     closeChat = document.getElementById("close-chat");
+    const clearChat = document.getElementById("clear-chat");
     chatForm = document.getElementById("chat-form") as HTMLFormElement;
     chatInput = document.getElementById("chat-input") as HTMLInputElement;
     chatMessages = document.getElementById("chat-messages");
@@ -191,12 +299,15 @@
 
     // Add loading state message if model is not loaded
     if (!modelLoaded) {
-      addMessage("I'm still loading my brain. Please wait a moment...", "assistant");
+      addMessage(
+        "I'm still loading my brain. Please wait a moment...",
+        "assistant"
+      );
     }
 
     chatToggle?.addEventListener("click", () => {
       chatContainer?.classList.toggle("hidden");
-      
+
       // Initialize model when chat is first opened
       if (!modelLoaded && !modelLoading) {
         initModel();
@@ -205,6 +316,10 @@
 
     closeChat?.addEventListener("click", () => {
       chatContainer?.classList.add("hidden");
+    });
+
+    clearChat?.addEventListener("click", () => {
+      clearAllMessages();
     });
 
     chatForm?.addEventListener("submit", async (e) => {
@@ -224,33 +339,39 @@
 
       // Show loading state
       const loadingId = addMessage("Thinking...", "assistant", true);
+      console.log(`Created loading message with ID: ${loadingId}`);
 
       try {
         if (modelLoaded && client) {
+          // Manage context window to prevent token limit exceeded
+          const managedHistory = manageContextWindow(chatHistory);
+
           // Use local model - non-streaming for now
           const response = await client.chat.completions.create({
             messages: [
               { role: "system", content: portfolioContext },
-              ...chatHistory,
-              { role: "user", content: message },
+              ...managedHistory,
             ] as any,
           });
 
           const botResponse = response.choices[0].message.content;
 
           // Remove loading message and add final response
-          const loadingMessage = document.getElementById(loadingId);
-          if (loadingMessage) {
-            loadingMessage.remove();
+          const removed = removeLoadingMessage(loadingId);
+          console.log(`Loading message removal successful: ${removed}`);
+
+          if (botResponse && botResponse.trim()) {
+            addMessage(botResponse, "assistant");
+            chatHistory.push({ role: "assistant", content: botResponse });
+          } else {
+            addMessage(
+              "I received an empty response. Please try again.",
+              "assistant"
+            );
           }
-          addMessage(botResponse, "assistant");
-          chatHistory.push({ role: "assistant", content: botResponse });
         } else {
           // Remove loading message
-          const loadingMessage = document.getElementById(loadingId);
-          if (loadingMessage) {
-            loadingMessage.remove();
-          }
+          removeLoadingMessage(loadingId);
           addMessage(
             "I'm still loading my brain. Please try again in a moment!",
             "assistant"
@@ -259,15 +380,32 @@
       } catch (error) {
         console.error("Error:", error);
         // Remove loading message
-        const loadingMessage = document.getElementById(loadingId);
-        if (loadingMessage) {
-          loadingMessage.remove();
+        removeLoadingMessage(loadingId);
+
+        // Clear any other stuck loading messages
+        setTimeout(() => clearStuckLoadingMessages(), 1000);
+
+        // Check if it's a context window error and provide helpful message
+        if (
+          error instanceof Error &&
+          error.message.includes("ContextWindowSizeExceededError")
+        ) {
+          addMessage(
+            "The conversation has become too long. I'll start fresh to continue helping you. Please repeat your question.",
+            "assistant"
+          );
+          // Clear chat history to start fresh
+          chatHistory = [];
+        } else {
+          addMessage(
+            "Sorry, I encountered an error. Please try again.",
+            "assistant"
+          );
         }
-        addMessage(
-          "Sorry, I encountered an error. Please try again.",
-          "assistant"
-        );
       } finally {
+        // Debug chat state
+        debugChatState();
+
         // Re-enable input
         if (chatInput && sendButton) {
           chatInput.disabled = false;
