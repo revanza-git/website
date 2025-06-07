@@ -1,12 +1,14 @@
+<!-- ChatBot Component with Modern Styling -->
 <div class="fixed bottom-4 right-4 z-50">
+  <!-- Chat Toggle Button -->
   <button
     id="chat-toggle"
-    class="bg-blue-600 hover:bg-blue-700 text-white rounded-full p-4 shadow-lg transition-all duration-300"
+    class="group relative bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white rounded-full p-4 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 active:scale-95"
     aria-label="Toggle chat"
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      class="h-6 w-6"
+      class="h-6 w-6 transition-transform duration-300 group-hover:rotate-12"
       fill="none"
       viewBox="0 0 24 24"
       stroke="currentColor"
@@ -15,36 +17,148 @@
         stroke-linecap="round"
         stroke-linejoin="round"
         stroke-width="2"
-        d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 2 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
+        d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
       ></path>
     </svg>
+
+    <!-- Pulse animation for new message indicator -->
+    <div
+      class="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulse hidden"
+      id="notification-dot"
+    >
+    </div>
   </button>
 
+  <!-- Chat Container -->
   <div
     id="chat-container"
-    class="hidden fixed bottom-20 right-4 w-96 h-[600px] bg-white dark:bg-neutral-900 rounded-lg shadow-xl flex flex-col"
+    class="hidden fixed bottom-20 right-4 w-96 max-w-[calc(100vw-2rem)] h-[600px] max-h-[calc(100vh-8rem)] bg-white dark:bg-neutral-900 rounded-2xl shadow-2xl border border-neutral-200 dark:border-neutral-700 flex flex-col overflow-hidden backdrop-blur-sm"
   >
+    <!-- Header -->
     <div
-      class="p-4 bg-blue-600 text-white rounded-t-lg flex justify-between items-center"
+      class="relative p-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-t-2xl"
     >
-      <h3 class="font-semibold">Ask the AI</h3>
-      <div class="flex gap-2">
+      <div class="flex justify-between items-center">
+        <div class="flex items-center space-x-3">
+          <div
+            class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+              ></path>
+            </svg>
+          </div>
+          <div>
+            <h3 class="font-semibold text-lg">Ask the AI</h3>
+            <p class="text-xs text-blue-100 opacity-90">Powered by WebLLM</p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button
+            id="clear-chat"
+            class="text-white/80 hover:text-white hover:bg-white/10 text-sm px-3 py-1.5 rounded-lg transition-all duration-200 flex items-center gap-1"
+            aria-label="Clear chat"
+            title="Clear conversation"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+              ></path>
+            </svg>
+            Clear
+          </button>
+
+          <button
+            id="close-chat"
+            class="text-white/80 hover:text-white hover:bg-white/10 p-1.5 rounded-lg transition-all duration-200"
+            aria-label="Close chat"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Decorative line -->
+      <div
+        class="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/30 to-transparent"
+      >
+      </div>
+    </div>
+
+    <!-- Messages Container -->
+    <div
+      id="chat-messages"
+      class="flex-1 overflow-y-auto p-4 space-y-4 bg-gradient-to-b from-transparent to-neutral-50/50 dark:to-neutral-800/50"
+      style="scrollbar-width: thin; scrollbar-color: #cbd5e1 transparent;"
+    >
+      <!-- Messages will be inserted here -->
+    </div>
+
+    <!-- Input Area -->
+    <div
+      class="p-4 border-t border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900"
+    >
+      <form id="chat-form" class="flex items-end gap-3">
+        <div class="flex-1 relative">
+          <input
+            type="text"
+            id="chat-input"
+            class="w-full p-3 pr-12 border border-neutral-300 dark:border-neutral-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-neutral-800 dark:text-white placeholder-neutral-500 dark:placeholder-neutral-400 transition-all duration-200 resize-none"
+            placeholder="Ask me anything..."
+            required
+            maxlength="500"
+          />
+
+          <!-- Character counter -->
+          <div
+            class="absolute bottom-1 right-3 text-xs text-neutral-400"
+            id="char-counter"
+          >
+            0/500
+          </div>
+        </div>
+
         <button
-          id="clear-chat"
-          class="text-white hover:text-gray-200 text-sm px-2 py-1 rounded"
-          aria-label="Clear chat"
-          title="Clear conversation"
-        >
-          Clear
-        </button>
-        <button
-          id="close-chat"
-          class="text-white hover:text-gray-200"
-          aria-label="Close chat"
+          type="submit"
+          class="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white p-3 rounded-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl"
+          id="send-button"
+          aria-label="Send message"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            class="h-6 w-6"
+            class="h-5 w-5"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -53,366 +167,136 @@
               stroke-linecap="round"
               stroke-linejoin="round"
               stroke-width="2"
-              d="M6 18L18 6M6 6l12 12"></path>
+              d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
           </svg>
         </button>
-      </div>
-    </div>
-
-    <div id="chat-messages" class="flex-1 overflow-y-auto p-4 space-y-4"></div>
-
-    <div class="p-4 border-t dark:border-neutral-700">
-      <form id="chat-form" class="flex gap-2">
-        <input
-          type="text"
-          id="chat-input"
-          class="flex-1 p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-neutral-800 dark:border-neutral-700 dark:text-white"
-          placeholder="Ask me anything..."
-          required
-        />
-        <button
-          type="submit"
-          class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-          id="send-button"
-        >
-          Send
-        </button>
       </form>
+
+      <!-- Status indicator -->
+      <div
+        class="mt-2 flex items-center justify-between text-xs text-neutral-500 dark:text-neutral-400"
+      >
+        <div class="flex items-center gap-2">
+          <div
+            class="w-2 h-2 bg-green-500 rounded-full animate-pulse"
+            id="status-indicator"
+          >
+          </div>
+          <span id="status-text">AI Ready</span>
+        </div>
+        <div class="text-right">
+          <kbd
+            class="px-2 py-0.5 text-xs font-semibold text-neutral-600 dark:text-neutral-300 bg-neutral-100 dark:bg-neutral-700 border border-neutral-300 dark:border-neutral-600 rounded"
+            >Enter</kbd
+          > to send
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
-<script>
-  import { portfolioContext } from "../data/portfolioContext";
-
-  interface ChatMessage {
-    role: "user" | "assistant";
-    content: string;
+<!-- Enhanced Styles -->
+<style>
+  /* Custom scrollbar for chat messages */
+  #chat-messages {
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 transparent;
   }
 
-  let chatContainer: HTMLElement | null;
-  let chatToggle: HTMLElement | null;
-  let closeChat: HTMLElement | null;
-  let chatForm: HTMLFormElement | null;
-  let chatInput: HTMLInputElement | null;
-  let chatMessages: HTMLElement | null;
-  let sendButton: HTMLButtonElement | null;
-  let chatHistory: ChatMessage[] = [];
-  let client: any = null;
-  let modelLoaded = false;
-  let modelLoading = false;
-
-  // Context window management
-  const MAX_CONTEXT_TOKENS = 3500; // Leave some buffer for model response
-  const SLIDING_WINDOW_SIZE = 10; // Keep last 10 messages
-
-  // Rough token estimation (approximate 4 chars per token)
-  function estimateTokens(text: string): number {
-    return Math.ceil(text.length / 4);
+  #chat-messages::-webkit-scrollbar {
+    width: 6px;
   }
 
-  // Manage context window size by keeping recent messages
-  function manageContextWindow(messages: ChatMessage[]): ChatMessage[] {
-    const systemTokens = estimateTokens(portfolioContext);
-    let totalTokens = systemTokens;
-    const managedMessages: ChatMessage[] = [];
+  #chat-messages::-webkit-scrollbar-track {
+    background: transparent;
+  }
 
-    // Start from the most recent messages and work backwards
-    for (let i = messages.length - 1; i >= 0; i--) {
-      const messageTokens = estimateTokens(messages[i].content);
+  #chat-messages::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1;
+    border-radius: 3px;
+  }
 
-      if (totalTokens + messageTokens > MAX_CONTEXT_TOKENS) {
-        break;
-      }
+  #chat-messages::-webkit-scrollbar-thumb:hover {
+    background-color: #94a3b8;
+  }
 
-      totalTokens += messageTokens;
-      managedMessages.unshift(messages[i]);
+  /* Dark mode scrollbar */
+  .dark #chat-messages {
+    scrollbar-color: #4b5563 transparent;
+  }
 
-      // Also limit by sliding window size
-      if (managedMessages.length >= SLIDING_WINDOW_SIZE) {
-        break;
-      }
+  .dark #chat-messages::-webkit-scrollbar-thumb {
+    background-color: #4b5563;
+  }
+
+  .dark #chat-messages::-webkit-scrollbar-thumb:hover {
+    background-color: #6b7280;
+  }
+
+  /* Message bubble animations */
+  .message-bubble {
+    animation: messageSlideIn 0.3s ease-out;
+  }
+
+  @keyframes messageSlideIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
     }
-
-    console.log(
-      `Context management: Using ${managedMessages.length} messages, ~${totalTokens} tokens`
-    );
-    return managedMessages;
-  }
-
-  // Initialize WebLLM only when needed
-  async function initModel() {
-    if (modelLoading || modelLoaded || !navigator.gpu) {
-      if (!navigator.gpu) {
-        addMessage(
-          "⚠️ Your browser doesn't support WebGPU. Some features may be limited.",
-          "assistant"
-        );
-      }
-      return;
-    }
-
-    modelLoading = true;
-
-    try {
-      console.log("Starting model initialization...");
-
-      // Dynamic import to reduce initial bundle size
-      const { CreateMLCEngine } = await import("@mlc-ai/web-llm");
-      console.log("Module loaded successfully");
-
-      client = await CreateMLCEngine("Qwen2.5-0.5B-Instruct-q4f16_1-MLC");
-      console.log("MLCEngine created and model loaded");
-
-      modelLoaded = true;
-      modelLoading = false;
-      addMessage("AI is ready to help you!", "assistant");
-    } catch (error) {
-      console.error("Failed to load model:", error);
-      modelLoading = false;
-      if (error instanceof Error) {
-        console.error("Error details:", error.message);
-        console.error("Error stack:", error.stack);
-      }
-      addMessage(
-        "Failed to load AI model. Please check the console for details and refresh the page.",
-        "assistant"
-      );
+    to {
+      opacity: 1;
+      transform: translateY(0);
     }
   }
 
-  function addMessage(
-    text: string,
-    sender: "user" | "assistant",
-    isLoading = false
-  ): string {
-    const messageDiv = document.createElement("div");
-    const messageId = `msg-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-    messageDiv.id = messageId;
-    messageDiv.className = `flex ${sender === "user" ? "justify-end" : "justify-start"}`;
-
-    const messageBubble = document.createElement("div");
-    messageBubble.className = `message-bubble max-w-[80%] p-3 rounded-lg ${
-      sender === "user"
-        ? "bg-blue-600 text-white rounded-br-none"
-        : "bg-gray-100 dark:bg-neutral-800 text-gray-800 dark:text-gray-200 rounded-bl-none"
-    }`;
-
-    if (isLoading) {
-      messageBubble.innerHTML = `
-        <div class="flex space-x-2">
-          <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-          <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
-          <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.4s"></div>
-        </div>
-      `;
-    } else {
-      messageBubble.textContent = text;
-    }
-
-    messageDiv.appendChild(messageBubble);
-    chatMessages?.appendChild(messageDiv);
-    chatMessages?.scrollTo(0, chatMessages.scrollHeight);
-
-    console.log(`Added message with ID: ${messageId}, isLoading: ${isLoading}`);
-    return messageId;
+  /* Loading dots animation */
+  .loading-dots {
+    display: inline-flex;
+    gap: 4px;
   }
 
-  // Helper function to safely remove loading messages
-  function removeLoadingMessage(loadingId: string): boolean {
-    const loadingMessage = document.getElementById(loadingId);
-    if (loadingMessage) {
-      console.log(`Removing loading message with ID: ${loadingId}`);
-      loadingMessage.remove();
-      return true;
-    } else {
-      console.warn(`Loading message with ID ${loadingId} not found`);
-      return false;
+  .loading-dot {
+    width: 6px;
+    height: 6px;
+    background-color: currentColor;
+    border-radius: 50%;
+    opacity: 0.4;
+    animation: loadingDot 1.4s infinite both;
+  }
+
+  .loading-dot:nth-child(1) {
+    animation-delay: -0.32s;
+  }
+  .loading-dot:nth-child(2) {
+    animation-delay: -0.16s;
+  }
+  .loading-dot:nth-child(3) {
+    animation-delay: 0;
+  }
+
+  @keyframes loadingDot {
+    0%,
+    80%,
+    100% {
+      opacity: 0.4;
+      transform: scale(1);
+    }
+    40% {
+      opacity: 1;
+      transform: scale(1.2);
     }
   }
 
-  // Helper function to clear any stuck loading messages
-  function clearStuckLoadingMessages() {
-    if (!chatMessages) return;
-
-    const allMessages = chatMessages.querySelectorAll('[id^="msg-"]');
-    allMessages.forEach((msg) => {
-      const loadingElement = msg.querySelector(".animate-bounce");
-      if (loadingElement) {
-        console.log(`Removing stuck loading message: ${msg.id}`);
-        msg.remove();
-      }
-    });
-  }
-
-  // Function to clear all chat messages
-  function clearAllMessages() {
-    if (chatMessages) {
-      chatMessages.innerHTML = "";
-      chatHistory = [];
-      console.log("Cleared all chat messages and history");
-
-      // Add initial greeting again
-      addMessage(
-        "Hello! I'm your AI assistant, powered by WebLLM. I can provide detailed information about Revanza's professional experience, projects, and expertise. What would you like to know?",
-        "assistant"
-      );
-      chatHistory.push({
-        role: "assistant",
-        content:
-          "Hello! I'm your AI assistant, powered by WebLLM. I can provide detailed information about Revanza's professional experience, projects, and expertise. What would you like to know?",
-      });
+  /* Mobile responsiveness */
+  @media (max-width: 640px) {
+    #chat-container {
+      width: calc(100vw - 1rem);
+      right: 0.5rem;
+      left: 0.5rem;
+      height: calc(100vh - 6rem);
+      bottom: 5rem;
     }
   }
+</style>
 
-  // Debug function to check chat state
-  function debugChatState() {
-    console.log("=== Chat Debug Info ===");
-    console.log("Chat History Length:", chatHistory.length);
-    console.log("DOM Messages Count:", chatMessages?.children.length || 0);
-    console.log("Model Loaded:", modelLoaded);
-    console.log("Model Loading:", modelLoading);
-    console.log("Recent Chat History:", chatHistory.slice(-3));
-    console.log("======================");
-  }
-
-  document.addEventListener("DOMContentLoaded", () => {
-    chatContainer = document.getElementById("chat-container");
-    chatToggle = document.getElementById("chat-toggle");
-    closeChat = document.getElementById("close-chat");
-    const clearChat = document.getElementById("clear-chat");
-    chatForm = document.getElementById("chat-form") as HTMLFormElement;
-    chatInput = document.getElementById("chat-input") as HTMLInputElement;
-    chatMessages = document.getElementById("chat-messages");
-    sendButton = document.getElementById("send-button") as HTMLButtonElement;
-
-    // Add initial greeting
-    addMessage(
-      "Hello! I'm your AI assistant, powered by WebLLM. I can provide detailed information about Revanza's professional experience, projects, and expertise. What would you like to know?",
-      "assistant"
-    );
-    chatHistory.push({
-      role: "assistant",
-      content:
-        "Hello! I'm your AI assistant, powered by WebLLM. I can provide detailed information about Revanza's professional experience, projects, and expertise. What would you like to know?",
-    });
-
-    // Add loading state message if model is not loaded
-    if (!modelLoaded) {
-      addMessage(
-        "I'm still loading my brain. Please wait a moment...",
-        "assistant"
-      );
-    }
-
-    chatToggle?.addEventListener("click", () => {
-      chatContainer?.classList.toggle("hidden");
-
-      // Initialize model when chat is first opened
-      if (!modelLoaded && !modelLoading) {
-        initModel();
-      }
-    });
-
-    closeChat?.addEventListener("click", () => {
-      chatContainer?.classList.add("hidden");
-    });
-
-    clearChat?.addEventListener("click", () => {
-      clearAllMessages();
-    });
-
-    chatForm?.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      if (!chatInput || !chatInput.value.trim()) return;
-
-      const message = chatInput.value.trim();
-
-      // Disable input while processing
-      chatInput.disabled = true;
-      sendButton!.disabled = true;
-
-      // Add user message
-      addMessage(message, "user");
-      chatHistory.push({ role: "user", content: message });
-      chatInput.value = "";
-
-      // Show loading state
-      const loadingId = addMessage("Thinking...", "assistant", true);
-      console.log(`Created loading message with ID: ${loadingId}`);
-
-      try {
-        if (modelLoaded && client) {
-          // Manage context window to prevent token limit exceeded
-          const managedHistory = manageContextWindow(chatHistory);
-
-          // Use local model - non-streaming for now
-          const response = await client.chat.completions.create({
-            messages: [
-              { role: "system", content: portfolioContext },
-              ...managedHistory,
-            ] as any,
-          });
-
-          const botResponse = response.choices[0].message.content;
-
-          // Remove loading message and add final response
-          const removed = removeLoadingMessage(loadingId);
-          console.log(`Loading message removal successful: ${removed}`);
-
-          if (botResponse && botResponse.trim()) {
-            addMessage(botResponse, "assistant");
-            chatHistory.push({ role: "assistant", content: botResponse });
-          } else {
-            addMessage(
-              "I received an empty response. Please try again.",
-              "assistant"
-            );
-          }
-        } else {
-          // Remove loading message
-          removeLoadingMessage(loadingId);
-          addMessage(
-            "I'm still loading my brain. Please try again in a moment!",
-            "assistant"
-          );
-        }
-      } catch (error) {
-        console.error("Error:", error);
-        // Remove loading message
-        removeLoadingMessage(loadingId);
-
-        // Clear any other stuck loading messages
-        setTimeout(() => clearStuckLoadingMessages(), 1000);
-
-        // Check if it's a context window error and provide helpful message
-        if (
-          error instanceof Error &&
-          error.message.includes("ContextWindowSizeExceededError")
-        ) {
-          addMessage(
-            "The conversation has become too long. I'll start fresh to continue helping you. Please repeat your question.",
-            "assistant"
-          );
-          // Clear chat history to start fresh
-          chatHistory = [];
-        } else {
-          addMessage(
-            "Sorry, I encountered an error. Please try again.",
-            "assistant"
-          );
-        }
-      } finally {
-        // Debug chat state
-        debugChatState();
-
-        // Re-enable input
-        if (chatInput && sendButton) {
-          chatInput.disabled = false;
-          sendButton.disabled = false;
-          chatInput.focus();
-        }
-      }
-    });
-  });
-</script>
+<script src="/chatbot.js" type="module"></script>

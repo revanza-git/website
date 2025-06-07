@@ -15,12 +15,12 @@ const { title } = Astro.props;
 
     <!-- Used to add dark mode right away, adding here prevents any flicker -->
     <script is:inline>
-      if (typeof Storage !== 'undefined') {
+      if (typeof Storage !== "undefined") {
         if (
-          localStorage.getItem('dark_mode') &&
-          localStorage.getItem('dark_mode') == 'true'
+          localStorage.getItem("dark_mode") &&
+          localStorage.getItem("dark_mode") == "true"
         ) {
-          document.documentElement.classList.add('dark')
+          document.documentElement.classList.add("dark");
         }
       }
     </script>
@@ -34,7 +34,9 @@ const { title } = Astro.props;
     <script src="../assets/css/main.css"></script>
     <Fragment set:html={import.meta.env.HEADER_INJECT} />
   </head>
-  <body class="antialiased bg-white dark:bg-neutral-950">
+  <body
+    class="antialiased bg-white dark:bg-neutral-950 text-neutral-900 dark:text-neutral-100"
+  >
     <SquareLines />
     <Header />
     <slot />

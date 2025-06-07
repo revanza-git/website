@@ -6,6 +6,7 @@
 		"dev": "astro dev",
 		"start": "astro dev",
 		"build": "astro check && astro build",
+		"build:memory": "cross-env NODE_OPTIONS='--max-old-space-size=4096' npm run build",
 		"preview": "astro preview",
 		"astro": "astro",
 		"check": "biome check --apply-unsafe .",
@@ -21,8 +22,10 @@
 		"@tailwindcss/typography": "^0.5.13",
 		"@types/rss": "^0.0.32",
 		"astro": "^4.8.2",
+		"cross-env": "^7.0.3",
 		"sanity": "^3.88.3",
 		"tailwindcss": "^3.4.3",
+		"terser": "^5.41.0",
 		"typescript": "^5.4.5"
 	},
 	"packageManager": "pnpm@9.12.2",
