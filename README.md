@@ -17,12 +17,14 @@ This is my personal portfolio website, built from scratch using Astro Aria and i
 - [Sanity CMS](https://www.sanity.io/) v3.88.3 - Headless Content Management System
 - [RSS](https://www.rssboard.org/rss-specification) v1.2.2 - RSS Feed Generation
 - [Styled Components](https://styled-components.com/) v6.1.18 - CSS-in-JS Styling
+- [WebLLM](https://github.com/mlc-ai/web-llm) v0.2.79 - Client-side AI for the interactive chatbot
 
 ## 📋 Prerequisites
 
 - Node.js v20 or higher
 - npm v6 or higher
 - Sanity CLI (for local development)
+- WebGPU-supported browser (Chrome 113+, Edge 113+) for AI chatbot functionality
 
 ## 🛠️ Installation
 
@@ -84,6 +86,7 @@ Sanity Studio will be available at `http://localhost:3333`
 │   ├── collections/    # Content collections and schemas
 │   ├── components/     # Reusable UI components
 │   │   ├── button.astro
+│   │   ├── ChatBot.astro  # AI-powered interactive chatbot
 │   │   └── home/
 │   │       ├── projects.astro
 │   │       ├── separator.astro
@@ -94,6 +97,7 @@ Sanity Studio will be available at `http://localhost:3333`
 │   ├── pages/         # Route components
 │   └── schemas/       # Sanity CMS schemas
 ├── public/            # Public static files
+│   └── chatbot.js     # Client-side AI chatbot functionality
 ├── .sanity/          # Sanity Studio configuration
 ├── astro.config.mjs  # Astro configuration
 ├── sanity.config.ts  # Sanity CMS configuration
@@ -104,35 +108,57 @@ Sanity Studio will be available at `http://localhost:3333`
 
 ## 🎨 Features
 
-- Dark mode support with system preference detection
-- Responsive design optimized for all devices
-- Blog/Writing section with rich text support
-- Projects showcase with filtering capabilities
-- Type-safe content collections and schemas
-- Modern UI with Tailwind CSS and Styled Components
-- Performance optimized with Astro's partial hydration
-- SEO friendly with meta tags and structured data
-- Sanity CMS integration for content management
-- RSS feed generation for blog posts
-- Portable Text support for rich content
-- Environment variable management with dotenv
-- Code quality enforcement with Biome
-- AI-powered chat bot for interactive portfolio exploration
+- **🌙 Dark mode support** with system preference detection
+- **📱 Responsive design** optimized for all devices
+- **📝 Blog/Writing section** with rich text support
+- **🚀 Projects showcase** with filtering capabilities
+- **🔒 Type-safe content** collections and schemas
+- **🎨 Modern UI** with Tailwind CSS and custom styling
+- **⚡ Performance optimized** with Astro's partial hydration
+- **🔍 SEO friendly** with meta tags and structured data
+- **📰 RSS feed generation** for blog posts
+- **🔧 Portable Text support** for rich content
+- **🌍 Environment variable management** with dotenv
+- **✨ Code quality enforcement** with Biome
+- **🤖 AI-powered chatbot** for interactive portfolio exploration (client-side)
 
 ## 🤖 AI Chat Bot
 
-The portfolio includes an AI-powered chat bot that helps visitors explore the portfolio content interactively. The chat bot is built using:
+The portfolio features a **client-side AI-powered chatbot** that provides interactive exploration of portfolio content. This implementation was specifically designed to be **compatible with Vercel's free tier** by running entirely in the browser without server-side dependencies.
 
-- [WebLLM](https://github.com/mlc-ai/web-llm) - For running the AI model directly in the browser
-- Qwen2.5-0.5B-Instruct model - A lightweight but capable language model
-- Real-time chat interface with loading states and error handling
-- Context-aware responses based on portfolio content
+### ⚠️ Device Compatibility Notice:
 
-The chat bot provides:
-- Interactive exploration of portfolio content
-- Real-time responses without server dependencies
-- Graceful loading states and error handling
-- Dark mode support matching the site theme
+**🖥️ Desktop Required for Full AI Experience**: The full AI chatbot requires a **desktop browser with WebGPU support**.
+
+**📱 Mobile Devices**: Currently have **limited support** with a FAQ-based fallback system. For the complete AI-powered experience, please visit on desktop.
+
+### Key Features:
+
+- **🖥️ Client-side execution** - No server costs, perfect for free hosting tiers
+- **🧠 WebLLM integration** - Runs AI models directly in the browser using WebGPU
+- **⚡ Real-time responses** - Instant interaction without API calls (desktop only)
+- **🎯 Context-aware answers** - Trained on portfolio content for accurate responses
+- **🌙 Dark mode support** - Seamlessly matches the site theme
+- **📱 Mobile FAQ fallback** - Basic question-answer system for mobile devices
+- **⌨️ Enhanced UX** - Character counter, status indicators, smooth animations
+
+### Technical Implementation:
+
+- **Model**: Qwen2.5-0.5B-Instruct-q4f16_1-MLC (optimized for browser execution)
+- **Runtime**: WebLLM v0.2.79 for client-side AI execution
+- **Requirements**: WebGPU-supported **desktop** browser (Chrome 113+, Edge 113+, Firefox 113+)
+- **Mobile Fallback**: FAQ system with predefined responses about projects, skills, experience, and contact
+- **Context Management**: Sliding window approach to handle conversation length
+- **Error Handling**: Graceful fallbacks and user-friendly error messages
+
+### Deployment Benefits:
+
+- **💰 Zero additional costs** - No AI API fees or server compute charges
+- **🚀 Vercel free tier compatible** - Static files only, no serverless functions needed
+- **🔒 Privacy-focused** - All processing happens locally in the user's browser
+- **📈 Scalable** - No backend bottlenecks as each user runs their own AI instance
+
+The chatbot provides visitors with an interactive way to explore the portfolio, ask questions about projects, experience, and skills. **For the best experience, use a desktop browser with WebGPU support.**
 
 ## 📝 Content Management
 
@@ -147,7 +173,9 @@ The content is fetched using GROQ queries and rendered using Portable Text compo
 
 ## 🌐 Deployment
 
-### Deploying to Vercel
+### Deploying to Vercel (Recommended - Free Tier Compatible)
+
+This portfolio is optimized for **Vercel's free tier** thanks to its static nature and client-side AI implementation. No serverless functions or server-side AI processing required!
 
 1. Push your code to a Git repository (GitHub, GitLab, or Bitbucket)
 
@@ -204,6 +232,7 @@ After deployment:
 - Sanity Studio will be available at:
   - `https://your-project.sanity.studio` (if using Sanity hosting)
   - or `https://your-sanity-studio.vercel.app` (if deployed to Vercel)
+- AI chatbot will work immediately without additional setup (for WebGPU-supported browsers)
 
 ### Development Workflow
 
@@ -221,6 +250,43 @@ After deployment:
    - Content updates through Sanity Studio
    - Site rebuilds automatically when content changes
    - Vercel handles deployments automatically
+   - AI chatbot runs client-side with no server dependencies
+
+### Deployment Cost Optimization
+
+- **🆓 Free tier friendly**: Static site with client-side AI = $0 hosting costs
+- **📊 No API usage fees**: AI runs locally, no external API calls
+- **⚡ Fast builds**: Optimized build process for quick deployments
+- **🔄 Auto-deployments**: Git-based workflow with automatic rebuilds
+
+## 🎯 Browser Compatibility
+
+### General Site:
+
+- Chrome 90+
+- Firefox 88+
+- Safari 14+
+- Edge 90+
+- **✅ Mobile browsers fully supported** for all site features
+
+### AI Chatbot:
+
+#### 🖥️ Desktop (Full AI Experience):
+
+- Chrome 113+ (WebGPU required)
+- Edge 113+ (WebGPU required)
+- Firefox 113+ (WebGPU required)
+- Safari: Limited support (WebGPU in development)
+
+#### 📱 Mobile (FAQ Fallback Only):
+
+- **⚠️ Limited AI functionality** - Basic FAQ system available
+- All mobile browsers supported for FAQ mode
+- For complete AI experience, please use desktop
+
+**Important**: The AI chatbot requires WebGPU support which is not yet available on mobile devices. Mobile users will receive a helpful FAQ-based system that can answer basic questions about projects, skills, experience, and contact information.
+
+_Note: The main portfolio site works perfectly on all devices; only the advanced AI chatbot features require desktop browsers._
 
 ## 📜 License
 

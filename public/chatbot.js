@@ -64,6 +64,94 @@ Revanza is not a digital marketer or UI/UX expert—he specializes in robust, sc
 
 Please answer questions about Revanza's background, experience, projects, and skills based on this information. Be helpful, professional, and accurate. If asked about something not covered in this context, politely mention that you'd need more specific information.`;
 
+// Mobile FAQ system for fallback
+const mobileFAQ = {
+  // Keywords to match against user input
+  projects: {
+    keywords: [
+      "project",
+      "projects",
+      "work",
+      "portfolio",
+      "what did you build",
+      "what have you built",
+    ],
+    response: `**🚀 Key Projects:**
+
+**Legacy-to-Cloud Platform** (2024) - Modernized 6 internal systems, saved IDR 1.9B
+**Real-Time Operations Dashboard** (2025) - 5,000+ sensor tags, reduced latency from 12h to <5min  
+**Data Lake & Warehouse** (2025) - Unified 20+ apps, 30% cost savings
+**Inventory Management System** (2024) - Cut input time by 60%, reduced errors by 90%
+
+*Want more details? Check out the Projects section above! 👆*`,
+  },
+
+  experience: {
+    keywords: [
+      "experience",
+      "background",
+      "years",
+      "career",
+      "work history",
+      "job",
+    ],
+    response: `**💼 Professional Background:**
+
+**7+ years** as a Full-Stack & Data Engineer
+**Current Role:** Lead Engineer at PT Nusantara Regas (2017-2025)
+**Education:** B.Sc. Computer Science, Binus University (2017)
+
+**Expertise:** Cloud architecture, data engineering, real-time streaming, DevOps
+
+*Explore the About section for more details! 📖*`,
+  },
+
+  skills: {
+    keywords: [
+      "skill",
+      "skills",
+      "technology",
+      "tech",
+      "stack",
+      "programming",
+      "languages",
+    ],
+    response: `**🛠️ Technical Skills:**
+
+**Backend:** .NET Core, Laravel, Java, Python
+**Frontend:** React, Next.js, Blazor
+**Data:** Apache NiFi, Kafka, Spark, BigQuery, SQL
+**Cloud:** Docker, Kubernetes, GCP, GitLab CI/CD
+**Databases:** SQL Server, PostgreSQL, MySQL
+
+*Check out the full tech stack in the projects above! ⚡*`,
+  },
+
+  contact: {
+    keywords: ["contact", "email", "reach", "hire", "linkedin", "get in touch"],
+    response: `**📞 Let's Connect:**
+
+**Email:** revanza.raytama@gmail.com
+**LinkedIn:** linkedin.com/in/revanzaraytama
+**GitHub:** github.com/revanza-git
+
+*Feel free to reach out for collaboration opportunities! 🤝*`,
+  },
+
+  about: {
+    keywords: ["about", "who", "introduction", "tell me about", "revanza"],
+    response: `**👨‍💻 About Revanza:**
+
+Award-winning **Software & Data Engineer** with **7+ years** of experience turning complex business problems into scalable solutions.
+
+**Specializes in:** Cloud-native architecture, data platforms, real-time systems
+**Industries:** Energy, Insurance, Telecommunications
+**Impact:** Saved companies millions, automated critical processes
+
+*Scroll up to read the full story! 📚*`,
+  },
+};
+
 let chatContainer = null;
 let chatToggle = null;
 let closeChat = null;
@@ -78,10 +166,87 @@ let chatHistory = [];
 let client = null;
 let modelLoaded = false;
 let modelLoading = false;
+let isMobileDevice = false;
+let isWebGPUSupported = false;
 
 // Context window management
 const MAX_CONTEXT_TOKENS = 3500; // Leave some buffer for model response
 const SLIDING_WINDOW_SIZE = 10; // Keep last 10 messages
+
+// Detect mobile device
+function detectMobile() {
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+    navigator.userAgent,
+  );
+}
+
+// Check WebGPU support
+async function checkWebGPUSupport() {
+  if (!navigator.gpu) {
+    return false;
+  }
+
+  try {
+    // Check if we can get a GPU adapter
+    const adapter = await navigator.gpu.requestAdapter();
+    if (!adapter) {
+      return false;
+    }
+
+    // Check for required features/extensions that the AI model needs
+    const device = await adapter.requestDevice();
+    if (!device) {
+      return false;
+    }
+
+    // Test shader compilation to check for f16 support
+    try {
+      // Try to create a simple shader module to test WebGPU capabilities
+      const shaderModule = device.createShaderModule({
+        code: `
+          @vertex fn vs_main() -> @builtin(position) vec4<f32> {
+            return vec4<f32>(0.0, 0.0, 0.0, 1.0);
+          }
+          
+          @fragment fn fs_main() -> @location(0) vec4<f32> {
+            return vec4<f32>(1.0, 0.0, 0.0, 1.0);
+          }
+        `,
+      });
+
+      // If we can create the shader, WebGPU is working
+      return true;
+    } catch (shaderError) {
+      console.warn("WebGPU shader compilation failed:", shaderError);
+      return false;
+    }
+  } catch (error) {
+    console.warn("WebGPU detection failed:", error);
+    return false;
+  }
+}
+
+// Find matching FAQ response
+function findFAQResponse(input) {
+  const lowercaseInput = input.toLowerCase();
+
+  for (const [category, data] of Object.entries(mobileFAQ)) {
+    if (data.keywords.some((keyword) => lowercaseInput.includes(keyword))) {
+      return data.response;
+    }
+  }
+
+  // Default response if no match found
+  return `I'd love to help! Try asking about:
+  
+**📱 Quick topics:**
+• "**projects**" - See Revanza's key work
+• "**skills**" - Technical expertise  
+• "**experience**" - Professional background
+• "**contact**" - Get in touch
+
+*For the full AI experience, try this on desktop! 💻*`;
+}
 
 // Rough token estimation (approximate 4 chars per token)
 function estimateTokens(text) {
@@ -126,23 +291,49 @@ function updateStatus(status, text) {
       ? "bg-yellow-500 animate-pulse"
       : status === "ready"
         ? "bg-green-500 animate-pulse"
-        : status === "error"
-          ? "bg-red-500"
-          : "bg-gray-500"
+        : status === "mobile"
+          ? "bg-blue-500 animate-pulse"
+          : status === "error"
+            ? "bg-red-500"
+            : "bg-gray-500"
   }`;
   statusText.textContent = text;
 }
 
 // Initialize WebLLM only when needed
 async function initModel() {
-  if (modelLoading || modelLoaded || !navigator.gpu) {
-    if (!navigator.gpu) {
-      addMessage(
-        "⚠️ Your browser doesn't support WebGPU. Some features may be limited.",
-        "assistant",
-      );
-      updateStatus("error", "WebGPU not supported");
-    }
+  // Multiple safety checks to prevent WebGPU initialization on mobile
+  if (isMobileDevice) {
+    console.log("Skipping AI model initialization on mobile device");
+    addMessage(
+      `**📱 Welcome to mobile!**
+      
+The full AI chatbot needs a desktop browser, but I can still help! Try asking about:
+
+• **"projects"** - Key portfolio work
+• **"skills"** - Technical expertise  
+• **"experience"** - Professional background
+• **"contact"** - Get in touch
+
+*For the complete AI experience, visit on desktop! 💻*`,
+      "assistant",
+    );
+    updateStatus("mobile", "Mobile FAQ Ready");
+    return;
+  }
+
+  // Check device capabilities first
+  if (!isWebGPUSupported) {
+    console.log("WebGPU not supported, falling back to FAQ mode");
+    addMessage(
+      "⚠️ Your browser doesn't support WebGPU. Please try Chrome 113+, Edge 113+, or Firefox 113+ for the full AI experience. I can still help with basic questions!",
+      "assistant",
+    );
+    updateStatus("error", "WebGPU not supported");
+    return;
+  }
+
+  if (modelLoading || modelLoaded) {
     return;
   }
 
@@ -152,31 +343,66 @@ async function initModel() {
   try {
     console.log("Starting model initialization...");
 
+    // Additional check before importing WebLLM
+    if (!navigator.gpu) {
+      throw new Error("WebGPU not available");
+    }
+
     // Dynamic import to reduce initial bundle size
     const { CreateMLCEngine } = await import(
       "https://esm.run/@mlc-ai/web-llm@0.2.79"
     );
     console.log("Module loaded successfully");
 
-    client = await CreateMLCEngine("Qwen2.5-0.5B-Instruct-q4f16_1-MLC");
+    // Try to create the AI model with error handling for mobile compatibility
+    client = await CreateMLCEngine("Qwen2.5-0.5B-Instruct-q4f16_1-MLC", {
+      initProgressCallback: (progress) => {
+        console.log("Loading progress:", progress.text, progress.progress);
+        updateStatus(
+          "loading",
+          `Loading: ${Math.round(progress.progress * 100)}%`,
+        );
+      },
+    });
     console.log("MLCEngine created and model loaded");
 
     modelLoaded = true;
     modelLoading = false;
     updateStatus("ready", "AI Ready");
-    addMessage("AI is ready to help you!", "assistant");
+    addMessage(
+      "🚀 **AI is ready to help you!** Ask me anything about Revanza's portfolio, projects, or experience!",
+      "assistant",
+    );
   } catch (error) {
     console.error("Failed to load model:", error);
     modelLoading = false;
-    updateStatus("error", "Failed to load AI");
-    if (error instanceof Error) {
-      console.error("Error details:", error.message);
-      console.error("Error stack:", error.stack);
+
+    // Check if the error is related to WebGPU or mobile compatibility
+    if (
+      error.message &&
+      (error.message.includes("f16") ||
+        error.message.includes("WebGPU") ||
+        error.message.includes("extension") ||
+        error.message.includes("shader"))
+    ) {
+      console.log("WebGPU compatibility error detected, switching to FAQ mode");
+      isWebGPUSupported = false; // Disable WebGPU for this session
+      updateStatus("mobile", "FAQ Mode Ready");
+      addMessage(
+        "🤖 I've switched to compatibility mode! I can still help answer questions about Revanza's portfolio. Try asking about projects, skills, experience, or contact info!",
+        "assistant",
+      );
+    } else {
+      updateStatus("error", "Failed to load AI");
+      if (error instanceof Error) {
+        console.error("Error details:", error.message);
+        console.error("Error stack:", error.stack);
+      }
+      addMessage(
+        "Failed to load AI model. I'll use FAQ mode instead. Please ask about projects, skills, experience, or contact info!",
+        "assistant",
+      );
     }
-    addMessage(
-      "Failed to load AI model. Please check the console for details and refresh the page.",
-      "assistant",
-    );
   }
 }
 
@@ -206,10 +432,13 @@ function addMessage(text, sender, isLoading = false) {
     const formattedText = text
       .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
       .replace(/\*(.*?)\*/g, "<em>$1</em>")
+      .replace(/• (.*?)$/gm, "• <strong>$1</strong>")
+      .replace(/(\n|^)([A-Z][^:\n]*:)/g, "$1<strong>$2</strong>")
       .replace(
         /`(.*?)`/g,
         '<code class="bg-neutral-100 dark:bg-neutral-700 px-1 py-0.5 rounded text-sm">$1</code>',
-      );
+      )
+      .replace(/\n/g, "<br>");
 
     messageBubble.innerHTML = formattedText;
   }
@@ -263,15 +492,36 @@ function clearAllMessages() {
     chatHistory = [];
     console.log("Cleared all chat messages and history");
 
-    // Add initial greeting again
-    addMessage(
-      "Hello! I'm your AI assistant, powered by WebLLM. I can provide detailed information about Revanza's professional experience, projects, and expertise. What would you like to know?",
-      "assistant",
-    );
+    // Add initial greeting based on device capabilities
+    if (isMobileDevice && !isWebGPUSupported) {
+      addMessage(
+        `**📱 Hello! Welcome to Revanza's portfolio!**
+        
+I'm here to help you explore! Try asking about:
+
+• **"projects"** - See amazing portfolio work
+• **"skills"** - Technical expertise  
+• **"experience"** - 7+ years background
+• **"contact"** - Get in touch
+
+*For the full AI experience, try desktop! 💻*`,
+        "assistant",
+      );
+      updateStatus("mobile", "Mobile FAQ Ready");
+    } else {
+      addMessage(
+        "Hello! I'm your AI assistant, powered by WebLLM. I can provide detailed information about Revanza's professional experience, projects, and expertise. What would you like to know?",
+        "assistant",
+      );
+      if (isWebGPUSupported) {
+        updateStatus("ready", "AI Ready");
+      }
+    }
+
     chatHistory.push({
       role: "assistant",
       content:
-        "Hello! I'm your AI assistant, powered by WebLLM. I can provide detailed information about Revanza's professional experience, projects, and expertise. What would you like to know?",
+        "Hello! I'm your AI assistant. How can I help you explore Revanza's portfolio?",
     });
   }
 }
@@ -299,13 +549,36 @@ function debugChatState() {
   console.log("=== Chat Debug Info ===");
   console.log("Chat History Length:", chatHistory.length);
   console.log("DOM Messages Count:", chatMessages?.children.length || 0);
+  console.log("Is Mobile:", isMobileDevice);
+  console.log("WebGPU Supported:", isWebGPUSupported);
   console.log("Model Loaded:", modelLoaded);
   console.log("Model Loading:", modelLoading);
   console.log("Recent Chat History:", chatHistory.slice(-3));
   console.log("======================");
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
+  // Initialize device detection
+  isMobileDevice = detectMobile();
+
+  // Async WebGPU support check
+  try {
+    isWebGPUSupported = await checkWebGPUSupport();
+  } catch (error) {
+    console.warn("WebGPU detection failed:", error);
+    isWebGPUSupported = false;
+  }
+
+  console.log(
+    `Device detection - Mobile: ${isMobileDevice}, WebGPU: ${isWebGPUSupported}`,
+  );
+
+  // Force disable WebGPU for mobile devices as additional safety measure
+  if (isMobileDevice) {
+    isWebGPUSupported = false;
+    console.log("WebGPU disabled for mobile device");
+  }
+
   chatContainer = document.getElementById("chat-container");
   chatToggle = document.getElementById("chat-toggle");
   closeChat = document.getElementById("close-chat");
@@ -318,24 +591,43 @@ document.addEventListener("DOMContentLoaded", () => {
   statusText = document.getElementById("status-text");
   charCounter = document.getElementById("char-counter");
 
-  // Add initial greeting
-  addMessage(
-    "Hello! I'm your AI assistant, powered by WebLLM. I can provide detailed information about Revanza's professional experience, projects, and expertise. What would you like to know?",
-    "assistant",
-  );
+  // Add initial greeting based on device capabilities
+  if (isMobileDevice && !isWebGPUSupported) {
+    addMessage(
+      `**📱 Hi there! Welcome to Revanza's portfolio!**
+      
+I'm here to help you explore! Try asking:
+
+• **"projects"** - Amazing portfolio work
+• **"skills"** - Technical expertise  
+• **"experience"** - 7+ years background
+• **"contact"** - Get in touch
+
+*For the full AI experience, try desktop! 💻*`,
+      "assistant",
+    );
+    updateStatus("mobile", "Mobile FAQ Ready");
+  } else if (!isWebGPUSupported) {
+    addMessage(
+      "⚠️ Your browser doesn't support WebGPU. Please try Chrome 113+, Edge 113+, or Firefox 113+ for the full AI experience. I can still help with basic questions!",
+      "assistant",
+    );
+    updateStatus("error", "WebGPU not supported");
+  } else {
+    addMessage(
+      "Hello! I'm your AI assistant, powered by WebLLM. I can provide detailed information about Revanza's professional experience, projects, and expertise. What would you like to know?",
+      "assistant",
+    );
+
+    // Set initial status
+    updateStatus("ready", "AI Ready");
+  }
+
   chatHistory.push({
     role: "assistant",
     content:
-      "Hello! I'm your AI assistant, powered by WebLLM. I can provide detailed information about Revanza's professional experience, projects, and expertise. What would you like to know?",
+      "Hello! I'm your AI assistant. How can I help you explore Revanza's portfolio?",
   });
-
-  // Set initial status
-  updateStatus("ready", "AI Ready");
-
-  // Add loading state message if model is not loaded
-  if (!modelLoaded) {
-    updateStatus("loading", "Loading...");
-  }
 
   // Character counter
   chatInput?.addEventListener("input", updateCharCounter);
@@ -352,8 +644,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const wasHidden = chatContainer?.classList.contains("hidden");
     chatContainer?.classList.toggle("hidden");
 
-    // Initialize model when chat is first opened
-    if (wasHidden && !modelLoaded && !modelLoading) {
+    // Initialize model when chat is first opened (desktop only)
+    if (
+      wasHidden &&
+      !modelLoaded &&
+      !modelLoading &&
+      isWebGPUSupported &&
+      !isMobileDevice
+    ) {
+      console.log("Initializing AI model for desktop user");
       initModel();
     }
 
@@ -380,13 +679,41 @@ document.addEventListener("DOMContentLoaded", () => {
     // Disable input while processing
     chatInput.disabled = true;
     sendButton.disabled = true;
-    updateStatus("loading", "Thinking...");
 
     // Add user message
     addMessage(message, "user");
     chatHistory.push({ role: "user", content: message });
     chatInput.value = "";
     updateCharCounter();
+
+    // Handle mobile/non-WebGPU devices with FAQ system
+    if (!isWebGPUSupported) {
+      updateStatus("loading", "Thinking...");
+
+      // Show brief loading for better UX
+      const loadingId = addMessage("", "assistant", true);
+
+      setTimeout(() => {
+        removeLoadingMessage(loadingId);
+        const faqResponse = findFAQResponse(message);
+        addMessage(faqResponse, "assistant");
+        chatHistory.push({ role: "assistant", content: faqResponse });
+
+        // Re-enable input
+        chatInput.disabled = false;
+        sendButton.disabled = false;
+        chatInput.focus();
+        updateStatus(
+          isMobileDevice ? "mobile" : "error",
+          isMobileDevice ? "Mobile FAQ Ready" : "WebGPU not supported",
+        );
+      }, 800); // Brief delay for natural feel
+
+      return;
+    }
+
+    // Full AI processing for desktop with WebGPU
+    updateStatus("loading", "Thinking...");
 
     // Show loading state
     const loadingId = addMessage("", "assistant", true);
@@ -467,7 +794,9 @@ document.addEventListener("DOMContentLoaded", () => {
         chatInput.disabled = false;
         sendButton.disabled = false;
         chatInput.focus();
-        updateStatus("ready", "AI Ready");
+        if (isWebGPUSupported) {
+          updateStatus("ready", "AI Ready");
+        }
       }
     }
   });
