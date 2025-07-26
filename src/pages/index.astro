@@ -1,5 +1,6 @@
 ---
 import Button from "../components/button.astro";
+import ScheduleMeeting from "../components/schedule-meeting.astro";
 import Projects from "../components/home/projects.astro";
 import Separator from "../components/home/separator.astro";
 import Writings from "../components/home/writings.astro";
@@ -80,7 +81,10 @@ import Layout from "../layouts/main.astro";
           </li>
         </ul>
 
-        <Button text="Work with me" link="/about" />
+        <div class="flex flex-col sm:flex-row gap-3">
+          <Button text="Work with me" link="/about" />
+          <ScheduleMeeting />
+        </div>
       </div>
       <div
         class="relative justify-end hidden w-full mt-10 md:flex md:pl-10 md:w-1/2 md:mt-0 md:translate-y-4 xl:translate-y-0"

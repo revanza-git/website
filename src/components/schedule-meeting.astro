@@ -1,0 +1,49 @@
+---
+const { text = "Schedule a Meeting" } = Astro.props;
+
+// Google Calendar event parameters
+const email = "revanza.raytama@gmail.com";
+const eventTitle = "Meeting with Revanza";
+const eventDetails = "Let's discuss your project requirements and how I can help bring your vision to life.";
+const duration = 60; // minutes
+
+// Create Google Calendar URL
+const createGoogleCalendarUrl = () => {
+  const baseUrl = "https://calendar.google.com/calendar/render";
+  const params = new URLSearchParams({
+    action: "TEMPLATE",
+    text: eventTitle,
+    details: eventDetails,
+    add: email,
+    // Default to next Monday at 10 AM (user can adjust)
+    dates: getDefaultDateTime()
+  });
+  return `${baseUrl}?${params.toString()}`;
+};
+
+const getDefaultDateTime = () => {
+  const now = new Date();
+  const nextMonday = new Date(now);
+  nextMonday.setDate(now.getDate() + (1 + 7 - now.getDay()) % 7);
+  nextMonday.setHours(10, 0, 0, 0); // 10 AM
+  
+  const start = nextMonday.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+  const end = new Date(nextMonday.getTime() + duration * 60000).toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+  
+  return `${start}/${end}`;
+};
+
+const calendarUrl = createGoogleCalendarUrl();
+---
+
+<a
+  href={calendarUrl}
+  target="_blank"
+  rel="noopener noreferrer"
+  class="inline-flex items-center gap-2 w-auto px-4 py-2 mt-5 text-xs font-semibold duration-300 ease-out border rounded-full bg-blue-600 hover:bg-blue-700 text-white border-blue-600 hover:border-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-neutral-900"
+>
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z" fill="currentColor"/>
+  </svg>
+  {text}
+</a>

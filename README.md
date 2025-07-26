@@ -87,6 +87,7 @@ Sanity Studio will be available at `http://localhost:3333`
 │   ├── components/     # Reusable UI components
 │   │   ├── button.astro
 │   │   ├── ChatBot.astro  # AI-powered interactive chatbot
+│   │   ├── schedule-meeting.astro  # Google Calendar meeting scheduler
 │   │   └── home/
 │   │       ├── projects.astro
 │   │       ├── separator.astro
@@ -121,6 +122,7 @@ Sanity Studio will be available at `http://localhost:3333`
 - **🌍 Environment variable management** with dotenv
 - **✨ Code quality enforcement** with Biome
 - **🤖 AI-powered chatbot** for interactive portfolio exploration (client-side)
+- **📅 Google Calendar integration** for easy meeting scheduling
 
 ## 🤖 AI Chat Bot
 
@@ -159,6 +161,28 @@ The portfolio features a **client-side AI-powered chatbot** that provides intera
 - **📈 Scalable** - No backend bottlenecks as each user runs their own AI instance
 
 The chatbot provides visitors with an interactive way to explore the portfolio, ask questions about projects, experience, and skills. **For the best experience, use a desktop browser with WebGPU support.**
+
+## 📅 Google Calendar Meeting Scheduler
+
+The portfolio includes a **one-click meeting scheduler** that integrates directly with Google Calendar, making it easy for potential clients and collaborators to book time with me.
+
+### Features:
+
+- **🎯 Direct Google Calendar integration** - Opens Google Calendar with pre-filled meeting details
+- **📧 Auto-attendee addition** - Automatically adds revanza.raytama@gmail.com as meeting attendee
+- **⏰ Smart defaults** - Pre-sets meeting for next Monday at 10 AM (user can adjust)
+- **📝 Professional details** - Includes meeting title and description about project discussions
+- **🎨 Consistent design** - Matches portfolio theme with blue accent color and calendar icon
+- **📱 Responsive placement** - Available on both homepage and about page
+
+### Implementation:
+
+- **Component**: `src/components/schedule-meeting.astro`
+- **Integration**: Added to homepage call-to-action section and about page contact section
+- **User Experience**: Single click opens Google Calendar with all meeting details pre-filled
+- **Accessibility**: Includes proper ARIA attributes and focus management
+
+This feature streamlines the client onboarding process by removing friction from meeting scheduling.
 
 ## 📝 Content Management
 

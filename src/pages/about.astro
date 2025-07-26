@@ -2,6 +2,7 @@
 import experiences from "../collections/experiences.json";
 import AboutExperience from "../components/about-experience.astro";
 import PageHeading from "../components/page-heading.astro";
+import ScheduleMeeting from "../components/schedule-meeting.astro";
 import Layout from "../layouts/main.astro";
 ---
 
@@ -80,5 +81,9 @@ import Layout from "../layouts/main.astro";
         class="text-indigo-600 underline">email</a
       > and I'll be sure to get back to you.
     </p>
+    
+    <div class="mt-6">
+      <ScheduleMeeting />
+    </div>
   </section>
 </Layout>
