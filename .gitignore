@@ -32,6 +32,7 @@ lerna-debug.log*
 !.vscode/extensions.json
 !.vscode/launch.json
 .idea/
+.claude/
 *.sublime-*
 *.swp
 *.swo
