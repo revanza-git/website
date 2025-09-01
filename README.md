@@ -1,6 +1,8 @@
-# Astro Aria Portfolio
+# Revanza's Portfolio
 
-This is my personal portfolio website, built from scratch using Astro Aria and integrated with Sanity CMS for blog functionality. The project showcases my work, thoughts, and experiences while maintaining a focus on performance and developer experience.
+This is Revanza Raytama's personal portfolio website, built from scratch using Astro and integrated with Sanity CMS for blog functionality. The project showcases work, thoughts, and experiences while maintaining a focus on performance and developer experience.
+
+🌐 **Live Site**: [https://revanza.vercel.app](https://revanza.vercel.app)
 
 ## 👨‍💻 About Me
 
@@ -31,8 +33,8 @@ This is my personal portfolio website, built from scratch using Astro Aria and i
 1. Clone the repository:
 
 ```bash
-git clone <repository-url>
-cd astro-revanza
+git clone https://github.com/revanza-git/website.git
+cd website
 ```
 
 2. Install dependencies using npm:
@@ -314,4 +316,4 @@ _Note: The main portfolio site works perfectly on all devices; only the advanced
 
 ## 📜 License
 
-[Add your license information here]
+MIT License - feel free to use this project as inspiration for your own portfolio!
