@@ -64,7 +64,7 @@ Current project works and builds, but there are security, accessibility, and mai
 - [x] Security: Eliminate direct injection paths for untrusted content.
 - [x] Reliability: Build, check, and release steps are deterministic.
 - [x] Accessibility: Interactive controls are keyboard and screen-reader friendly.
-- [ ] Maintainability: Remove unused dependencies and reduce duplicate route logic.
+- [x] Maintainability: Remove unused dependencies and reduce duplicate route logic.
 
 ### 3.3 Acceptance Criteria
 - [x] AC-01: No untrusted data is written via raw `innerHTML` or unsanitized `set:html`.
@@ -77,7 +77,7 @@ Current project works and builds, but there are security, accessibility, and mai
 - [x] M1 - Discovery and findings documented (2026-02-17)
 - [x] M2 - Security hardening complete (completed: 2026-02-17)
 - [x] M3 - Accessibility hardening complete (completed: 2026-02-17)
-- [ ] M4 - Tooling/performance cleanup complete (in progress, target: 2026-02-23)
+- [x] M4 - Tooling/performance cleanup complete (completed: 2026-02-17)
 - [ ] M5 - Final QA and release complete (target: 2026-02-25)
 
 ### 4.2 Work Breakdown
@@ -106,9 +106,9 @@ Current project works and builds, but there are security, accessibility, and mai
   Due date: 2026-02-17  
   Dependency: Confirm preferred package manager (`npm` vs `pnpm`)
 
-- [ ] Task: Performance and route consistency cleanup (minify + `/blog` vs `/post` dedupe)  
+- [x] Task: Performance and route consistency cleanup (minify + `/blog` vs `/post` dedupe)  
   Owner: Revanza + Codex  
-  Due date: 2026-02-24  
+  Due date: 2026-02-17  
   Dependency: Define canonical post route and optional redirects
 
 ### 4.3 Dependencies
@@ -244,6 +244,15 @@ Current project works and builds, but there are security, accessibility, and mai
     - Docker dev stack starts and serves `http://localhost:4321` (HTTP 200)
   - Decision made: Keep container setup as-is and continue with route consistency in next pass.
   - Next step: Implement canonical route cleanup for `/blog` vs `/post`.
+
+- Date: 2026-02-17
+  - Summary: Route consistency cleanup completed:
+    - canonicalized navigation and internal writing links to `/blog`
+    - converted legacy `/posts` and `/post/[slug]` to redirect pages
+    - added Vercel redirects for `/posts -> /blog` and `/post/:slug -> /blog/:slug`
+    - validated static output includes redirect pages and canonical tags
+  - Decision made: Keep legacy URLs as compatibility redirects instead of hard removal.
+  - Next step: Final QA + release checklist execution.
 
 ## 11. Completion Criteria
 - [ ] All acceptance criteria met

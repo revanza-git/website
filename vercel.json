@@ -3,5 +3,17 @@
 	"devCommand": "npm run dev",
 	"installCommand": "npm ci",
 	"framework": "astro",
-	"outputDirectory": "dist"
+	"outputDirectory": "dist",
+	"redirects": [
+		{
+			"source": "/posts",
+			"destination": "/blog",
+			"permanent": true
+		},
+		{
+			"source": "/post/:slug",
+			"destination": "/blog/:slug",
+			"permanent": true
+		}
+	]
 }

@@ -4,8 +4,8 @@
 		"url": "/"
 	},
 	{
-		"name": "Posts",
-		"url": "/posts"
+		"name": "Blog",
+		"url": "/blog"
 	},
 	{
 		"name": "Projects",

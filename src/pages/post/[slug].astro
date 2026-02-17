@@ -1,73 +1,27 @@
 ---
-import { toHTML } from "@portabletext/to-html";
-import Layout from "../../layouts/Layout.astro";
 import { type Post, getPosts } from "../../lib/sanity";
-import { urlFor } from "../../lib/sanity";
 
 export async function getStaticPaths() {
-	const posts = await getPosts();
-	return posts.map((post: Post) => ({
-		params: { slug: post.slug.current },
-		props: { post },
-	}));
+  const posts = await getPosts();
+  return posts.map((post: Post) => ({
+    params: { slug: post.slug.current },
+  }));
 }
 
-const { post } = Astro.props;
-const escapeHtml = (value = "") =>
-	String(value)
-		.replace(/&/g, "&amp;")
-		.replace(/</g, "&lt;")
-		.replace(/>/g, "&gt;")
-		.replace(/"/g, "&quot;")
-		.replace(/'/g, "&#39;");
-
-type PortableImageValue = Parameters<typeof urlFor>[0] & { alt?: string };
-
-const getSafeImageUrl = (value: PortableImageValue) => {
-	try {
-		const imageUrl = urlFor(value).width(800).url();
-		const parsedUrl = new URL(imageUrl);
-		if (parsedUrl.protocol === "http:" || parsedUrl.protocol === "https:") {
-			return parsedUrl.toString();
-		}
-	} catch {
-		return "";
-	}
-	return "";
-};
-
-const html = toHTML(post.body ?? [], {
-	components: {
-		types: {
-			image: ({ value }) => {
-				const imageValue = value as PortableImageValue;
-				const imageSrc = getSafeImageUrl(imageValue);
-				if (!imageSrc) {
-					return "";
-				}
-				const imageAlt = escapeHtml(imageValue?.alt ?? "");
-				return `<img src="${imageSrc}" alt="${imageAlt}" loading="lazy" />`;
-			},
-		},
-	},
-});
+const { slug = "" } = Astro.params;
+const target = `/blog/${slug}`;
 ---
 
-<Layout title={post.title}>
-  <article class="container mx-auto px-4 py-8 max-w-4xl">
-    {
-      post.mainImage && (
-        <img
-          src={urlFor(post.mainImage).width(1200).url()}
-          alt={post.title}
-          class="w-full h-96 object-cover rounded-lg mb-8"
-        />
-      )
-    }
-    <h1 class="text-4xl font-bold mb-4">{post.title}</h1>
-    <p class="text-gray-600 mb-8">
-      {new Date(post.publishedAt).toLocaleDateString()}
-    </p>
-    <div class="prose prose-lg max-w-none" set:html={html} />
-  </article>
-</Layout>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="refresh" content={`0;url=${target}`} />
+    <link rel="canonical" href={target} />
+    <meta name="robots" content="noindex, follow" />
+    <title>Redirecting to Blog Post</title>
+  </head>
+  <body>
+    <p>Redirecting to <a href={target}>the blog post</a>...</p>
+  </body>
+</html>
