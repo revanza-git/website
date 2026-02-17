@@ -16,8 +16,7 @@ export default defineConfig({
     },
     build: {
       chunkSizeWarningLimit: 6000,
-      // Simplify build to avoid memory issues
-      minify: false,
+      minify: true,
       rollupOptions: {
         output: {
           manualChunks: (id) => {

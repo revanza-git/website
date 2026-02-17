@@ -202,7 +202,7 @@ async function checkWebGPUSupport() {
     // Test shader compilation to check for f16 support
     try {
       // Try to create a simple shader module to test WebGPU capabilities
-      const shaderModule = device.createShaderModule({
+      device.createShaderModule({
         code: `
           @vertex fn vs_main() -> @builtin(position) vec4<f32> {
             return vec4<f32>(0.0, 0.0, 0.0, 1.0);
@@ -230,7 +230,7 @@ async function checkWebGPUSupport() {
 function findFAQResponse(input) {
   const lowercaseInput = input.toLowerCase();
 
-  for (const [category, data] of Object.entries(mobileFAQ)) {
+  for (const data of Object.values(mobileFAQ)) {
     if (data.keywords.some((keyword) => lowercaseInput.includes(keyword))) {
       return data.response;
     }
@@ -408,7 +408,7 @@ The full AI chatbot needs a desktop browser, but I can still help! Try asking ab
 
 function addMessage(text, sender, isLoading = false) {
   const messageDiv = document.createElement("div");
-  const messageId = `msg-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+  const messageId = `msg-${Date.now()}-${Math.random().toString(36).slice(2, 11)}`;
   messageDiv.id = messageId;
   messageDiv.className = `flex ${sender === "user" ? "justify-end" : "justify-start"}`;
 
@@ -420,27 +420,16 @@ function addMessage(text, sender, isLoading = false) {
   }`;
 
   if (isLoading) {
-    messageBubble.innerHTML = `
-      <div class="loading-dots">
-        <div class="loading-dot"></div>
-        <div class="loading-dot"></div>
-        <div class="loading-dot"></div>
-      </div>
-    `;
+    const loadingDots = document.createElement("div");
+    loadingDots.className = "loading-dots";
+    for (let i = 0; i < 3; i++) {
+      const dot = document.createElement("div");
+      dot.className = "loading-dot";
+      loadingDots.appendChild(dot);
+    }
+    messageBubble.appendChild(loadingDots);
   } else {
-    // Format text with basic markdown-like styling
-    const formattedText = text
-      .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-      .replace(/\*(.*?)\*/g, "<em>$1</em>")
-      .replace(/• (.*?)$/gm, "• <strong>$1</strong>")
-      .replace(/(\n|^)([A-Z][^:\n]*:)/g, "$1<strong>$2</strong>")
-      .replace(
-        /`(.*?)`/g,
-        '<code class="bg-neutral-100 dark:bg-neutral-700 px-1 py-0.5 rounded text-sm">$1</code>',
-      )
-      .replace(/\n/g, "<br>");
-
-    messageBubble.innerHTML = formattedText;
+    messageBubble.innerHTML = formatMessageHtml(text);
   }
 
   messageDiv.appendChild(messageBubble);
@@ -458,6 +447,29 @@ function addMessage(text, sender, isLoading = false) {
   return messageId;
 }
 
+function escapeHtml(value) {
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function formatMessageHtml(text) {
+  // Escape first, then allow a very small markdown subset we control.
+  const safeText = escapeHtml(text);
+
+  return safeText
+    .replace(/\*\*([^*\n]+)\*\*/g, "<strong>$1</strong>")
+    .replace(/\*([^*\n]+)\*/g, "<em>$1</em>")
+    .replace(
+      /`([^`\n]+)`/g,
+      '<code class="bg-neutral-100 dark:bg-neutral-700 px-1 py-0.5 rounded text-sm">$1</code>',
+    )
+    .replace(/\n/g, "<br>");
+}
+
 // Helper function to safely remove loading messages
 function removeLoadingMessage(loadingId) {
   const loadingMessage = document.getElementById(loadingId);
@@ -465,10 +477,10 @@ function removeLoadingMessage(loadingId) {
     console.log(`Removing loading message with ID: ${loadingId}`);
     loadingMessage.remove();
     return true;
-  } else {
-    console.warn(`Loading message with ID ${loadingId} not found`);
-    return false;
   }
+
+  console.warn(`Loading message with ID ${loadingId} not found`);
+  return false;
 }
 
 // Helper function to clear any stuck loading messages
@@ -476,13 +488,13 @@ function clearStuckLoadingMessages() {
   if (!chatMessages) return;
 
   const allMessages = chatMessages.querySelectorAll('[id^="msg-"]');
-  allMessages.forEach((msg) => {
+  for (const msg of allMessages) {
     const loadingElement = msg.querySelector(".loading-dots");
     if (loadingElement) {
       console.log(`Removing stuck loading message: ${msg.id}`);
       msg.remove();
     }
-  });
+  }
 }
 
 // Function to clear all chat messages
@@ -738,7 +750,7 @@ I'm here to help you explore! Try asking:
         const removed = removeLoadingMessage(loadingId);
         console.log(`Loading message removal successful: ${removed}`);
 
-        if (botResponse && botResponse.trim()) {
+        if (botResponse?.trim()) {
           addMessage(botResponse, "assistant");
           chatHistory.push({ role: "assistant", content: botResponse });
           updateStatus("ready", "AI Ready");

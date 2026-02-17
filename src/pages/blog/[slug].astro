@@ -14,13 +14,40 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 
-const html = toHTML(post.body, {
+const escapeHtml = (value = "") =>
+	String(value)
+		.replace(/&/g, "&amp;")
+		.replace(/</g, "&lt;")
+		.replace(/>/g, "&gt;")
+		.replace(/"/g, "&quot;")
+		.replace(/'/g, "&#39;");
+
+type PortableImageValue = Parameters<typeof urlFor>[0] & { alt?: string };
+
+const getSafeImageUrl = (value: PortableImageValue) => {
+	try {
+		const imageUrl = urlFor(value).width(800).url();
+		const parsedUrl = new URL(imageUrl);
+		if (parsedUrl.protocol === "http:" || parsedUrl.protocol === "https:") {
+			return parsedUrl.toString();
+		}
+	} catch {
+		return "";
+	}
+	return "";
+};
+
+const html = toHTML(post.body ?? [], {
 	components: {
 		types: {
 			image: ({ value }) => {
-				return `<img src="${urlFor(value).width(800).url()}" alt="${
-					value.alt || ""
-				}" />`;
+				const imageValue = value as PortableImageValue;
+				const imageSrc = getSafeImageUrl(imageValue);
+				if (!imageSrc) {
+					return "";
+				}
+				const imageAlt = escapeHtml(imageValue?.alt ?? "");
+				return `<img src="${imageSrc}" alt="${imageAlt}" loading="lazy" />`;
 			},
 		},
 	},

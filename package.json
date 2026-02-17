@@ -9,7 +9,8 @@
 		"build:memory": "cross-env NODE_OPTIONS=--max-old-space-size=4096 npm run build",
 		"preview": "astro preview",
 		"astro": "astro",
-		"check": "biome check --apply-unsafe .",
+		"check": "biome lint .",
+		"check:fix": "biome check --write .",
 		"docker:dev": "docker compose up --build",
 		"docker:dev:down": "docker compose down --remove-orphans",
 		"sanity": "sanity dev",
@@ -32,17 +33,12 @@
 		"typescript": "^5.4.5",
 		"vercel": "^44.6.3"
 	},
-	"packageManager": "pnpm@9.12.2",
+	"packageManager": "npm@11.3.0",
 	"dependencies": {
 		"@mlc-ai/web-llm": "^0.2.79",
 		"@portabletext/to-html": "^2.0.14",
 		"@sanity/client": "^7.2.1",
 		"@sanity/image-url": "^1.1.0",
-		"@sanity/vision": "^3.88.3",
-		"dotenv": "^16.5.0",
-		"groq": "^3.88.3",
-		"next-sanity": "^9.11.1",
-		"rss": "^1.2.2",
-		"styled-components": "^6.1.18"
+		"rss": "^1.2.2"
 	}
 }

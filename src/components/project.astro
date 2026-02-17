@@ -5,6 +5,7 @@ const { name, description, url, image, stacks = [] } = Astro.props;
 <a
   href={url}
   target="_blank"
+  rel="noopener noreferrer"
   class="relative flex flex-col items-stretch duration-300 ease-out p-7 sm:p-3 group h-100 rounded-2xl"
 >
   <span
@@ -19,6 +20,7 @@ const { name, description, url, image, stacks = [] } = Astro.props;
     <span class="block w-full">
       <img
         src={image}
+        alt={name}
         class="w-full h-auto rounded-lg aspect-[16/9] object-cover"
       />
     </span>

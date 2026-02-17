@@ -30,6 +30,9 @@ document.addEventListener("DOMContentLoaded", () => {
 	applyMenuItemClasses();
 	evaluateHeaderPosition();
 	mobileMenuFunctionality();
+	document
+		.getElementById("mobileMenuBackground")
+		?.addEventListener("click", closeMobileMenu);
 });
 
 // window.toggleDarkMode = function(){
@@ -69,7 +72,7 @@ window.evaluateHeaderPosition = () => {
 	}
 };
 
-document.getElementById("darkToggle").addEventListener("click", () => {
+document.getElementById("darkToggle")?.addEventListener("click", () => {
 	document.documentElement.classList.add("duration-300");
 
 	if (document.documentElement.classList.contains("dark")) {
@@ -144,11 +147,11 @@ window.applyMenuItemClasses = () => {
 };
 
 function mobileMenuFunctionality() {
-	document.getElementById("openMenu").addEventListener("click", () => {
+	document.getElementById("openMenu")?.addEventListener("click", () => {
 		openMobileMenu();
 	});
 
-	document.getElementById("closeMenu").addEventListener("click", () => {
+	document.getElementById("closeMenu")?.addEventListener("click", () => {
 		closeMobileMenu();
 	});
 }

@@ -12,15 +12,16 @@ import Logo from "../components/logo.astro";
     <Logo />
     <div
       id="mobileMenuBackground"
-      onclick="closeMobileMenu()"
       class="fixed inset-0 z-20 hidden w-screen h-screen duration-300 ease-out bg-white/90 dark:bg-neutral-950/90"
     >
     </div>
     <nav
       class="relative z-30 flex flex-row-reverse justify-start w-full text-sm sm:justify-end text-neutral-500 dark:text-neutral-400 sm:flex-row"
     >
-      <div
+      <button
         id="openMenu"
+        type="button"
+        aria-label="Open menu"
         class="flex flex-col items-end justify-center w-6 h-6 ml-4 cursor-pointer sm:hidden"
       >
         <svg
@@ -32,9 +33,11 @@ import Logo from "../components/logo.astro";
           viewBox="0 0 24 24"
           stroke="currentColor"><path d="M4 8h16M4 16h16"></path></svg
         >
-      </div>
-      <div
+      </button>
+      <button
         id="closeMenu"
+        type="button"
+        aria-label="Close menu"
         class="flex flex-col items-end justify-center hidden w-6 h-6 ml-4 -translate-x-1 cursor-pointer sm:hidden"
       >
         <svg
@@ -46,7 +49,7 @@ import Logo from "../components/logo.astro";
           viewBox="0 0 24 24"
           stroke="currentColor"><path d="M6 18L18 6M6 6l12 12"></path></svg
         >
-      </div>
+      </button>
       <div
         id="menu"
         class="fixed top-[75px] ease-out duration-300 sm:top-0 w-full left-0 sm:py-0 pt-7 pb-4 dm:mx-0 left-0 z-40 flex-col items-end justify-start hidden w-full h-auto text-sm sm:text-base sm:h-auto sm:relative sm:flex-row sm:flex sm:text-sm sm:w-auto sm:pr-0 sm:pt-0"

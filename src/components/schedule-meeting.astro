@@ -27,8 +27,8 @@ const getDefaultDateTime = () => {
   nextMonday.setDate(now.getDate() + (1 + 7 - now.getDay()) % 7);
   nextMonday.setHours(10, 0, 0, 0); // 10 AM
   
-  const start = nextMonday.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
-  const end = new Date(nextMonday.getTime() + duration * 60000).toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+  const start = `${nextMonday.toISOString().replace(/[-:]/g, '').split('.')[0]}Z`;
+  const end = `${new Date(nextMonday.getTime() + duration * 60000).toISOString().replace(/[-:]/g, '').split('.')[0]}Z`;
   
   return `${start}/${end}`;
 };
