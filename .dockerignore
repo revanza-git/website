@@ -1,0 +1,15 @@
+.astro
+.claude
+.git
+.gitignore
+.sanity
+.vercel
+.vscode
+dist
+node_modules
+tests
+*.log
+npm-debug.log*
+.env
+.env.*
+!.env.example

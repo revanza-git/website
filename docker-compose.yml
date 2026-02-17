@@ -1,0 +1,20 @@
+name: revanza-web-porto
+
+services:
+  web:
+    container_name: revanza-web-porto
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: revanza-web-porto:latest
+    ports:
+      - "4321:4321"
+    environment:
+      NODE_ENV: production
+      DEPLOY_TARGET: node
+      HOST: 0.0.0.0
+      PORT: 4321
+      FORMSPREE_ENDPOINT: ${FORMSPREE_ENDPOINT:-}
+      SANITY_PROJECT_ID: ${SANITY_PROJECT_ID:-}
+      SANITY_DATASET: ${SANITY_DATASET:-production}
+    restart: unless-stopped
