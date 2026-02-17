@@ -6,15 +6,19 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: revanza-web-porto:latest
+      target: dev
+    command: npm run dev -- --host 0.0.0.0 --port 4321
     ports:
       - "4321:4321"
     environment:
-      NODE_ENV: production
-      DEPLOY_TARGET: node
+      NODE_ENV: development
       HOST: 0.0.0.0
       PORT: 4321
+      CHOKIDAR_USEPOLLING: "true"
       FORMSPREE_ENDPOINT: ${FORMSPREE_ENDPOINT:-}
       SANITY_PROJECT_ID: ${SANITY_PROJECT_ID:-}
       SANITY_DATASET: ${SANITY_DATASET:-production}
+    volumes:
+      - .:/app
+      - /app/node_modules
     restart: unless-stopped

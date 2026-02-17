@@ -1,16 +1,19 @@
 {
-	"name": "astro-revanza",
+	"name": "revanza-web-porto",
 	"type": "module",
 	"version": "0.0.1",
 	"scripts": {
 		"dev": "astro dev",
 		"start": "astro dev",
 		"build": "astro check && astro build",
-		"build:memory": "cross-env NODE_OPTIONS='--max-old-space-size=4096' npm run build",
+		"build:memory": "cross-env NODE_OPTIONS=--max-old-space-size=4096 npm run build",
 		"preview": "astro preview",
 		"astro": "astro",
 		"check": "biome check --apply-unsafe .",
+		"docker:dev": "docker compose up --build",
+		"docker:dev:down": "docker compose down --remove-orphans",
 		"sanity": "sanity dev",
+		"sanity:dev": "sanity dev",
 		"sanity:deploy": "sanity deploy",
 		"sanity:build": "sanity build"
 	},

@@ -7,6 +7,7 @@ dist-ssr
 # Dependencies
 node_modules/
 .pnpm-store/
+.npm/
 
 # Environment
 .env
@@ -50,10 +51,10 @@ Thumbs.db
 .netlify/
 .vercel/
 .cloudflare/
+.sanity/
 
 # Testing
 coverage/
 
 # Optional: Astro specific
 src/env.d.ts
-.vercel

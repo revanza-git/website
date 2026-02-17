@@ -23,9 +23,9 @@ This is Revanza Raytama's personal portfolio website, built from scratch using A
 
 ## 📋 Prerequisites
 
-- Node.js v20 or higher
-- npm v6 or higher
-- Sanity CLI (for local development)
+- Docker Desktop (for local development)
+- Node.js v20 or higher (optional, for local tooling and Sanity Studio)
+- npm v10 or higher
 - WebGPU-supported browser (Chrome 113+, Edge 113+) for AI chatbot functionality
 
 ## 🛠️ Installation
@@ -37,14 +37,13 @@ git clone https://github.com/revanza-git/website.git
 cd website
 ```
 
-2. Install dependencies using npm:
+2. Create your environment file:
 
 ```bash
-npm install
+cp .env.example .env
 ```
 
-3. Set up environment variables:
-   Create a `.env` file in the root directory with your Sanity project credentials:
+3. Fill in required environment variables in `.env`:
 
 ```env
 SANITY_PROJECT_ID=your_project_id
@@ -53,19 +52,21 @@ SANITY_DATASET=production
 
 ## 🚀 Development
 
-Start the development server:
+Start the main site in Docker:
 
 ```bash
-npm run dev
-```
-
-Start Sanity Studio (in a separate terminal):
-
-```bash
-npm run sanity:dev
+npm run docker:dev
 ```
 
 The site will be available at `http://localhost:4321`
+
+If you want to run Sanity Studio locally (optional), install dependencies and start it in a separate terminal:
+
+```bash
+npm install
+npm run sanity:dev
+```
+
 Sanity Studio will be available at `http://localhost:3333`
 
 ## 🔧 Available Scripts
@@ -73,9 +74,13 @@ Sanity Studio will be available at `http://localhost:3333`
 - `npm run dev` - Start development server
 - `npm start` - Alias for dev server
 - `npm run build` - Build for production
+- `npm run build:memory` - Build with increased Node memory (used by Vercel)
 - `npm run preview` - Preview production build
 - `npm run check` - Run Biome checks and auto-fix issues
+- `npm run docker:dev` - Start local dev container
+- `npm run docker:dev:down` - Stop and remove local dev container
 - `npm run sanity` - Start Sanity Studio
+- `npm run sanity:dev` - Start Sanity Studio
 - `npm run sanity:deploy` - Deploy Sanity Studio
 - `npm run sanity:build` - Build Sanity Studio
 
@@ -201,7 +206,7 @@ The content is fetched using GROQ queries and rendered using Portable Text compo
 
 ### Deploying to Vercel (Recommended - Free Tier Compatible)
 
-This portfolio is optimized for **Vercel's free tier** thanks to its static nature and client-side AI implementation. No serverless functions or server-side AI processing required!
+This portfolio is configured for **production deployment on Vercel** and **local development in Docker**.
 
 1. Push your code to a Git repository (GitHub, GitLab, or Bitbucket)
 
@@ -212,9 +217,9 @@ This portfolio is optimized for **Vercel's free tier** thanks to its static natu
    - Import your repository
    - Configure the project settings:
      - Framework Preset: Astro
-     - Build Command: `npm run build`
+     - Build Command: `npm run build:memory`
      - Output Directory: `dist`
-     - Install Command: `npm install`
+     - Install Command: `npm ci`
 
 3. Add Environment Variables in Vercel:
 
@@ -237,6 +242,8 @@ This portfolio is optimized for **Vercel's free tier** thanks to its static natu
 5. Deploy your project:
    - Click "Deploy"
    - Vercel will automatically build and deploy your site
+
+`vercel.json` is already committed with these settings.
 
 ### Alternative: Deploy Sanity Studio Separately
 
@@ -266,9 +273,10 @@ After deployment:
 
    ```bash
    # Terminal 1 - Main site
-   npm run dev
+   npm run docker:dev
 
    # Terminal 2 - Sanity Studio
+   npm install
    npm run sanity:dev
    ```
 

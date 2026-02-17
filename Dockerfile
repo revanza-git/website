@@ -1,30 +1,17 @@
 # syntax=docker/dockerfile:1
 
-FROM node:20-alpine AS deps
+FROM node:20-alpine AS base
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci
 
-FROM deps AS build
-WORKDIR /app
+FROM base AS dev
+ENV NODE_ENV=development
+COPY . .
+EXPOSE 4321
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0", "--port", "4321"]
+
+FROM base AS build
+ENV NODE_ENV=production
 COPY . .
 RUN npm run build
-
-FROM node:20-alpine AS prod-deps
-WORKDIR /app
-COPY package.json package-lock.json ./
-RUN npm ci --omit=dev && npm cache clean --force
-
-FROM node:20-alpine AS runner
-WORKDIR /app
-ENV NODE_ENV=production
-ENV HOST=0.0.0.0
-ENV PORT=4321
-
-COPY --from=prod-deps /app/node_modules ./node_modules
-COPY --from=build /app/dist ./dist
-COPY --from=build /app/public ./public
-COPY --from=build /app/package.json ./package.json
-
-EXPOSE 4321
-CMD ["node", "./dist/server/entry.mjs"]

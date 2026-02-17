@@ -1,12 +1,7 @@
 {
-	"buildCommand": "npm run build",
+	"buildCommand": "npm run build:memory",
 	"devCommand": "npm run dev",
-	"installCommand": "npm install",
+	"installCommand": "npm ci",
 	"framework": "astro",
-	"outputDirectory": "dist",
-	"build": {
-		"env": {
-			"NODE_OPTIONS": "--max-old-space-size=4096"
-		}
-	}
+	"outputDirectory": "dist"
 }
