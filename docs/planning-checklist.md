@@ -11,7 +11,7 @@ Use this file as a single source of truth for planning, execution, validation, a
 - Status: `Final QA Completed (Local) / Release Pending`
 - Start date: 2026-02-17
 - Target release date: 2026-02-25
-- Last updated: 2026-02-18 (final QA local execution pass)
+- Last updated: 2026-02-18 (fallback + post-release monitoring checks executed)
 
 ## 1. Problem and Objective
 ### 1.1 Problem Statement
@@ -192,8 +192,8 @@ Current project works and builds, but there are security, accessibility, and mai
 ### 7.3 Security and Reliability
 - [x] Input validation reviewed for chatbot user input
 - [x] Env/secrets usage reviewed (`.env`, Vercel env vars)
-- [ ] Error handling and fallback paths tested for WebGPU fallback mode
-- [ ] Monitoring/logging checks completed post-release
+- [x] Error handling and fallback paths tested for WebGPU fallback mode
+- [x] Monitoring/logging checks completed post-release
 
 ## 8. Release Checklist
 ### 8.1 Pre-Release
@@ -204,10 +204,10 @@ Current project works and builds, but there are security, accessibility, and mai
 - [x] Docker dev smoke check passed
 
 ### 8.2 Deployment
-- [ ] Deploy to staging/preview
+- [x] Deploy to staging/preview
 - [ ] Preview smoke test passed
-- [ ] Deploy to production
-- [ ] Production smoke test passed
+- [x] Deploy to production
+- [x] Production smoke test passed
 
 ### 8.3 Post-Release
 - [ ] Confirm no client-side errors on key pages
@@ -286,6 +286,51 @@ Current project works and builds, but there are security, accessibility, and mai
     - documented manual pass in `docs/manual-ui-regression.md`
   - Decision made: QA testing scope for this release cycle is complete at local level.
   - Next step: Proceed with preview/prod deployment validation in Vercel.
+
+- Date: 2026-02-18
+  - Summary: Vercel preview deployment checks executed:
+    - verified Vercel CLI auth and linked project (`revanza-gits-projects/revanza`)
+    - pulled preview project settings (`vercel pull --yes --environment=preview`)
+    - local Vercel pipeline build passed (`vercel build`) with zero Astro diagnostics
+    - deployed prebuilt preview successfully:
+      - preview URL: `https://revanza-gqwmoe91g-revanza-gits-projects.vercel.app`
+      - inspect URL: `https://vercel.com/revanza-gits-projects/revanza/9ZS2rLp4To2Ff4pmtxkSBGjS3LG1`
+      - deployment status: `Ready`
+  - Blocker: Automated HTTP smoke checks to preview URL return `401 Unauthorized` due Vercel preview protection (SSO/auth gate).
+  - Next step: Run authenticated browser smoke checks on preview URL, then proceed to production deploy.
+
+- Date: 2026-02-18
+  - Summary: Vercel production deployment checks executed:
+    - pulled production project settings (`vercel pull --yes --environment=production`)
+    - production-mode local build passed (`vercel build --prod`) with zero Astro diagnostics
+    - deployed production from prebuilt artifacts (`vercel deploy --prebuilt --prod --yes`)
+    - deployment status confirmed `Ready` via inspect:
+      - deployment URL: `https://revanza-h28ffn43w-revanza-gits-projects.vercel.app`
+      - inspect URL: `https://vercel.com/revanza-gits-projects/revanza/FrhhK6KLsfhfreAEuRyUKtNAvrtk`
+      - production alias: `https://revanza.vercel.app`
+    - production smoke checks passed on `https://revanza.vercel.app`:
+      - HTTP `200`: `/`, `/about`, `/projects`, `/blog`, `/blog/rewiring-5tb-data-pipeline-at-home`, `/rss.xml`
+      - HTTP `308`: `/posts -> /blog`, `/post/rewiring-5tb-data-pipeline-at-home -> /blog/rewiring-5tb-data-pipeline-at-home`
+      - content markers validated for home/about/projects/blog/blog detail pages
+  - Note: Vercel project currently has no configured environment variables (`vercel env ls production` empty). Current release is healthy, but future non-prebuilt cloud builds should set required env vars explicitly.
+  - Next step: Complete authenticated preview smoke check and post-release monitoring/log verification.
+
+- Date: 2026-02-18
+  - Summary: WebGPU fallback and post-release monitoring checks completed:
+    - added chatbot fallback regression coverage (`tests/integration/chatbot-fallback-regression.test.js`)
+    - verified fallback guards for:
+      - `navigator.gpu` absence path
+      - forced mobile WebGPU disable path
+      - FAQ-mode submit flow on non-WebGPU devices
+      - model compatibility-error fallback (`FAQ Mode Ready`)
+    - executed `npm run test:integration` and `npm run check` successfully
+    - inspected production deployment + logs:
+      - `npx vercel inspect revanza.vercel.app`
+      - `npx vercel inspect revanza.vercel.app --logs`
+    - re-ran production health checks (`200` on key routes, expected `308` legacy redirects)
+    - documented post-release monitoring evidence in `docs/post-release-monitoring.md`
+  - Decision made: 7.3 fallback and monitoring/logging checklist items are complete.
+  - Next step: Close remaining release items (authenticated preview smoke, stakeholder notification, follow-up backlog).
 
 ## 11. Completion Criteria
 - [x] All acceptance criteria met
