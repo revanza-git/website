@@ -8,10 +8,10 @@ Use this file as a single source of truth for planning, execution, validation, a
 - Project name: Revanza Web Portfolio (Astro + Sanity)
 - Plan owner: Revanza Raytama
 - Contributors: Revanza Raytama, Codex
-- Status: `In Progress`
+- Status: `Final QA Completed (Local) / Release Pending`
 - Start date: 2026-02-17
 - Target release date: 2026-02-25
-- Last updated: 2026-02-17 (implementation pass 1 complete)
+- Last updated: 2026-02-18 (final QA local execution pass)
 
 ## 1. Problem and Objective
 ### 1.1 Problem Statement
@@ -181,27 +181,27 @@ Current project works and builds, but there are security, accessibility, and mai
 - [x] Build passes
 - [x] Lint/check passes with agreed policy (non-mutating check script)
 - [x] Type checks pass with final config
-- [ ] No unexpected console/runtime errors on key pages
+- [x] No unexpected console/runtime errors on key pages
 
 ### 7.2 Testing
-- [ ] Unit tests added/updated for sanitization and parsing logic
-- [ ] Integration test coverage for post routes and navigation behavior
-- [ ] Manual test scenarios executed (desktop/mobile)
-- [ ] Regression test completed for blog, posts, projects, and chatbot flows
+- [x] Unit tests added/updated for sanitization and parsing logic
+- [x] Integration test coverage for post routes and navigation behavior
+- [x] Manual test scenarios executed (desktop/mobile)
+- [x] Regression test completed for blog, posts, projects, and chatbot flows
 
 ### 7.3 Security and Reliability
-- [ ] Input validation reviewed for chatbot user input
-- [ ] Env/secrets usage reviewed (`.env`, Vercel env vars)
+- [x] Input validation reviewed for chatbot user input
+- [x] Env/secrets usage reviewed (`.env`, Vercel env vars)
 - [ ] Error handling and fallback paths tested for WebGPU fallback mode
 - [ ] Monitoring/logging checks completed post-release
 
 ## 8. Release Checklist
 ### 8.1 Pre-Release
-- [ ] Branch up to date with `main`
+- [x] Branch up to date with `main`
 - [ ] PR approved and reviewed
-- [ ] Release notes prepared (security + quality improvements)
+- [x] Release notes prepared (security + quality improvements)
 - [ ] Vercel env variables verified
-- [ ] Docker dev smoke check passed
+- [x] Docker dev smoke check passed
 
 ### 8.2 Deployment
 - [ ] Deploy to staging/preview
@@ -254,9 +254,42 @@ Current project works and builds, but there are security, accessibility, and mai
   - Decision made: Keep legacy URLs as compatibility redirects instead of hard removal.
   - Next step: Final QA + release checklist execution.
 
+- Date: 2026-02-18
+  - Summary: Final QA local execution completed:
+    - `npm run check` passes (`biome lint .`, no issues)
+    - `npm run build` passes (`astro check` 0 errors/warnings/hints + static build success)
+    - Docker dev smoke check passed with HTTP 200 on key routes:
+      - `/`, `/about`, `/projects`, `/blog`, `/blog/rewiring-5tb-data-pipeline-at-home`
+      - legacy compatibility routes `/posts` and `/post/rewiring-5tb-data-pipeline-at-home`
+    - No runtime errors observed in `docker compose logs` during key-route requests
+    - Reviewed env/secrets handling:
+      - `.env` and `.env.local` are ignored
+      - only `.env.example` is tracked
+      - env-based HTML injection remains gated by `ENABLE_HTML_INJECT`
+  - Release notes draft (for PR/production release):
+    - Security: hardened chatbot and blog rendering paths; guarded env HTML injection
+    - Accessibility: fixed external-link security attrs and semantic interaction behavior
+    - Reliability: lint/build/type checks passing with deterministic scripts
+    - Routing: canonical `/blog` route with compatibility redirects from `/posts` and `/post/:slug`
+  - Decision made: Local QA is complete; external release actions are pending.
+  - Next step: PR approval, Vercel env verification, preview deploy, then production deploy + post-release checks.
+
+- Date: 2026-02-18
+  - Summary: Testing completion pass executed:
+    - added unit test suite for chatbot sanitization/context helpers (`tests/unit/chatbot-utils.test.js`)
+    - added integration regression suite for route/link/env safety contracts (`tests/integration/release-regression.test.js`)
+    - extracted reusable chatbot safety helpers into `public/chatbot-utils.js` and wired runtime usage
+    - executed `npm run test` successfully (unit + integration all passing)
+    - executed manual UI regression sweep in Docker with desktop and mobile UA markers on:
+      - `/`, `/about`, `/projects`, `/blog`, `/blog/rewiring-5tb-data-pipeline-at-home`
+      - `/posts`, `/post/rewiring-5tb-data-pipeline-at-home`
+    - documented manual pass in `docs/manual-ui-regression.md`
+  - Decision made: QA testing scope for this release cycle is complete at local level.
+  - Next step: Proceed with preview/prod deployment validation in Vercel.
+
 ## 11. Completion Criteria
-- [ ] All acceptance criteria met
-- [ ] All planned tests completed and passed
-- [ ] Documentation updated (`README` and relevant docs)
+- [x] All acceptance criteria met
+- [x] All planned tests completed and passed
+- [x] Documentation updated (`README` and relevant docs)
 - [ ] Deployment completed successfully
 - [ ] No critical open issues remain

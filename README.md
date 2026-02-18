@@ -76,7 +76,10 @@ Sanity Studio will be available at `http://localhost:3333`
 - `npm run build` - Build for production
 - `npm run build:memory` - Build with increased Node memory (used by Vercel)
 - `npm run preview` - Preview production build
-- `npm run check` - Run Biome checks and auto-fix issues
+- `npm run check` - Run Biome lint checks (non-mutating)
+- `npm run test` - Run all tests (unit + integration)
+- `npm run test:unit` - Run unit tests
+- `npm run test:integration` - Run integration regression tests
 - `npm run docker:dev` - Start local dev container
 - `npm run docker:dev:down` - Stop and remove local dev container
 - `npm run sanity` - Start Sanity Studio
@@ -105,7 +108,11 @@ Sanity Studio will be available at `http://localhost:3333`
 │   ├── pages/         # Route components
 │   └── schemas/       # Sanity CMS schemas
 ├── public/            # Public static files
-│   └── chatbot.js     # Client-side AI chatbot functionality
+│   ├── chatbot.js     # Client-side AI chatbot functionality
+│   └── chatbot-utils.js # Shared chatbot sanitization/context helpers
+├── tests/             # QA test suites
+│   ├── unit/          # Unit tests
+│   └── integration/   # Integration/regression tests
 ├── .sanity/          # Sanity Studio configuration
 ├── astro.config.mjs  # Astro configuration
 ├── sanity.config.ts  # Sanity CMS configuration

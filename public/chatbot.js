@@ -1,3 +1,5 @@
+import { formatMessageHtml, manageContextWindow } from "./chatbot-utils.js";
+
 // ChatBot functionality - Client-side only
 const portfolioContext = `You are a helpful assistant representing Revanza Raytama's portfolio. Here's comprehensive information about him:
 
@@ -248,40 +250,6 @@ function findFAQResponse(input) {
 *For the full AI experience, try this on desktop! 💻*`;
 }
 
-// Rough token estimation (approximate 4 chars per token)
-function estimateTokens(text) {
-  return Math.ceil(text.length / 4);
-}
-
-// Manage context window size by keeping recent messages
-function manageContextWindow(messages) {
-  const systemTokens = estimateTokens(portfolioContext);
-  let totalTokens = systemTokens;
-  const managedMessages = [];
-
-  // Start from the most recent messages and work backwards
-  for (let i = messages.length - 1; i >= 0; i--) {
-    const messageTokens = estimateTokens(messages[i].content);
-
-    if (totalTokens + messageTokens > MAX_CONTEXT_TOKENS) {
-      break;
-    }
-
-    totalTokens += messageTokens;
-    managedMessages.unshift(messages[i]);
-
-    // Also limit by sliding window size
-    if (managedMessages.length >= SLIDING_WINDOW_SIZE) {
-      break;
-    }
-  }
-
-  console.log(
-    `Context management: Using ${managedMessages.length} messages, ~${totalTokens} tokens`,
-  );
-  return managedMessages;
-}
-
 // Update status indicator
 function updateStatus(status, text) {
   if (!statusIndicator || !statusText) return;
@@ -445,29 +413,6 @@ function addMessage(text, sender, isLoading = false) {
 
   console.log(`Added message with ID: ${messageId}, isLoading: ${isLoading}`);
   return messageId;
-}
-
-function escapeHtml(value) {
-  return String(value)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;");
-}
-
-function formatMessageHtml(text) {
-  // Escape first, then allow a very small markdown subset we control.
-  const safeText = escapeHtml(text);
-
-  return safeText
-    .replace(/\*\*([^*\n]+)\*\*/g, "<strong>$1</strong>")
-    .replace(/\*([^*\n]+)\*/g, "<em>$1</em>")
-    .replace(
-      /`([^`\n]+)`/g,
-      '<code class="bg-neutral-100 dark:bg-neutral-700 px-1 py-0.5 rounded text-sm">$1</code>',
-    )
-    .replace(/\n/g, "<br>");
 }
 
 // Helper function to safely remove loading messages
@@ -734,7 +679,16 @@ I'm here to help you explore! Try asking:
     try {
       if (modelLoaded && client) {
         // Manage context window to prevent token limit exceeded
-        const managedHistory = manageContextWindow(chatHistory);
+        const managedHistory = manageContextWindow(
+          chatHistory,
+          portfolioContext,
+          {
+            maxContextTokens: MAX_CONTEXT_TOKENS,
+            slidingWindowSize: SLIDING_WINDOW_SIZE,
+          },
+        );
+
+        console.log(`Context management: Using ${managedHistory.length} messages`);
 
         // Use local model - non-streaming for now
         const response = await client.chat.completions.create({
