@@ -80,6 +80,7 @@ Sanity Studio will be available at `http://localhost:3333`
 - `npm run test` - Run all tests (unit + integration)
 - `npm run test:unit` - Run unit tests
 - `npm run test:integration` - Run integration regression tests
+- `npm run test:monitoring` - Run production browser client-error sweep
 - `npm run docker:dev` - Start local dev container
 - `npm run docker:dev:down` - Stop and remove local dev container
 - `npm run sanity` - Start Sanity Studio
