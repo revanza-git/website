@@ -4,42 +4,80 @@ import AboutExperience from "../components/about-experience.astro";
 import PageHeading from "../components/page-heading.astro";
 import ScheduleMeeting from "../components/schedule-meeting.astro";
 import Layout from "../layouts/main.astro";
+
+const strengths = [
+  "Backend architecture for internal platforms, APIs, approval workflows, and operational systems.",
+  "LLM/RAG integration with embeddings, vector retrieval, prompt orchestration, and backend inference services.",
+  "Data integration and reporting layers across SQL Server, BigQuery, Airflow, NiFi, Power BI, and Microsoft Fabric.",
+  "Technical leadership across code review, mentoring, vendor coordination, Agile delivery, and production governance.",
+];
+
+const contactLinks = [
+  {
+    label: "Download Resume",
+    href: "/assets/documents/Revanza_Raytama_Resume_final.docx",
+  },
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/in/revanzaraytama/",
+    external: true,
+  },
+  {
+    label: "GitHub",
+    href: "https://github.com/revanza-git",
+    external: true,
+  },
+  {
+    label: "Email",
+    href: "mailto:revanza.raytama@gmail.com",
+  },
+];
 ---
 
-<Layout title="About Me">
-  <section class="relative z-20 max-w-2xl mx-auto my-12 px-7 lg:px-0">
+<Layout title="About Revanza Raytama | Backend & AI Systems Engineer">
+  <section class="relative z-20 max-w-3xl mx-auto my-12 px-7 lg:px-0">
     <PageHeading
-      title="About Me"
-      description="Award‑winning Senior Full‑Stack Engineer & Project Manager from Jakarta with 7+ years turning complex business problems into secure, high‑impact products. Data‑driven by default, I pair architecture rigor with product instinct to keep delivery on track and measurable: SCADA‑to‑cloud automations that save 80 staff‑hours/month, SQL lake‑houses replacing pricey vendor tools, and platforms saving Rp X.XB/yr while maintaining ~95% on‑time release rates. Experience in leading cross‑functional Agile squads end‑to‑end—aligning strategy, unblocking execution, and shipping fast without breaking things."
+      title="About Revanza"
+      description="Senior Backend Engineer from Jakarta with 8+ years building enterprise backend systems, data integration layers, internal productivity platforms, and AI/LLM-enabled applications. I work best where software has to connect messy operations, legacy systems, reporting needs, and real production constraints."
     />
 
     <img
       src="/assets/images/about2.jpeg"
       alt="Revanza profile photo"
-      class="relative z-30 w-full my-10 rounded-xl"
+      class="relative z-30 w-full my-10 rounded-[8px]"
     />
 
-    <h2 class="mb-2 text-2xl font-bold dark:text-neutral-200">Short Bio</h2>
+    <h2 class="mb-2 text-2xl font-bold dark:text-neutral-200">Profile</h2>
     <p
       class="text-sm leading-6 text-gray-600 dark:text-neutral-400 sm:leading-7 lg:leading-8 sm:text-base lg:text-lg"
     >
-      Data‑driven <strong>Senior Full‑Stack Engineer & Project Manager</strong> building
-      resilient
-      <strong>integration‑ready platforms applications</strong> and cost‑efficient
-      <strong>cloud architectures</strong>
-      that cut overhead and speed decision‑making. I lead cross‑functional
-      <strong>Agile squads</strong>, drive seamless <strong
-        >system integration</strong
-      >, and mentor teams to ship business‑critical software at scale—fast and
-      fault‑free.
+      My recent work sits across <strong>backend architecture</strong>,
+      <strong>AI/RAG systems</strong>, and <strong>data platforms</strong> for
+      energy, insurance, and telecom environments. I have built governed
+      reporting stores from 30+ internal databases, industrial data pipelines
+      that removed manual Excel workflows, and LLM-powered knowledge assistants
+      designed for enterprise use rather than demo-only interaction.
     </p>
+
+    <div
+      class="grid gap-3 mt-8 sm:grid-cols-2"
+      aria-label="Core strengths"
+    >
+      {
+        strengths.map((strength) => (
+          <div class="rounded-[8px] border border-neutral-200 bg-white/80 p-4 text-sm leading-6 text-neutral-600 shadow-sm dark:border-neutral-800 dark:bg-neutral-950/75 dark:text-neutral-400">
+            {strength}
+          </div>
+        ))
+      }
+    </div>
 
     <h2
       class="mt-5 mb-2 text-2xl font-bold lg:mt-10 sm:mt-6 dark:text-neutral-200"
     >
       Experience
     </h2>
-    <div class="px-5 py-10">
+    <div class="py-8 sm:py-10 sm:pl-8">
       {
         experiences.map((experience, index) => {
           const isLast = index === experiences.length - 1;
@@ -47,9 +85,9 @@ import Layout from "../layouts/main.astro";
             <div
               class={`relative ${
                 !isLast
-                  ? "border-l border-gray-200 dark:border-neutral-700"
+                  ? "sm:border-l sm:border-gray-200 sm:dark:border-neutral-700"
                   : ""
-              } pb-10`}
+              } pb-5 sm:pb-12`}
             >
               <AboutExperience
                 dates={experience.dates}
@@ -72,23 +110,26 @@ import Layout from "../layouts/main.astro";
     <p
       class="text-sm leading-6 text-gray-600 dark:text-neutral-400 sm:leading-7 lg:leading-8 sm:text-base lg:text-lg"
     >
-      If you want to stay up to date with my work be sure to <a
-        href="https://www.linkedin.com/in/revanzaraytama/"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="text-indigo-600 underline">follow me on linkedin</a
-      >, check out my <a
-        href="https://github.com/revanzaraytama"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="text-indigo-600 underline">github</a
-      >, or you can send me an <a
-        href="mailto:revanza.raytama@gmail.com"
-        class="text-indigo-600 underline">email</a
-      > and I'll be sure to get back to you.
+      For hiring, collaboration, or technical conversations, these are the
+      fastest ways to review my background and reach me.
     </p>
 
-    <div class="mt-6">
+    <div class="flex flex-wrap gap-3 mt-5">
+      {
+        contactLinks.map((link) => (
+          <a
+            href={link.href}
+            target={link.external ? "_blank" : undefined}
+            rel={link.external ? "noopener noreferrer" : undefined}
+            class="inline-flex items-center justify-center rounded-full border border-neutral-200 bg-white px-4 py-2 text-sm font-semibold text-neutral-800 shadow-sm duration-200 hover:-translate-y-0.5 hover:border-blue-500 hover:text-blue-600 dark:border-neutral-800 dark:bg-neutral-950 dark:text-neutral-200 dark:hover:border-blue-500 dark:hover:text-blue-400"
+          >
+            {link.label}
+          </a>
+        ))
+      }
+    </div>
+
+    <div class="mt-3">
       <ScheduleMeeting />
     </div>
   </section>

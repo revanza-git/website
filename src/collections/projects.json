@@ -1,70 +1,276 @@
 [
 	{
-		"name": "nusantararegas.com",
-		"description": "Nusantara's Regas Official Website.",
-		"image": "/assets/images/projects/nrwebsite.png",
-		"url": "https://nusantararegas.com/",
+		"slug": "dndmind-ai-copilot",
+		"name": "DNDMind AI Copilot",
+		"description": "Full-stack AI Dungeon Master copilot with RAG, memory retrieval, structured outputs, tool calling, and deterministic evaluation workflows.",
+		"image": "/assets/images/main-hero.jpeg",
+		"url": "/projects/dndmind-ai-copilot",
+		"links": [
+			{
+				"label": "Demo",
+				"url": "https://sink.cool/dndmind"
+			},
+			{
+				"label": "GitHub",
+				"url": "https://github.com/revanza-git/dndmind"
+			}
+		],
 		"stacks": [
-			"NextJS",
+			"Next.js",
 			"ASP.NET Core",
-			"TailwindCSS",
-			"React-Admin",
-			"SQL Server"
-		]
+			"FastAPI",
+			"PostgreSQL",
+			"pgvector",
+			"Docker",
+			"RAG"
+		],
+		"problem": "Tabletop role-playing sessions create a lot of changing context: character state, campaign memory, rules references, prior decisions, and narrative continuity. A simple chatbot can respond creatively, but it does not reliably preserve memory, retrieve relevant context, or keep outputs structured enough for repeatable gameplay support.",
+		"solution": "Built a full-stack AI Dungeon Master copilot that combines application workflow, backend APIs, retrieval, memory, and structured AI responses. The system uses a Next.js interface, ASP.NET Core services, FastAPI inference support, PostgreSQL with pgvector, Docker Compose, embeddings, memory retrieval, tool/function calling, and deterministic evaluation workflows.",
+		"proof": [
+			"Implements RAG and vector retrieval through PostgreSQL + pgvector instead of relying only on prompt history.",
+			"Separates frontend, backend, inference, and database responsibilities across a multi-service Docker Compose setup.",
+			"Uses structured AI outputs and tool/function calling patterns to make responses easier to validate and integrate."
+		],
+		"result": "The project demonstrates production-style AI application architecture beyond a prompt-only demo: persistent memory, retrieval, structured outputs, backend orchestration, and evaluation-ready workflows."
 	},
 	{
-		"name": "Nutricia Professional",
-		"description": "LMS for Danone’s medical-professional program",
-		"image": "/assets/images/projects/nupro1.png",
-		"url": "https://nutriciaprofessional.id/",
-		"stacks": ["NextJS", "Lumen", "MySQL", "AWS EC2", "AWS RDS"]
+		"slug": "enterprise-rag-knowledge-assistant",
+		"name": "Enterprise RAG Knowledge Assistant",
+		"description": "On-premise LLM assistant redesigned into a retrieval pipeline with document chunking, embeddings, vector retrieval, contextual prompts, and output handling.",
+		"image": "/assets/images/projects/portal1.jpg",
+		"url": "/projects/enterprise-rag-knowledge-assistant",
+		"links": [],
+		"stacks": [
+			"LLM",
+			"RAG",
+			"Embeddings",
+			"Vector Search",
+			"Backend Inference",
+			"Enterprise UI"
+		],
+		"problem": "Internal operational knowledge was spread across documents, systems, and teams. A generic assistant could answer questions, but without retrieval grounding it risked incomplete context, inconsistent answers, and hallucination in an enterprise environment where reliability matters.",
+		"solution": "Architected an on-premise LLM-powered internal knowledge assistant and redesigned it into a RAG pipeline. The system uses document chunking, embedding generation, vector retrieval, contextual prompt orchestration, backend inference services, and enterprise UI integration.",
+		"proof": [
+			"Designed the assistant for an on-premise enterprise environment rather than a public-only API workflow.",
+			"Moved from simple prompting toward retrieval-grounded answers using chunking, embeddings, vector retrieval, and context assembly.",
+			"Added controlled response/output handling to reduce hallucination risk and make answers easier to integrate into internal workflows."
+		],
+		"result": "Improved the architecture of an internal AI assistant from general chat behavior into a more reliable enterprise knowledge workflow with retrieval grounding and clearer backend integration boundaries."
 	},
 	{
-		"name": "SF Telkom Data To BigQuery",
-		"description": "5 TB+ MyOrbit's Data Sync To BigQuery",
+		"slug": "lng-operations-data-pipelines",
+		"name": "LNG Operations Data Pipelines",
+		"description": "Industrial data pipelines integrating SCADA and FSRU operational systems, replacing Excel workflows and saving about 80 staff-hours per month.",
+		"image": "/assets/images/projects/portal1.jpg",
+		"url": "/projects/lng-operations-data-pipelines",
+		"links": [
+			{
+				"label": "Related Repository",
+				"url": "https://github.com/revanza-git/portal-gas"
+			}
+		],
+		"stacks": [
+			"Apache Airflow",
+			"SQL Server",
+			"Power BI",
+			"SCADA",
+			"ASP.NET Core"
+		],
+		"problem": "Gas operations data moved through manual spreadsheet workflows and fragmented operational sources. This slowed reporting, increased dependency on human consolidation, and made executive decision-support datasets harder to govern.",
+		"solution": "Built industrial data pipelines integrating SCADA and FSRU LNG operational systems. The pipelines move multi-source operational data into curated snapshot tables and reporting datasets for dashboards and operational decision support.",
+		"proof": [
+			"Integrated operational systems rather than only web-application databases.",
+			"Used Apache Airflow and SQL Server to create repeatable data movement and curated reporting layers.",
+			"Connected the resulting datasets to Power BI/Fabric-style executive reporting workflows."
+		],
+		"result": "Removed manual Excel consolidation for key operational reporting and saved about 80 staff-hours per month while creating a more governed decision-support layer."
+	},
+	{
+		"slug": "executive-reporting-data-store",
+		"name": "Executive Reporting Data Store",
+		"description": "Central SQL Server reporting layer consolidating 30+ internal application databases for KPI dashboards, reporting automation, and safer analytics access.",
+		"image": "/assets/images/projects/nrwebsite.png",
+		"url": "/projects/executive-reporting-data-store",
+		"links": [
+			{
+				"label": "Company Website",
+				"url": "https://nusantararegas.com/"
+			}
+		],
+		"stacks": [
+			"SQL Server",
+			"Power BI",
+			"Microsoft Fabric",
+			"Data Integration",
+			"Governance"
+		],
+		"problem": "Internal KPI and reporting needs depended on many separate application databases. Querying production systems directly created reliability, performance, and governance concerns, while manual reporting made executive dashboards slower to maintain.",
+		"solution": "Created a centralized SQL Server reporting data store that consolidates data copies from 30+ internal application databases. The store acts as a governed reporting layer for Power BI/Fabric dashboards and reporting automation.",
+		"proof": [
+			"Consolidated 30+ internal application databases into a dedicated reporting layer.",
+			"Separated analytical/reporting access from direct production database queries.",
+			"Supported KPI dashboards and recurring reporting automation for decision-support workflows."
+		],
+		"result": "Reduced dependency on direct production queries and gave reporting workflows a cleaner, safer data foundation for executive dashboards."
+	},
+	{
+		"slug": "5tb-telco-data-to-bigquery",
+		"name": "5TB Telco Data to BigQuery",
+		"description": "Backend synchronization workflows for national-scale modem telemetry into BigQuery, supporting centralized analytics and near real-time reporting.",
 		"image": "/assets/images/projects/sftelkombq1.png",
-		"url": "https://revanza.vercel.app/blog/rewiring-5tb-data-pipeline-at-home",
+		"url": "/projects/5tb-telco-data-to-bigquery",
+		"links": [
+			{
+				"label": "Write-up",
+				"url": "https://revanza.vercel.app/blog/rewiring-5tb-data-pipeline-at-home"
+			}
+		],
 		"stacks": [
 			"AWS EC2",
 			"AWS RDS",
 			"Google BigQuery",
 			"Apache Airflow",
 			"Apache Beam"
-		]
+		],
+		"problem": "National-scale modem telemetry needed to be synchronized into a centralized analytics environment. The data volume was large enough that simple exports and manual reporting patterns were not reliable for recurring operational insight.",
+		"solution": "Designed backend data synchronization workflows that moved 5TB+ modem data into Google BigQuery. The system supported scheduled delivery, centralized analytics, reporting automation, and near real-time operational visibility.",
+		"proof": [
+			"Handled 5TB+ of modem telemetry data.",
+			"Used cloud data infrastructure including AWS services and Google BigQuery.",
+			"Built scheduled data workflows with tools such as Apache Airflow and Apache Beam."
+		],
+		"result": "Enabled centralized analytics and more reliable reporting automation for national-scale telco operational data."
 	},
 	{
+		"slug": "nutricia-professional-lms",
+		"name": "Nutricia Professional LMS",
+		"description": "Doctor-facing learning platform for Danone's medical-professional program, delivered on schedule and scaled to thousands of users.",
+		"image": "/assets/images/projects/nupro1.png",
+		"url": "/projects/nutricia-professional-lms",
+		"links": [
+			{
+				"label": "Live Site",
+				"url": "https://nutriciaprofessional.id/"
+			}
+		],
+		"stacks": ["Next.js", "Lumen", "MySQL", "AWS EC2", "AWS RDS"],
+		"problem": "Danone's medical-professional program needed a learning platform for doctors that could launch on schedule and support a large professional audience.",
+		"solution": "Led a 3-person squad to deliver the LMS, coordinating backend delivery, deployment needs, and production readiness across the project lifecycle.",
+		"proof": [
+			"Built with Next.js, Lumen, MySQL, AWS EC2, and AWS RDS.",
+			"Delivered for a real medical-professional audience rather than an internal-only demo.",
+			"Coordinated a small engineering squad through launch."
+		],
+		"result": "Launched on schedule and scaled to thousands of doctors."
+	},
+	{
+		"slug": "inventory-management-system",
 		"name": "Inventory Management System",
-		"description": "Award-winning inventory management system",
+		"description": "Award-winning inventory platform replacing spreadsheet workflows with operational tracking, analytics, and reporting connectors.",
 		"image": "/assets/images/projects/sinv0.jpg",
-		"url": "https://github.com/revanza-git/Inventory-management",
-		"stacks": ["Blade", "Laravel", "MySQL"]
+		"url": "/projects/inventory-management-system",
+		"links": [
+			{
+				"label": "GitHub",
+				"url": "https://github.com/revanza-git/Inventory-management"
+			}
+		],
+		"stacks": ["Blade", "Laravel", "MySQL"],
+		"problem": "Inventory workflows depended heavily on spreadsheets, which made input slower, reporting harder, and operational tracking more error-prone.",
+		"solution": "Built a web-based inventory management system with structured input flows, operational tracking, analytics support, and reporting connectors.",
+		"proof": [
+			"Implemented as a Laravel/MySQL application with Blade views.",
+			"Designed around replacing spreadsheet-driven operational work.",
+			"Recognized through the Pertamina Sub-Holding Gas Continuous Improvement Program."
+		],
+		"result": "Reduced manual inventory handling and created a more reliable platform for operational tracking and reporting."
 	},
 	{
+		"slug": "policy-document-management-system",
 		"name": "Policy Document Management System",
-		"description": "Designed to manage policy documents.",
+		"description": "Policy document workflow system for managing issued documents, secure transfer, and production document handling.",
 		"image": "/assets/images/projects/semar0.jpg",
-		"url": "https://github.com/revanza-git/semar",
-		"stacks": ["NextJS", "ASP.NET Core", "SQL Server"]
+		"url": "/projects/policy-document-management-system",
+		"links": [
+			{
+				"label": "GitHub",
+				"url": "https://github.com/revanza-git/semar"
+			}
+		],
+		"stacks": ["Next.js", "ASP.NET Core", "SQL Server"],
+		"problem": "Policy document handling needed a more reliable workflow for managing generated documents, delivery status, and transfer to downstream systems.",
+		"solution": "Built a document management service using Next.js, ASP.NET Core, and SQL Server to support structured policy document handling and operational visibility.",
+		"proof": [
+			"Uses a modern frontend with ASP.NET Core backend services.",
+			"Stores operational state in SQL Server.",
+			"Connects to real insurance document-delivery workflows."
+		],
+		"result": "Supported faster and more controlled policy document handling, aligned with the E-PDD workflow that reduced issue-to-print time from 24 hours to under 1 hour."
 	},
 	{
+		"slug": "e-procurement-ecosystem",
 		"name": "E-Procurement Ecosystem",
-		"description": "A comprehensive e-procurement system",
+		"description": "Procurement workflow ecosystem covering vendor, procurement, and approval flows for internal business operations.",
 		"image": "/assets/images/projects/eproc_flow.jpg",
-		"url": "https://github.com/revanza-git/eproc-vms",
-		"stacks": ["Bootstrap", "CI", "MySQL"]
+		"url": "/projects/e-procurement-ecosystem",
+		"links": [
+			{
+				"label": "GitHub",
+				"url": "https://github.com/revanza-git/eproc-vms"
+			}
+		],
+		"stacks": ["Bootstrap", "CodeIgniter", "MySQL"],
+		"problem": "Procurement processes often involve fragmented requests, vendor coordination, approvals, and audit needs. Without a system, teams depend on manual tracking and scattered communication.",
+		"solution": "Built an e-procurement ecosystem to centralize procurement workflows, vendor-related processes, and approval visibility.",
+		"proof": [
+			"Implements a business workflow system with CodeIgniter, MySQL, and Bootstrap.",
+			"Designed around procurement process flows rather than a simple CRUD application.",
+			"Includes repository-accessible implementation details."
+		],
+		"result": "Created a structured platform for procurement operations and reduced reliance on disconnected manual tracking."
 	},
 	{
+		"slug": "portal-dashboard",
 		"name": "Portal Dashboard",
-		"description": "Designed for gas operations management",
+		"description": "Gas operations dashboard for internal operational visibility and backend workflow access.",
 		"image": "/assets/images/projects/portal1.jpg",
-		"url": "https://github.com/revanza-git/portal-gas",
-		"stacks": ["Blazor", "ASP.NET Core", "Bootstrap", "Jquery", "SQL Server"]
+		"url": "/projects/portal-dashboard",
+		"links": [
+			{
+				"label": "GitHub",
+				"url": "https://github.com/revanza-git/portal-gas"
+			}
+		],
+		"stacks": ["Blazor", "ASP.NET Core", "Bootstrap", "jQuery", "SQL Server"],
+		"problem": "Gas operations teams needed a more centralized portal for operational data, internal workflows, and dashboard access.",
+		"solution": "Built a gas operations portal using Blazor, ASP.NET Core, SQL Server, and dashboard-oriented UI patterns.",
+		"proof": [
+			"Uses Microsoft-oriented backend and frontend tooling aligned with the enterprise environment.",
+			"Connects operational data and internal workflows through a dedicated portal.",
+			"Shares implementation through a public repository."
+		],
+		"result": "Improved operational visibility by giving gas operations users a centralized dashboard and workflow entry point."
 	},
 	{
+		"slug": "tokopedia-scraper-api",
 		"name": "Tokopedia Scraper API",
-		"description": "Tokopedia Product Scraper With API Interface",
+		"description": "API interface for scraping product data from Tokopedia using Python, Flask, BeautifulSoup, Selenium, and PostgreSQL.",
 		"image": "/assets/images/projects/tokpedscraper1.png",
-		"url": "https://github.com/revanza-git/tokopedia-scraper-api",
-		"stacks": ["Phyton", "Flask", "BeautifulSoup", "Selenium", "PostgreSQL"]
+		"url": "/projects/tokopedia-scraper-api",
+		"links": [
+			{
+				"label": "GitHub",
+				"url": "https://github.com/revanza-git/tokopedia-scraper-api"
+			}
+		],
+		"stacks": ["Python", "Flask", "BeautifulSoup", "Selenium", "PostgreSQL"],
+		"problem": "Product research and market analysis can require repeatable extraction of product information from marketplace pages. Manual checking is slow and hard to reuse.",
+		"solution": "Built a scraper API using Python, Flask, BeautifulSoup, Selenium, and PostgreSQL to expose product scraping through a backend interface.",
+		"proof": [
+			"Combines browser automation and HTML parsing for marketplace data extraction.",
+			"Stores extracted data in PostgreSQL.",
+			"Exposes the workflow through an API rather than a one-off script."
+		],
+		"result": "Turned marketplace product extraction into a reusable backend service."
 	}
 ]

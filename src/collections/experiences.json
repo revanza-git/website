@@ -1,23 +1,23 @@
 [
 	{
 		"dates": "Nov 2021 – Present",
-		"role": "System Planning & Integration Engineer",
-		"company": "PT Nusantara Regas (Pertamina Subs.)",
-		"description": "Engineered 5 SCADA-to-cloud data pipelines (100+ tables), collapsed 6 silos and freed ~80 staff-hours/month. Built an in-house SQL Server lake-house and real-time Power BI suite—merging 30 + apps, enabling same-day insights, and avoiding Rp 1.9 B (≈ US $120 K) in vendor spend. Led 5 Agile squads, delivered 95 % of roadmap on time/under budget, and won two Silver CIP awards for SINV inventory & risk-containment platforms.",
+		"role": "Senior Software Engineer",
+		"company": "PT Nusantara Regas — Pertamina Subsidiary / SOE Energy Company",
+		"description": "Designed backend architecture for mission-critical platforms across LNG operations, procurement, risk, reporting, and executive decision support. Architected an on-premise LLM knowledge assistant and redesigned it into a RAG pipeline with document chunking, embeddings, vector retrieval, contextual prompt orchestration, and controlled output handling. Built Airflow pipelines and a centralized SQL Server reporting store consolidating data from 30+ internal application databases for Power BI/Fabric dashboards. Integrated SCADA and FSRU operational systems, eliminating manual Excel workflows and saving about 80 staff-hours per month. Led 7 cross-functional Agile squads across architecture, code review, mentoring, vendor coordination, deployment, and operational governance.",
 		"logo": "/assets/images/experiences/nr-logo.ico"
 	},
 	{
 		"dates": "Oct 2020 – Nov 2021",
 		"role": "Back-End / Data Engineer",
 		"company": "SALT Indonesia",
-		"description": "Managed 5 TB + modem telemetry and synced to Google BigQuery for nationwide analytics. Led a 3-person team to ship Danone’s doctor-facing LMS (launched on schedule, thousands of users). Built a Laravel reporting engine for MyOrbit → Telkom, cutting runtime 70 % and delivering T + 0 reports. Tuned AWS EC2 pricing-service fleet—performance ↑ 50 %, infra cost ↓.",
+		"description": "Built an automated backend reporting engine for MyOrbit modem status reporting to Telkom, cutting report runtime by about 70% and improving scheduled data reliability. Managed and processed 5TB+ national-scale modem data, designing synchronization workflows into Google BigQuery for centralized analytics and near real-time operational insight. Led a 3-person squad to deliver Danone's doctor-facing LMS on schedule and scale it to thousands of users. Optimized AWS EC2 pricing-report services, improving system performance by about 50% while reducing infrastructure overhead.",
 		"logo": "/assets/images/experiences/salt-indonesia.ico"
 	},
 	{
 		"dates": "Oct 2018 – Oct 2020",
 		"role": "IT Business Support & App Delivery",
 		"company": "Equity Life Indonesia",
-		"description": "Automated HCI claim/pay reports (CSV engine via SFTP) → KPI lead-time 3 days → same-day. Rolled out Laravel + React compensation platform—month-end effort ↓ 50 %. Delivered E-PDD policy-printing service (24 h → < 1 h). Integrated SPAJ OCR into EDITS/DMS for paperless onboarding. Built Dockerised React/Redux fronts and OAuth2-secured APIs; partnered with QA & business during SIT/UAT for production-ready releases.",
+		"description": "Automated HCI claims and payment reporting with a Laravel CSV engine scheduled via SFTP, moving KPI turnaround from three-day follow-ups to same-day delivery and cutting runtime by about 70%. Rolled out a Laravel + React compensation and marketing program platform, replacing Excel macros for fee, contest, and referral tracking and reducing month-end processing effort by about 50%. Delivered the E-PDD policy-printing service, reducing issue-to-print time from 24 hours to under 1 hour.",
 		"logo": "/assets/images/experiences/equity-life.ico"
 	},
 	{
