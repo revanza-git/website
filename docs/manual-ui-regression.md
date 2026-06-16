@@ -6,7 +6,7 @@ Executor: Codex (local Docker dev environment)
 ## Scope
 - Key routes: `/`, `/about`, `/projects`, `/blog`, `/blog/[slug]`
 - Legacy compatibility routes: `/posts`, `/post/[slug]`
-- Core UI areas: header navigation, content sections, chatbot mount, redirect pages
+- Core UI areas: header navigation, content sections, redirect pages
 
 ## Environment
 - Runtime: Docker Compose (`revanza-web-porto`)
@@ -16,7 +16,7 @@ Executor: Codex (local Docker dev environment)
   - Mobile user-agent (iPhone Safari UA string)
 
 ## Checklist Results
-- [x] Home page loads (`200`) and includes chatbot section markup ("Ask the AI")
+- [x] Home page loads (`200`) and main content sections render
 - [x] About page loads (`200`) and main heading/content renders
 - [x] Projects page loads (`200`) and project cards render
 - [x] Blog listing page loads (`200`) and post entries render

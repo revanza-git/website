@@ -19,14 +19,12 @@ This is Revanza Raytama's personal portfolio website, built from scratch using A
 - [Sanity CMS](https://www.sanity.io/) v3.88.3 - Headless Content Management System
 - [RSS](https://www.rssboard.org/rss-specification) v1.2.2 - RSS Feed Generation
 - [Styled Components](https://styled-components.com/) v6.1.18 - CSS-in-JS Styling
-- [WebLLM](https://github.com/mlc-ai/web-llm) v0.2.79 - Client-side AI for the interactive chatbot
 
 ## 📋 Prerequisites
 
 - Docker Desktop (for local development)
 - Node.js v20 or higher (optional, for local tooling and Sanity Studio)
 - npm v10 or higher
-- WebGPU-supported browser (Chrome 113+, Edge 113+) for AI chatbot functionality
 
 ## 🛠️ Installation
 
@@ -77,8 +75,7 @@ Sanity Studio will be available at `http://localhost:3333`
 - `npm run build:memory` - Build with increased Node memory (used by Vercel)
 - `npm run preview` - Preview production build
 - `npm run check` - Run Biome lint checks (non-mutating)
-- `npm run test` - Run all tests (unit + integration)
-- `npm run test:unit` - Run unit tests
+- `npm run test` - Run all tests
 - `npm run test:integration` - Run integration regression tests
 - `npm run test:monitoring` - Run production browser client-error sweep
 - `npm run docker:dev` - Start local dev container
@@ -97,7 +94,6 @@ Sanity Studio will be available at `http://localhost:3333`
 │   ├── collections/    # Content collections and schemas
 │   ├── components/     # Reusable UI components
 │   │   ├── button.astro
-│   │   ├── ChatBot.astro  # AI-powered interactive chatbot
 │   │   ├── schedule-meeting.astro  # Google Calendar meeting scheduler
 │   │   └── home/
 │   │       ├── projects.astro
@@ -109,10 +105,7 @@ Sanity Studio will be available at `http://localhost:3333`
 │   ├── pages/         # Route components
 │   └── schemas/       # Sanity CMS schemas
 ├── public/            # Public static files
-│   ├── chatbot.js     # Client-side AI chatbot functionality
-│   └── chatbot-utils.js # Shared chatbot sanitization/context helpers
 ├── tests/             # QA test suites
-│   ├── unit/          # Unit tests
 │   └── integration/   # Integration/regression tests
 ├── .sanity/          # Sanity Studio configuration
 ├── astro.config.mjs  # Astro configuration
@@ -136,46 +129,7 @@ Sanity Studio will be available at `http://localhost:3333`
 - **🔧 Portable Text support** for rich content
 - **🌍 Environment variable management** with dotenv
 - **✨ Code quality enforcement** with Biome
-- **🤖 AI-powered chatbot** for interactive portfolio exploration (client-side)
 - **📅 Google Calendar integration** for easy meeting scheduling
-
-## 🤖 AI Chat Bot
-
-The portfolio features a **client-side AI-powered chatbot** that provides interactive exploration of portfolio content. This implementation was specifically designed to be **compatible with Vercel's free tier** by running entirely in the browser without server-side dependencies.
-
-### ⚠️ Device Compatibility Notice:
-
-**🖥️ Desktop Required for Full AI Experience**: The full AI chatbot requires a **desktop browser with WebGPU support**.
-
-**📱 Mobile Devices**: Currently have **limited support** with a FAQ-based fallback system. For the complete AI-powered experience, please visit on desktop.
-
-### Key Features:
-
-- **🖥️ Client-side execution** - No server costs, perfect for free hosting tiers
-- **🧠 WebLLM integration** - Runs AI models directly in the browser using WebGPU
-- **⚡ Real-time responses** - Instant interaction without API calls (desktop only)
-- **🎯 Context-aware answers** - Trained on portfolio content for accurate responses
-- **🌙 Dark mode support** - Seamlessly matches the site theme
-- **📱 Mobile FAQ fallback** - Basic question-answer system for mobile devices
-- **⌨️ Enhanced UX** - Character counter, status indicators, smooth animations
-
-### Technical Implementation:
-
-- **Model**: Qwen2.5-0.5B-Instruct-q4f16_1-MLC (optimized for browser execution)
-- **Runtime**: WebLLM v0.2.79 for client-side AI execution
-- **Requirements**: WebGPU-supported **desktop** browser (Chrome 113+, Edge 113+, Firefox 113+)
-- **Mobile Fallback**: FAQ system with predefined responses about projects, skills, experience, and contact
-- **Context Management**: Sliding window approach to handle conversation length
-- **Error Handling**: Graceful fallbacks and user-friendly error messages
-
-### Deployment Benefits:
-
-- **💰 Zero additional costs** - No AI API fees or server compute charges
-- **🚀 Vercel free tier compatible** - Static files only, no serverless functions needed
-- **🔒 Privacy-focused** - All processing happens locally in the user's browser
-- **📈 Scalable** - No backend bottlenecks as each user runs their own AI instance
-
-The chatbot provides visitors with an interactive way to explore the portfolio, ask questions about projects, experience, and skills. **For the best experience, use a desktop browser with WebGPU support.**
 
 ## 📅 Google Calendar Meeting Scheduler
 
@@ -273,7 +227,6 @@ After deployment:
 - Sanity Studio will be available at:
   - `https://your-project.sanity.studio` (if using Sanity hosting)
   - or `https://your-sanity-studio.vercel.app` (if deployed to Vercel)
-- AI chatbot will work immediately without additional setup (for WebGPU-supported browsers)
 
 ### Development Workflow
 
@@ -292,12 +245,10 @@ After deployment:
    - Content updates through Sanity Studio
    - Site rebuilds automatically when content changes
    - Vercel handles deployments automatically
-   - AI chatbot runs client-side with no server dependencies
 
 ### Deployment Cost Optimization
 
-- **🆓 Free tier friendly**: Static site with client-side AI = $0 hosting costs
-- **📊 No API usage fees**: AI runs locally, no external API calls
+- **🆓 Free tier friendly**: Static site hosting keeps costs low
 - **⚡ Fast builds**: Optimized build process for quick deployments
 - **🔄 Auto-deployments**: Git-based workflow with automatic rebuilds
 
@@ -310,25 +261,6 @@ After deployment:
 - Safari 14+
 - Edge 90+
 - **✅ Mobile browsers fully supported** for all site features
-
-### AI Chatbot:
-
-#### 🖥️ Desktop (Full AI Experience):
-
-- Chrome 113+ (WebGPU required)
-- Edge 113+ (WebGPU required)
-- Firefox 113+ (WebGPU required)
-- Safari: Limited support (WebGPU in development)
-
-#### 📱 Mobile (FAQ Fallback Only):
-
-- **⚠️ Limited AI functionality** - Basic FAQ system available
-- All mobile browsers supported for FAQ mode
-- For complete AI experience, please use desktop
-
-**Important**: The AI chatbot requires WebGPU support which is not yet available on mobile devices. Mobile users will receive a helpful FAQ-based system that can answer basic questions about projects, skills, experience, and contact information.
-
-_Note: The main portfolio site works perfectly on all devices; only the advanced AI chatbot features require desktop browsers._
 
 ## 📜 License
 

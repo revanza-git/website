@@ -20,7 +20,7 @@ Use this file as a single source of truth for planning, execution, validation, a
 
 Current project works and builds, but there are security, accessibility, and maintainability gaps:
 
-- Chatbot and blog rendering paths use unsafe HTML injection patterns.
+- Blog rendering paths use unsafe HTML injection patterns.
 - Multiple links with `target="_blank"` miss `rel="noopener noreferrer"`.
 - Some interactive UI uses non-semantic click handlers (`div`/`onclick`) harming keyboard accessibility.
 - Tooling has drift (unused dependencies, check scripts mutating code, audit blocked by registry).
@@ -44,7 +44,7 @@ Current project works and builds, but there are security, accessibility, and mai
 
 ### 2.1 In Scope
 
-- [x] Security hardening for chatbot and content rendering.
+- [x] Security hardening for content rendering.
 - [x] Accessibility fixes for clickable/non-semantic elements and external links.
 - [x] Tooling and configuration cleanup (scripts, tsconfig, dependency hygiene).
 - [x] Production build optimization and route consistency cleanup.
@@ -66,8 +66,7 @@ Current project works and builds, but there are security, accessibility, and mai
 
 ### 3.1 Functional Requirements
 
-- [x] FR-01: Chatbot must render messages safely (no unsafe HTML injection).
-- [x] FR-02: Blog post rendering from Sanity must sanitize/escape unsafe content correctly.
+- [x] FR-01: Blog post rendering from Sanity must sanitize/escape unsafe content correctly.
 - [x] FR-03: Navigation and post cards must remain functional with keyboard support.
 - [x] FR-04: External links must include secure `rel` attributes.
 
@@ -97,11 +96,6 @@ Current project works and builds, but there are security, accessibility, and mai
 - [ ] M5 - Final QA and release complete (target: 2026-02-25)
 
 ### 4.2 Work Breakdown
-
-- [x] Task: Harden chatbot rendering (sanitize output and remove unsafe formatting path)  
-       Owner: Revanza + Codex  
-       Due date: 2026-02-17  
-       Dependency: Review `public/chatbot.js`, validate markdown rendering strategy
 
 - [x] Task: Harden Sanity portable text rendering in dynamic routes  
        Owner: Revanza + Codex  
@@ -139,7 +133,6 @@ Current project works and builds, but there are security, accessibility, and mai
 ### 5.1 Current State
 
 - Security-sensitive rendering exists in:
-  - `public/chatbot.js`
   - `src/pages/blog/[slug].astro`
   - `src/pages/post/[slug].astro`
   - `src/layouts/main.astro`
@@ -152,7 +145,6 @@ Current project works and builds, but there are security, accessibility, and mai
 
 ### 5.2 Proposed Changes
 
-- Replace raw message HTML generation with safe rendering/sanitization in chatbot.
 - Sanitize or safely serialize portable text output before injecting into page.
 - Remove or strictly whitelist env-based HTML injection points.
 - Add `rel="noopener noreferrer"` to all external blank-target links.
@@ -172,7 +164,7 @@ Current project works and builds, but there are security, accessibility, and mai
 
 ### 6.1 Risk Register
 
-- Risk: Security hardening changes break rich formatting in chatbot/blog.
+- Risk: Security hardening changes break rich formatting in blog posts.
 
   - Impact: Medium
   - Likelihood: Medium
@@ -218,13 +210,11 @@ Current project works and builds, but there are security, accessibility, and mai
 - [x] Unit tests added/updated for sanitization and parsing logic
 - [x] Integration test coverage for post routes and navigation behavior
 - [x] Manual test scenarios executed (desktop/mobile)
-- [x] Regression test completed for blog, posts, projects, and chatbot flows
+- [x] Regression test completed for blog, posts, and projects flows
 
 ### 7.3 Security and Reliability
 
-- [x] Input validation reviewed for chatbot user input
 - [x] Env/secrets usage reviewed (`.env`, Vercel env vars)
-- [x] Error handling and fallback paths tested for WebGPU fallback mode
 - [x] Monitoring/logging checks completed post-release
 
 ## 8. Release Checklist
@@ -264,12 +254,12 @@ Current project works and builds, but there are security, accessibility, and mai
 
   - Summary: Completed project analysis and identified high-priority security/accessibility/tooling issues.
   - Decision made: Prioritize security hardening first, then accessibility, then tooling/performance.
-  - Next step: Implement Task 1 (chatbot and dynamic post rendering hardening).
+  - Next step: Implement Task 1 (dynamic post rendering hardening).
 
 - Date: 2026-02-17
 
   - Summary: Completed implementation pass 1:
-    - hardened chatbot rendering and dynamic post rendering
+    - hardened dynamic post rendering
     - guarded env HTML injection behind `ENABLE_HTML_INJECT`
     - fixed blank-target link safety
     - improved accessibility for menu and post cards
@@ -310,7 +300,7 @@ Current project works and builds, but there are security, accessibility, and mai
       - only `.env.example` is tracked
       - env-based HTML injection remains gated by `ENABLE_HTML_INJECT`
   - Release notes draft (for PR/production release):
-    - Security: hardened chatbot and blog rendering paths; guarded env HTML injection
+    - Security: hardened blog rendering paths; guarded env HTML injection
     - Accessibility: fixed external-link security attrs and semantic interaction behavior
     - Reliability: lint/build/type checks passing with deterministic scripts
     - Routing: canonical `/blog` route with compatibility redirects from `/posts` and `/post/:slug`
@@ -320,9 +310,7 @@ Current project works and builds, but there are security, accessibility, and mai
 - Date: 2026-02-18
 
   - Summary: Testing completion pass executed:
-    - added unit test suite for chatbot sanitization/context helpers (`tests/unit/chatbot-utils.test.js`)
     - added integration regression suite for route/link/env safety contracts (`tests/integration/release-regression.test.js`)
-    - extracted reusable chatbot safety helpers into `public/chatbot-utils.js` and wired runtime usage
     - executed `npm run test` successfully (unit + integration all passing)
     - executed manual UI regression sweep in Docker with desktop and mobile UA markers on:
       - `/`, `/about`, `/projects`, `/blog`, `/blog/rewiring-5tb-data-pipeline-at-home`
@@ -362,20 +350,14 @@ Current project works and builds, but there are security, accessibility, and mai
   - Next step: Complete authenticated preview smoke check and post-release monitoring/log verification.
 
 - Date: 2026-02-18
-  - Summary: WebGPU fallback and post-release monitoring checks completed:
-    - added chatbot fallback regression coverage (`tests/integration/chatbot-fallback-regression.test.js`)
-    - verified fallback guards for:
-      - `navigator.gpu` absence path
-      - forced mobile WebGPU disable path
-      - FAQ-mode submit flow on non-WebGPU devices
-      - model compatibility-error fallback (`FAQ Mode Ready`)
+  - Summary: Post-release monitoring checks completed:
     - executed `npm run test:integration` and `npm run check` successfully
     - inspected production deployment + logs:
       - `npx vercel inspect revanza.vercel.app`
       - `npx vercel inspect revanza.vercel.app --logs`
     - re-ran production health checks (`200` on key routes, expected `308` legacy redirects)
     - documented post-release monitoring evidence in `docs/post-release-monitoring.md`
-  - Decision made: 7.3 fallback and monitoring/logging checklist items are complete.
+  - Decision made: 7.3 monitoring/logging checklist items are complete.
   - Next step: Close remaining release items (authenticated preview smoke, stakeholder notification, follow-up backlog).
 
 ## 11. Completion Criteria

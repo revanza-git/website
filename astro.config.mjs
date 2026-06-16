@@ -9,21 +9,12 @@ export default defineConfig({
   vite: {
     envPrefix: ["SANITY_"],
     envDir: ".",
-    ssr: {
-      // Exclude WebLLM from server-side rendering
-      noExternal: [],
-      external: ["@mlc-ai/web-llm"],
-    },
     build: {
       chunkSizeWarningLimit: 6000,
       minify: true,
       rollupOptions: {
         output: {
           manualChunks: (id) => {
-            // Keep WebLLM as separate chunk
-            if (id.includes("@mlc-ai/web-llm")) {
-              return "webllm";
-            }
             // Split large vendor chunks
             if (id.includes("node_modules")) {
               if (id.includes("sanity")) {

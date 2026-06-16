@@ -11,8 +11,7 @@
 		"astro": "astro",
 		"check": "biome lint .",
 		"check:fix": "biome check --write .",
-		"test": "npm run test:unit && npm run test:integration",
-		"test:unit": "node --test \"tests/unit/*.test.js\"",
+		"test": "npm run test:integration",
 		"test:integration": "node --test \"tests/integration/*.test.js\"",
 		"test:monitoring": "playwright test tests/monitoring/client-errors.spec.js --reporter=line",
 		"docker:dev": "docker compose up --build",
@@ -40,7 +39,6 @@
 	},
 	"packageManager": "npm@11.3.0",
 	"dependencies": {
-		"@mlc-ai/web-llm": "^0.2.79",
 		"@portabletext/to-html": "^2.0.14",
 		"@sanity/client": "^7.2.1",
 		"@sanity/image-url": "^1.1.0",
