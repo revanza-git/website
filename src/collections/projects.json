@@ -3,12 +3,22 @@
 		"slug": "dndmind-ai-copilot",
 		"name": "DNDMind AI Copilot",
 		"description": "Full-stack AI Dungeon Master copilot with RAG, memory retrieval, structured outputs, tool calling, and deterministic evaluation workflows.",
-		"image": "/assets/images/main-hero.jpeg",
+		"image": "/assets/images/projects/dndmind/command-center-character.png",
+		"screenshots": [
+			{
+				"src": "/assets/images/projects/dndmind/command-center-character.png",
+				"alt": "DNDMind command center character workspace"
+			},
+			{
+				"src": "/assets/images/projects/dndmind/command-center-encounter.png",
+				"alt": "DNDMind command center encounter workspace"
+			}
+		],
 		"url": "/projects/dndmind-ai-copilot",
 		"links": [
 			{
 				"label": "Demo",
-				"url": "https://sink.cool/dndmind"
+				"url": "https://dndmind-web-ddd2xom7hq-as.a.run.app/"
 			},
 			{
 				"label": "GitHub",
@@ -16,6 +26,7 @@
 			}
 		],
 		"stacks": [
+			"Gemini 2.5 Flash",
 			"Next.js",
 			"ASP.NET Core",
 			"FastAPI",
@@ -25,11 +36,11 @@
 			"RAG"
 		],
 		"problem": "Tabletop role-playing sessions create a lot of changing context: character state, campaign memory, rules references, prior decisions, and narrative continuity. A simple chatbot can respond creatively, but it does not reliably preserve memory, retrieve relevant context, or keep outputs structured enough for repeatable gameplay support.",
-		"solution": "Built a full-stack AI Dungeon Master copilot that combines application workflow, backend APIs, retrieval, memory, and structured AI responses. The system uses a Next.js interface, ASP.NET Core services, FastAPI inference support, PostgreSQL with pgvector, Docker Compose, embeddings, memory retrieval, tool/function calling, and deterministic evaluation workflows.",
+		"solution": "Built a full-stack AI Dungeon Master copilot using Gemini 2.5 Flash for generation, plus application workflow, backend APIs, retrieval, memory, and structured AI responses. The system uses a Next.js interface, ASP.NET Core services, FastAPI inference support, PostgreSQL with pgvector, Docker Compose, embeddings, memory retrieval, tool/function calling, and deterministic evaluation workflows.",
 		"proof": [
 			"Implements RAG and vector retrieval through PostgreSQL + pgvector instead of relying only on prompt history.",
 			"Separates frontend, backend, inference, and database responsibilities across a multi-service Docker Compose setup.",
-			"Uses structured AI outputs and tool/function calling patterns to make responses easier to validate and integrate."
+			"Uses Gemini 2.5 Flash with structured AI outputs and tool/function calling patterns to make responses easier to validate and integrate."
 		],
 		"result": "The project demonstrates production-style AI application architecture beyond a prompt-only demo: persistent memory, retrieval, structured outputs, backend orchestration, and evaluation-ready workflows."
 	},
@@ -37,10 +48,21 @@
 		"slug": "enterprise-rag-knowledge-assistant",
 		"name": "Enterprise RAG Knowledge Assistant",
 		"description": "On-premise LLM assistant redesigned into a retrieval pipeline with document chunking, embeddings, vector retrieval, contextual prompts, and output handling.",
-		"image": "/assets/images/projects/portal1.jpg",
+		"image": "/assets/images/projects/enterprise-rag/policy-chatbot-retrieval.png",
+		"screenshots": [
+			{
+				"src": "/assets/images/projects/enterprise-rag/policy-chatbot-retrieval.png",
+				"alt": "Enterprise RAG assistant showing retrieved IT security policy document"
+			},
+			{
+				"src": "/assets/images/projects/enterprise-rag/policy-chatbot-welcome.png",
+				"alt": "Enterprise RAG assistant welcome screen"
+			}
+		],
 		"url": "/projects/enterprise-rag-knowledge-assistant",
 		"links": [],
 		"stacks": [
+			"Qwen",
 			"LLM",
 			"RAG",
 			"Embeddings",
@@ -49,69 +71,173 @@
 			"Enterprise UI"
 		],
 		"problem": "Internal operational knowledge was spread across documents, systems, and teams. A generic assistant could answer questions, but without retrieval grounding it risked incomplete context, inconsistent answers, and hallucination in an enterprise environment where reliability matters.",
-		"solution": "Architected an on-premise LLM-powered internal knowledge assistant and redesigned it into a RAG pipeline. The system uses document chunking, embedding generation, vector retrieval, contextual prompt orchestration, backend inference services, and enterprise UI integration.",
+		"solution": "Architected an on-premise Qwen-powered internal knowledge assistant and redesigned it into a RAG pipeline. The system uses document chunking, embedding generation, vector retrieval, contextual prompt orchestration, backend inference services, and enterprise UI integration.",
 		"proof": [
 			"Designed the assistant for an on-premise enterprise environment rather than a public-only API workflow.",
 			"Moved from simple prompting toward retrieval-grounded answers using chunking, embeddings, vector retrieval, and context assembly.",
-			"Added controlled response/output handling to reduce hallucination risk and make answers easier to integrate into internal workflows."
+			"Used Qwen with controlled response/output handling to reduce hallucination risk and make answers easier to integrate into internal workflows."
 		],
 		"result": "Improved the architecture of an internal AI assistant from general chat behavior into a more reliable enterprise knowledge workflow with retrieval grounding and clearer backend integration boundaries."
 	},
 	{
-		"slug": "lng-operations-data-pipelines",
-		"name": "LNG Operations Data Pipelines",
-		"description": "Industrial data pipelines integrating SCADA and FSRU operational systems, replacing Excel workflows and saving about 80 staff-hours per month.",
-		"image": "/assets/images/projects/portal1.jpg",
-		"url": "/projects/lng-operations-data-pipelines",
+		"slug": "nr-emas-risk-monitoring",
+		"name": "NR EMAS Risk Monitoring",
+		"description": "Enterprise risk evaluation and monitoring platform replacing Excel-based tracking with risk registers, treatment plans, KRI monitoring, approvals, and executive dashboards.",
+		"image": "/assets/images/projects/nr-emas/dashboard-risk-treatment.jpg",
+		"screenshots": [
+			{
+				"src": "/assets/images/projects/nr-emas/dashboard-risk-treatment.jpg",
+				"alt": "NR EMAS dashboard showing risk exposure and risk treatment monitoring"
+			},
+			{
+				"src": "/assets/images/projects/nr-emas/traffic-light-monitoring.jpg",
+				"alt": "NR EMAS traffic light monitoring table and issues next steps panel"
+			}
+		],
+		"url": "/projects/nr-emas-risk-monitoring",
 		"links": [
 			{
-				"label": "Related Repository",
-				"url": "https://github.com/revanza-git/portal-gas"
+				"label": "Success Story",
+				"url": "https://rewiresolution.com/success-stories/nr-emas"
 			}
 		],
 		"stacks": [
-			"Apache Airflow",
-			"SQL Server",
-			"Power BI",
-			"SCADA",
-			"ASP.NET Core"
+			"ASP.NET Core",
+			"Clean Architecture",
+			"Risk Register",
+			"Workflow System",
+			"KRI Monitoring",
+			"Approval Flow",
+			"Executive Dashboard"
 		],
-		"problem": "Gas operations data moved through manual spreadsheet workflows and fragmented operational sources. This slowed reporting, increased dependency on human consolidation, and made executive decision-support datasets harder to govern.",
-		"solution": "Built industrial data pipelines integrating SCADA and FSRU LNG operational systems. The pipelines move multi-source operational data into curated snapshot tables and reporting datasets for dashboards and operational decision support.",
+		"problem": "Enterprise risk tracking was fragmented across Excel files and manual reporting flows. Risk registers, treatment plans, KRI monitoring, action plans, approvals, and dashboard reporting needed a centralized system so risk owners and executives could work from the same operational source.",
+		"solution": "Built NR EMAS as an ASP.NET Core platform using Clean Architecture, separating domain rules, application workflows, infrastructure, and presentation concerns. The system centralizes risk registers and treatment plans, supports action plans with multi-level approval workflows, monitors KRIs and treatment progress, and presents real-time dashboards for executive visibility.",
 		"proof": [
-			"Integrated operational systems rather than only web-application databases.",
-			"Used Apache Airflow and SQL Server to create repeatable data movement and curated reporting layers.",
-			"Connected the resulting datasets to Power BI/Fabric-style executive reporting workflows."
+			"Public Rewire success story describes NR EMAS as replacing Excel-based risk tracking with a centralized workflow-driven platform.",
+			"Implemented with ASP.NET Core and Clean Architecture to keep risk domain logic, workflow orchestration, data access, and UI concerns maintainable.",
+			"Screenshots show risk exposure, risk treatment performance, traffic-light monitoring, issues and next steps, KRI monitoring, approval management, and dashboard modules.",
+			"The platform unifies risk registers, treatment plans, KRI monitoring, action plans, multi-level approvals, and executive dashboards in one operational system."
 		],
-		"result": "Removed manual Excel consolidation for key operational reporting and saved about 80 staff-hours per month while creating a more governed decision-support layer."
+		"result": "Moved risk monitoring from spreadsheet-based tracking into a centralized platform with clearer ownership, structured approvals, KRI visibility, and real-time executive risk dashboards."
+	},
+	{
+		"slug": "automated-data-pipeline-power-bi-dashboard",
+		"name": "Automated Data Pipeline for Executive Power BI Dashboard",
+		"description": "Containerized Airflow and Spark pipeline that extracts operational data, transforms metrics, loads a PostgreSQL data mart, and feeds executive Power BI dashboards.",
+		"image": "/assets/images/projects/executive-powerbi/energy-performance-dashboard.jpg",
+		"screenshots": [
+			{
+				"src": "/assets/images/projects/executive-powerbi/energy-performance-dashboard.jpg",
+				"alt": "Sanitized executive energy performance dashboard showing operational, risk, KPI, and financial metrics"
+			},
+			{
+				"src": "/assets/images/projects/executive-powerbi/automated-data-pipeline-workflow.jpg",
+				"alt": "Automated data pipeline architecture from source systems through Airflow, Spark, PostgreSQL data mart, and Power BI reporting"
+			}
+		],
+		"url": "/projects/automated-data-pipeline-power-bi-dashboard",
+		"links": [],
+		"stacks": [
+			"Apache Airflow",
+			"Apache Spark",
+			"Docker",
+			"PostgreSQL",
+			"MSSQL",
+			"Power BI",
+			"SQL"
+		],
+		"problem": "Executive performance reporting depended on manual data preparation across multiple operational source systems. This made dashboard refreshes slower, harder to rerun safely, and less consistent across reporting periods.",
+		"solution": "Built a containerized data pipeline for operational performance dashboards using Apache Airflow, Apache Spark, Docker, PostgreSQL, and MSSQL. The workflow automates extraction from multiple source systems, transforms operational metrics, validates and aggregates business logic, and loads dashboard-ready datasets into a centralized PostgreSQL data mart for Power BI.",
+		"proof": [
+			"Designed the pipeline architecture, Airflow DAG scheduling, Spark ETL logic, SQL transformations, data validation, and rerun-safe refresh flow.",
+			"Pipeline supports scheduled refreshes, monthly updates, metric backfill handling, and centralized dashboard-ready tables.",
+			"Sanitized dashboard output shows executive-style performance views across operations, asset integrity, safety, risk, KPI, and financial metrics."
+		],
+		"result": "Reduced manual data preparation and improved the reliability, freshness, and consistency of dashboard reporting, giving executives a cleaner view of performance across reporting periods."
 	},
 	{
 		"slug": "executive-reporting-data-store",
-		"name": "Executive Reporting Data Store",
-		"description": "Central SQL Server reporting layer consolidating 30+ internal application databases for KPI dashboards, reporting automation, and safer analytics access.",
-		"image": "/assets/images/projects/nrwebsite.png",
+		"name": "LNG Operations Visibility Dashboard",
+		"description": "Operational gas monitoring dashboard that unified FSRU and onshore visibility with automated reporting, KPI trends, and executive-ready performance views.",
+		"image": "/assets/images/projects/lng-operations/gas-monitoring-management-dashboard.jpg",
+		"screenshots": [
+			{
+				"src": "/assets/images/projects/lng-operations/gas-monitoring-management-dashboard.jpg",
+				"alt": "Gas monitoring management dashboard showing supply, sales, boil-off gas, and performance gauges"
+			},
+			{
+				"src": "/assets/images/projects/lng-operations/target-realisasi-trends.jpg",
+				"alt": "Operational dashboard trend charts comparing targets and realization for supply and sales"
+			}
+		],
 		"url": "/projects/executive-reporting-data-store",
 		"links": [
 			{
-				"label": "Company Website",
-				"url": "https://nusantararegas.com/"
+				"label": "Success Story",
+				"url": "https://rewiresolution.com/success-stories/lng-operations"
 			}
 		],
 		"stacks": [
-			"SQL Server",
-			"Power BI",
-			"Microsoft Fabric",
-			"Data Integration",
-			"Governance"
+			"Gas Monitoring",
+			"Dashboard Analytics",
+			"KPI Reporting",
+			"Operational Metrics",
+			"Executive Dashboard"
 		],
-		"problem": "Internal KPI and reporting needs depended on many separate application databases. Querying production systems directly created reliability, performance, and governance concerns, while manual reporting made executive dashboards slower to maintain.",
-		"solution": "Created a centralized SQL Server reporting data store that consolidates data copies from 30+ internal application databases. The store acts as a governed reporting layer for Power BI/Fabric dashboards and reporting automation.",
+		"problem": "Gas operations reporting needed clearer visibility across FSRU and onshore facilities. Manual monitoring and fragmented reporting made it harder for operational and executive users to track supply, sales, boil-off gas, asset readiness, and KPI performance in one place.",
+		"solution": "Built an operational gas monitoring dashboard that transforms LNG operations into a real-time visibility layer. The dashboard brings supply, sales, boil-off gas, ORF readiness, asset integrity, and trend views into one management interface for faster operational review.",
 		"proof": [
-			"Consolidated 30+ internal application databases into a dedicated reporting layer.",
-			"Separated analytical/reporting access from direct production database queries.",
-			"Supported KPI dashboards and recurring reporting automation for decision-support workflows."
+			"Public Rewire success story describes the project as transforming gas operations into a real-time intelligence platform.",
+			"Dashboard screenshots show management views for pasokan, penjualan, boil-off gas monitoring, performance gauges, and target-versus-realization trends.",
+			"The success story highlights unified monitoring across FSRU and onshore facilities, a 70% faster reporting cycle, and a real-time gas operation dashboard."
 		],
-		"result": "Reduced dependency on direct production queries and gave reporting workflows a cleaner, safer data foundation for executive dashboards."
+		"result": "Improved operational visibility by giving stakeholders a centralized dashboard for gas operation monitoring, faster reporting cycles, and cleaner executive decision support."
+	},
+	{
+		"slug": "lng-corporate-website-platform",
+		"name": "LNG Corporate Website Platform",
+		"description": "Corporate website revamp for a national LNG operator, turning a static web presence into a responsive, CMS-managed digital identity platform.",
+		"image": "/assets/images/projects/lng-website/home-hero.png",
+		"screenshots": [
+			{
+				"src": "/assets/images/projects/lng-website/home-hero.png",
+				"alt": "Nusantara Regas corporate website homepage hero showing FSRU infrastructure"
+			},
+			{
+				"src": "/assets/images/projects/lng-website/home-content.png",
+				"alt": "Nusantara Regas homepage showing news, company profile, and business chain sections"
+			},
+			{
+				"src": "/assets/images/projects/lng-website/business-fields.png",
+				"alt": "Nusantara Regas business fields page showing LNG facilities and supply chain content"
+			}
+		],
+		"url": "/projects/lng-corporate-website-platform",
+		"links": [
+			{
+				"label": "Success Story",
+				"url": "https://rewiresolution.com/success-stories/lng-website"
+			},
+			{
+				"label": "Live Site",
+				"url": "https://nusantararegas.com"
+			}
+		],
+		"stacks": [
+			"ASP.NET Core",
+			"CMS",
+			"Responsive UI",
+			"SEO",
+			"Analytics"
+		],
+		"problem": "A national LNG operator needed a stronger digital presence that reflected its role in Indonesia's LNG value chain. The existing website behaved like a static brochure: outdated design, limited mobile optimization, difficult content updates, and weak public visibility for stakeholders.",
+		"solution": "Built a modern ASP.NET Core corporate website platform with a cleaner information architecture, LNG-focused visual design, responsive layouts, CMS-managed publishing, SEO-ready metadata, analytics integration, and content sections for company profile, business chain, commitments, communication, and stakeholder information.",
+		"proof": [
+			"Public Rewire success story describes the project as moving from a static presence to a dynamic corporate platform.",
+			"The implementation uses ASP.NET Core with CMS-driven content management, responsive layouts, structured metadata, sitemap, and analytics.",
+			"Screenshots show a polished bilingual corporate interface with FSRU hero content, company profile sections, business-chain storytelling, news updates, and LNG business field pages."
+		],
+		"result": "Created a more credible and maintainable corporate digital identity, improving brand visibility, mobile access, content publishing, SEO discoverability, and public communication for a key LNG infrastructure operator."
 	},
 	{
 		"slug": "5tb-telco-data-to-bigquery",
@@ -205,7 +331,7 @@
 			"Stores operational state in SQL Server.",
 			"Connects to real insurance document-delivery workflows."
 		],
-		"result": "Supported faster and more controlled policy document handling, aligned with the E-PDD workflow that reduced issue-to-print time from 24 hours to under 1 hour."
+		"result": "Improved traceability, reduced manual coordination, and gave operations a more controlled way to monitor policy document readiness and delivery status."
 	},
 	{
 		"slug": "e-procurement-ecosystem",

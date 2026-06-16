@@ -10,6 +10,7 @@ export function getStaticPaths() {
 }
 
 const { project } = Astro.props;
+const additionalScreenshots = project.screenshots?.slice(1) ?? [];
 
 const caseSections = [
   {
@@ -115,6 +116,25 @@ const caseSections = [
       alt={project.name}
       class="mt-10 w-full rounded-[8px] border border-neutral-200 bg-neutral-100 object-cover shadow-sm dark:border-neutral-800 dark:bg-neutral-900"
     />
+
+    {
+      additionalScreenshots.length > 0 && (
+        <section
+          class={`mt-6 grid gap-4 ${additionalScreenshots.length > 1 ? "md:grid-cols-2" : ""}`}
+          aria-label="Additional project screenshots"
+        >
+          {additionalScreenshots.map((screenshot) => (
+            <figure class="overflow-hidden rounded-[8px] border border-neutral-200 bg-white shadow-sm dark:border-neutral-800 dark:bg-neutral-950">
+              <img
+                src={screenshot.src}
+                alt={screenshot.alt}
+                class="h-full w-full object-cover"
+              />
+            </figure>
+          ))}
+        </section>
+      )
+    }
 
     <section class="mt-12" aria-label="Project case study">
       {
