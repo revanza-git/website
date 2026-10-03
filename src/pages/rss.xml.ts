@@ -2,7 +2,7 @@ import RSS from "rss";
 import type { FeedOptions, ItemOptions } from "rss";
 import { getPosts } from "../lib/sanity";
 
-const SITE_URL = import.meta.env.SITE_URL || "http://localhost:4321";
+const SITE_URL = import.meta.env.SITE_URL || "https://revanza.dev";
 const FEED_URL = import.meta.env.FEED_URL || `${SITE_URL}/rss.xml`;
 const BLOG_URL = import.meta.env.BLOG_URL || `${SITE_URL}/blog`;
 

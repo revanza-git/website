@@ -3,7 +3,33 @@ import Footer from "../components/footer.astro";
 import Header from "../components/header.astro";
 import SquareLines from "../components/square-lines.astro";
 import "../assets/css/main.css";
-const { title } = Astro.props;
+const {
+  title,
+  description = "Revanza Raytama is a Senior Backend & AI Systems Engineer in Jakarta building enterprise backend, data, and LLM/RAG systems for energy, telecom, and insurance operations.",
+  image = "/assets/images/og-default.png",
+  imageAlt = "Revanza Raytama, Senior Backend & AI Systems Engineer",
+  type = "website",
+} = Astro.props;
+const siteUrl = Astro.site ?? new URL("https://revanza.dev");
+const canonicalURL = new URL(Astro.url.pathname, siteUrl).href;
+const imageURL = new URL(image, siteUrl).href;
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Revanza Raytama",
+  url: siteUrl.href,
+  image: new URL("/assets/images/revanza-raytama.jpg", siteUrl).href,
+  jobTitle: "Senior Backend & AI Systems Engineer",
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Jakarta",
+    addressCountry: "ID",
+  },
+  sameAs: [
+    "https://www.linkedin.com/in/revanzaraytama/",
+    "https://github.com/revanza-git",
+  ],
+};
 const allowHtmlInject = import.meta.env.ENABLE_HTML_INJECT === "true";
 const headerInject = allowHtmlInject ? import.meta.env.HEADER_INJECT : "";
 const footerInject = allowHtmlInject ? import.meta.env.FOOTER_INJECT : "";
@@ -15,6 +41,33 @@ const footerInject = allowHtmlInject ? import.meta.env.FOOTER_INJECT : "";
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content="Revanza Raytama" />
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- Open Graph / social link previews -->
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content="Revanza Raytama" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:image" content={imageURL} />
+    <meta property="og:image:alt" content={imageAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageURL} />
+    <meta name="twitter:image:alt" content={imageAlt} />
+    {
+      Astro.url.pathname === "/" && (
+        <script
+          is:inline
+          type="application/ld+json"
+          set:html={JSON.stringify(personSchema)}
+        />
+      )
+    }
 
     <!-- Used to add dark mode right away, adding here prevents any flicker -->
     <script is:inline>

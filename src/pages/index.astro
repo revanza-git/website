@@ -1,7 +1,6 @@
 ---
 import Projects from "../components/home/projects.astro";
 import Separator from "../components/home/separator.astro";
-import Writings from "../components/home/writings.astro";
 import Layout from "../layouts/main.astro";
 
 const metrics = [
@@ -59,6 +58,7 @@ const focusAreas = [
 ];
 
 const proofPoints = [
+  "Built MeatLink, a live B2B meat-commerce platform with role-based Postgres security, Midtrans payments, and an OAuth-protected MCP server that lets AI agents check stock, place and look up orders, and draft market insights behind privacy and human-review gates.",
   "Architected an on-premise LLM knowledge assistant and redesigned it into a RAG pipeline with chunking, embeddings, vector retrieval, contextual prompts, and controlled output handling.",
   "Built an Airflow and Spark pipeline that extracts multi-source operational data into a PostgreSQL data mart for executive Power BI dashboards.",
   "Led 7 cross-functional Agile squads across architecture, code review, vendor coordination, deployment, and operational governance.",
@@ -112,10 +112,12 @@ const proofPoints = [
 
         <div class="flex flex-col gap-3 mt-8 sm:flex-row">
           <a
-            href="/assets/documents/Revanza_Raytama_Resume_final.docx"
+            href="/assets/documents/Revanza_Raytama_Resume.pdf"
+            target="_blank"
+            rel="noopener"
             class="inline-flex items-center justify-center gap-2 px-5 py-3 text-sm font-semibold text-white duration-200 bg-neutral-950 rounded-full shadow-sm hover:-translate-y-0.5 hover:bg-neutral-800 dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-200"
           >
-            Download resume
+            Resume (PDF)
             <svg
               class="w-4 h-4"
               viewBox="0 0 24 24"
@@ -174,8 +176,10 @@ const proofPoints = [
           >
           </div>
           <img
-            src="/assets/images/main-hero.jpeg"
-            alt="Illustrated portrait of Revanza holding a laptop"
+            src="/assets/images/revanza-raytama.jpg"
+            alt="Portrait of Revanza Raytama"
+            width="960"
+            height="1200"
             loading="eager"
             decoding="async"
             class="relative z-10 w-full aspect-[4/5] object-cover object-center"
@@ -246,6 +250,4 @@ const proofPoints = [
 
   <Separator text="Selected systems" />
   <Projects />
-  <Separator text="Some of my writing" />
-  <Writings />
 </Layout>

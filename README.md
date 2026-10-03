@@ -2,7 +2,7 @@
 
 This is Revanza Raytama's personal portfolio website, built from scratch using Astro and integrated with Sanity CMS for blog functionality. The project showcases work, thoughts, and experiences while maintaining a focus on performance and developer experience.
 
-🌐 **Live Site**: [https://revanza.vercel.app](https://revanza.vercel.app)
+🌐 **Live Site**: [https://revanza.dev](https://revanza.dev)
 
 ## 👨‍💻 About Me
 

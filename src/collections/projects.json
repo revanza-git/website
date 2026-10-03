@@ -1,16 +1,69 @@
 [
 	{
+		"slug": "meatlink-b2b-meat-commerce",
+		"name": "MeatLink B2B Meat Commerce Platform",
+		"description": "Live B2B meat sourcing and commerce platform for Indonesian food businesses, with role-based data security, Midtrans payments, and an OAuth-protected MCP server that AI agents can use safely.",
+		"image": "/assets/images/projects/meatlink/home-hero.webp",
+		"screenshots": [
+			{
+				"src": "/assets/images/projects/meatlink/home-hero.webp",
+				"alt": "MeatLink homepage for business meat procurement"
+			},
+			{
+				"src": "/assets/images/projects/meatlink/architecture.webp",
+				"alt": "MeatLink system architecture: storefront, RFQ, orders, admin consoles and MCP server on Cloudflare Workers with Supabase, Midtrans and an AI market-insight pipeline"
+			}
+		],
+		"url": "/projects/meatlink-b2b-meat-commerce",
+		"links": [
+			{
+				"label": "Live Site",
+				"url": "https://meatlink.id"
+			},
+			{
+				"label": "Platform GitHub",
+				"url": "https://github.com/revanza-git/meathub-production-hub"
+			},
+			{
+				"label": "AI Engine GitHub",
+				"url": "https://github.com/revanza-git/meatlink-analytical-engine"
+			}
+		],
+		"stacks": [
+			"TypeScript",
+			"React 19",
+			"TanStack Start",
+			"Cloudflare Workers",
+			"Supabase Postgres",
+			"Row-Level Security",
+			"Midtrans",
+			"MCP",
+			"OAuth 2.1",
+			"Codex"
+		],
+		"problem": "Restaurants, hotels, caterers, and butcher shops in Indonesia often buy meat through scattered WhatsApp chats and supplier price lists, with little visibility into stock, grades, or fair per-kilogram prices. Suppliers lack a simple channel to reach business buyers, and beef-market intelligence is spread across FAOSTAT, USDA, and Indonesian government sources.",
+		"solution": "Built meatlink.id as a full B2B commerce platform: catalog and search with transparent per-kilogram pricing, multi-item RFQs with reference tracking, cart and checkout with Midtrans payments, orders and invoices, and admin and vendor consoles for inventory, AI-assisted spreadsheet import, payment reconciliation, and reporting. It runs TanStack Start on Cloudflare Workers with Supabase Postgres and exposes an OAuth 2.1-protected MCP server, so AI agents can check stock, place and look up orders, and draft market insights. A separate analytical engine runs a Codex research agent that turns public market data into bilingual EN/ID insight drafts without ever holding database credentials.",
+		"proof": [
+			"Row-Level Security policies per role (anonymous, buyer organization, vendor organization, platform admin), checked against a written RLS test matrix after every policy change.",
+			"Hardened payment lifecycle: Midtrans webhook handling, 24-hour payment expiry aligned with order cancellation, a scheduled sync every 30 minutes, and an admin-only daily reconciliation that flags mismatches instead of force-settling orders.",
+			"MCP endpoint at meatlink.id/mcp with tools for stock, orders, market data, and insight drafts; server-side gates enforce evidence freshness, block internal marketplace data, and require complete English and Indonesian text.",
+			"AI writes are draft-only: every agent-generated insight is reviewed, edited, and published by a human from the admin console.",
+			"Built with an AI-native workflow (Lovable, Codex) while owning the architecture, data model, security policies, integrations, Vitest test suites, k6 load-test scenarios, and operational runbook."
+		],
+		"result": "MeatLink is live at meatlink.id with a self-serve catalog, RFQ, and checkout flow plus WhatsApp handoff for sales follow-up. It also demonstrates an agent-ready architecture: AI agents get authenticated, useful access to the business through MCP, while data privacy, evidence quality, and publishing stay under explicit server-side and human control."
+	},
+	{
 		"slug": "dndmind-ai-copilot",
 		"name": "DNDMind AI Copilot",
 		"description": "Full-stack AI Dungeon Master copilot with RAG, memory retrieval, structured outputs, tool calling, and deterministic evaluation workflows.",
-		"image": "/assets/images/projects/dndmind/command-center-character.png",
+		"image": "/assets/images/projects/dndmind/command-center-character.webp",
 		"screenshots": [
 			{
-				"src": "/assets/images/projects/dndmind/command-center-character.png",
+				"src": "/assets/images/projects/dndmind/command-center-character.webp",
 				"alt": "DNDMind command center character workspace"
 			},
 			{
-				"src": "/assets/images/projects/dndmind/command-center-encounter.png",
+				"src": "/assets/images/projects/dndmind/command-center-encounter.webp",
 				"alt": "DNDMind command center encounter workspace"
 			}
 		],
@@ -102,23 +155,24 @@
 			}
 		],
 		"stacks": [
-			"ASP.NET Core",
+			".NET 8",
 			"Clean Architecture",
-			"Risk Register",
-			"Workflow System",
-			"KRI Monitoring",
-			"Approval Flow",
-			"Executive Dashboard"
+			"Blazor",
+			"EF Core",
+			"SQL Server",
+			"Hangfire",
+			"Docker",
+			"Nginx"
 		],
 		"problem": "Enterprise risk tracking was fragmented across Excel files and manual reporting flows. Risk registers, treatment plans, KRI monitoring, action plans, approvals, and dashboard reporting needed a centralized system so risk owners and executives could work from the same operational source.",
-		"solution": "Built NR EMAS as an ASP.NET Core platform using Clean Architecture, separating domain rules, application workflows, infrastructure, and presentation concerns. The system centralizes risk registers and treatment plans, supports action plans with multi-level approval workflows, monitors KRIs and treatment progress, and presents real-time dashboards for executive visibility.",
+		"solution": "Led the development of NR EMAS, directing the developer who built it as a .NET 8 platform with Clean Architecture: a Blazor (MudBlazor) interface, Web API, EF Core on SQL Server, MediatR, Hangfire background jobs, Serilog and Application Insights logging, and xUnit tests. The platform centralizes risk registers and treatment plans, routes action plans through a Manager, VP, and Risk Management approval chain, tracks KRIs and treatment progress, and gives executives real-time dashboards. Personally handled the production rollout: Docker deployment, an Nginx SSL reverse proxy, SQL Server initialization, and email notifications through the company Portal API.",
 		"proof": [
 			"Public Rewire success story describes NR EMAS as replacing Excel-based risk tracking with a centralized workflow-driven platform.",
-			"Implemented with ASP.NET Core and Clean Architecture to keep risk domain logic, workflow orchestration, data access, and UI concerns maintainable.",
-			"Screenshots show risk exposure, risk treatment performance, traffic-light monitoring, issues and next steps, KRI monitoring, approval management, and dashboard modules.",
-			"The platform unifies risk registers, treatment plans, KRI monitoring, action plans, multi-level approvals, and executive dashboards in one operational system."
+			"Clean Architecture separates risk domain rules, application workflows (MediatR), infrastructure (EF Core, Hangfire), and the Blazor presentation layer, keeping the risk logic maintainable and testable with xUnit.",
+			"Risk workflows cover register import, top-risk weighting, periodic monitoring, multi-level approvals, and a full audit trail.",
+			"Production rollout owned end to end: containerized deployment, Nginx SSL reverse proxy, SQL Server initialization scripts, and Portal API email integration."
 		],
-		"result": "Moved risk monitoring from spreadsheet-based tracking into a centralized platform with clearer ownership, structured approvals, KRI visibility, and real-time executive risk dashboards."
+		"result": "Moved risk monitoring from spreadsheet-based tracking into a centralized production platform with clearer ownership, structured approvals, KRI visibility, and real-time executive risk dashboards."
 	},
 	{
 		"slug": "automated-data-pipeline-power-bi-dashboard",
@@ -159,10 +213,10 @@
 		"slug": "executive-reporting-data-store",
 		"name": "LNG Operations Visibility Dashboard",
 		"description": "Operational gas monitoring dashboard that unified FSRU and onshore visibility with automated reporting, KPI trends, and executive-ready performance views.",
-		"image": "/assets/images/projects/lng-operations/gas-monitoring-management-dashboard.jpg",
+		"image": "/assets/images/projects/lng-operations/gas-monitoring-management-dashboard.webp",
 		"screenshots": [
 			{
-				"src": "/assets/images/projects/lng-operations/gas-monitoring-management-dashboard.jpg",
+				"src": "/assets/images/projects/lng-operations/gas-monitoring-management-dashboard.webp",
 				"alt": "Gas monitoring management dashboard showing supply, sales, boil-off gas, and performance gauges"
 			},
 			{
@@ -197,18 +251,18 @@
 		"slug": "lng-corporate-website-platform",
 		"name": "LNG Corporate Website Platform",
 		"description": "Corporate website revamp for a national LNG operator, turning a static web presence into a responsive, CMS-managed digital identity platform.",
-		"image": "/assets/images/projects/lng-website/home-hero.png",
+		"image": "/assets/images/projects/lng-website/home-hero.webp",
 		"screenshots": [
 			{
-				"src": "/assets/images/projects/lng-website/home-hero.png",
+				"src": "/assets/images/projects/lng-website/home-hero.webp",
 				"alt": "Nusantara Regas corporate website homepage hero showing FSRU infrastructure"
 			},
 			{
-				"src": "/assets/images/projects/lng-website/home-content.png",
+				"src": "/assets/images/projects/lng-website/home-content.webp",
 				"alt": "Nusantara Regas homepage showing news, company profile, and business chain sections"
 			},
 			{
-				"src": "/assets/images/projects/lng-website/business-fields.png",
+				"src": "/assets/images/projects/lng-website/business-fields.webp",
 				"alt": "Nusantara Regas business fields page showing LNG facilities and supply chain content"
 			}
 		],
@@ -243,12 +297,12 @@
 		"slug": "5tb-telco-data-to-bigquery",
 		"name": "5TB Telco Data to BigQuery",
 		"description": "Backend synchronization workflows for national-scale modem telemetry into BigQuery, supporting centralized analytics and near real-time reporting.",
-		"image": "/assets/images/projects/sftelkombq1.png",
+		"image": "/assets/images/projects/sftelkombq1.webp",
 		"url": "/projects/5tb-telco-data-to-bigquery",
 		"links": [
 			{
 				"label": "Write-up",
-				"url": "https://revanza.vercel.app/blog/rewiring-5tb-data-pipeline-at-home"
+				"url": "/blog/rewiring-5tb-data-pipeline-at-home"
 			}
 		],
 		"stacks": [
@@ -271,7 +325,7 @@
 		"slug": "nutricia-professional-lms",
 		"name": "Nutricia Professional LMS",
 		"description": "Doctor-facing learning platform for Danone's medical-professional program, delivered on schedule and scaled to thousands of users.",
-		"image": "/assets/images/projects/nupro1.png",
+		"image": "/assets/images/projects/nupro1.webp",
 		"url": "/projects/nutricia-professional-lms",
 		"links": [
 			{

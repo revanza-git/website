@@ -4,34 +4,41 @@
 		"role": "Senior Software Engineer",
 		"company": "PT Nusantara Regas — Pertamina Subsidiary / SOE Energy Company",
 		"description": "Designed backend architecture for mission-critical platforms across LNG operations, procurement, risk, reporting, and executive decision support. Architected an on-premise LLM knowledge assistant and redesigned it into a RAG pipeline with document chunking, embeddings, vector retrieval, contextual prompt orchestration, and controlled output handling. Built Airflow pipelines and a centralized SQL Server reporting store consolidating data from 30+ internal application databases for Power BI/Fabric dashboards. Integrated SCADA and FSRU operational systems, eliminating manual Excel workflows and saving about 80 staff-hours per month. Led 7 cross-functional Agile squads across architecture, code review, mentoring, vendor coordination, deployment, and operational governance.",
-		"logo": "/assets/images/experiences/nr-logo.ico"
+		"logo": "/assets/images/experiences/nr-logo.png"
+	},
+	{
+		"dates": "Aug 2026 – Present",
+		"role": "Co-founder & Technology Lead",
+		"company": "MeatLink.id",
+		"description": "Co-founded and lead the technology behind meatlink.id, a live B2B meat sourcing and commerce platform for restaurants, hotels, caterers, and retailers in Indonesia: catalog with per-kilogram pricing, multi-item RFQs, Midtrans checkout, orders and invoices, and admin and vendor consoles. Built on TanStack Start (React 19, TypeScript) on Cloudflare Workers with Supabase Postgres and role-based Row-Level Security, plus an OAuth 2.1-protected MCP server that lets AI agents check stock, place and look up orders, and draft market insights behind evidence, privacy, and human-review gates.",
+		"logo": "/assets/images/experiences/meatlink.png"
 	},
 	{
 		"dates": "Oct 2020 – Nov 2021",
-		"role": "Back-End / Data Engineer",
+		"role": "Software Engineer",
 		"company": "SALT Indonesia",
 		"description": "Built an automated backend reporting engine for MyOrbit modem status reporting to Telkom, cutting report runtime by about 70% and improving scheduled data reliability. Managed and processed 5TB+ national-scale modem data, designing synchronization workflows into Google BigQuery for centralized analytics and near real-time operational insight. Led a 3-person squad to deliver Danone's doctor-facing LMS on schedule and scale it to thousands of users. Optimized AWS EC2 pricing-report services, improving system performance by about 50% while reducing infrastructure overhead.",
-		"logo": "/assets/images/experiences/salt-indonesia.ico"
+		"logo": "/assets/images/experiences/salt-indonesia.png"
 	},
 	{
 		"dates": "Oct 2018 – Oct 2020",
 		"role": "IT Business Support & App Delivery",
 		"company": "Equity Life Indonesia",
 		"description": "Automated HCI claims and payment reporting with a Laravel CSV engine scheduled via SFTP, moving KPI turnaround from three-day follow-ups to same-day delivery and cutting runtime by about 70%. Rolled out a Laravel + React compensation and marketing program platform, replacing Excel macros for fee, contest, and referral tracking and reducing month-end processing effort by about 50%. Delivered the E-PDD policy-printing service, reducing issue-to-print time from 24 hours to under 1 hour.",
-		"logo": "/assets/images/experiences/equity-life.ico"
+		"logo": "/assets/images/experiences/equity-life.png"
 	},
 	{
-		"dates": "Aug 2015 – May 2018",
-		"role": "Business Development / Digital Ops",
-		"company": "Global Technology Resource ID",
+		"dates": "Aug 2017 – May 2018",
+		"role": "Digital Operations",
+		"company": "PT Global Technology Resources ID",
 		"description": "Launched and ran HealingSolutions.id e-commerce stack (WordPress, WooCommerce) and social channels, driving the brand’s initial online revenue. Produced daily creative assets (Photoshop) and executed FB Ads/SEO campaigns, translating management strategy into measurable digital growth.",
-		"logo": "/assets/images/experiences/global-tech.ico"
+		"logo": "/assets/images/experiences/global-tech.png"
 	},
 	{
 		"dates": "Jan 2016 – Apr 2016",
 		"role": "Web Developer Intern",
 		"company": "Huma Shadian",
 		"description": "Built the company-profile site from scratch (HTML/CSS/JS, PHP) and created a lightweight CMS for content updates—giving the firm its first searchable web presence.",
-		"logo": "/assets/images/experiences/huma-shadian.ico"
+		"logo": "/assets/images/experiences/huma-shadian.png"
 	}
 ]

@@ -32,7 +32,11 @@ const caseSections = [
 ];
 ---
 
-<Layout title={`${project.name} | Project Case Study`}>
+<Layout
+  title={`${project.name} | Project Case Study`}
+  description={project.description}
+  type="article"
+>
   <main class="relative z-20 w-full max-w-4xl px-6 mx-auto my-12 lg:px-0">
     <a
       href="/projects"
