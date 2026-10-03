@@ -21,13 +21,15 @@ const screenshots: Figure[] = project.screenshots ?? [];
 const heroAlt = screenshots[0]?.alt ?? project.name;
 const gallery = screenshots.slice(1);
 const proof: string[] = project.proof ?? [];
+// Social previews (LinkedIn etc.) only reliably accept PNG/JPEG, so WebP heroes fall back to the default card.
+const ogImage = /\.(png|jpe?g)$/i.test(project.image) ? project.image : undefined;
 ---
 
 <Layout
   title={`${project.name} | Project Case Study`}
   description={project.description}
-  image={project.image}
-  imageAlt={heroAlt}
+  image={ogImage}
+  imageAlt={ogImage ? heroAlt : undefined}
   type="article"
 >
   <main class="mx-auto max-w-6xl px-5 pt-10 sm:px-8 sm:pt-14">
