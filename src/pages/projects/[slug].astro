@@ -81,21 +81,6 @@ const ogImage = /\.(png|jpe?g)$/i.test(project.image) ? project.image : undefine
       <img src={project.image} alt={heroAlt} class="w-full object-cover" />
     </figure>
 
-    {
-      gallery.length > 0 && (
-        <section
-          class={`mt-4 grid gap-4 ${gallery.length > 1 ? "md:grid-cols-2" : ""}`}
-          aria-label="Additional screenshots"
-        >
-          {gallery.map((shot) => (
-            <figure class="figure-frame">
-              <img src={shot.src} alt={shot.alt} loading="lazy" class="h-full w-full object-cover" />
-            </figure>
-          ))}
-        </section>
-      )
-    }
-
     <div class="mt-16 border-t border-ink">
       <section class="grid gap-4 border-b border-rule py-10 md:grid-cols-[13rem_1fr] md:gap-10">
         <h2 class="font-serif text-2xl text-ink">The problem</h2>
@@ -106,6 +91,24 @@ const ogImage = /\.(png|jpe?g)$/i.test(project.image) ? project.image : undefine
         <h2 class="font-serif text-2xl text-ink">What I built</h2>
         <p class="max-w-measure text-[1.05rem] leading-8 text-ink-2">{project.solution}</p>
       </section>
+
+      {
+        gallery.length > 0 && (
+          <section class="border-b border-rule py-10" aria-label="More screenshots">
+            <div class="grid gap-4 md:grid-cols-[13rem_1fr] md:gap-10">
+              <h2 class="font-serif text-2xl text-ink">In use</h2>
+              <div class={`grid gap-4 ${gallery.length > 1 ? "sm:grid-cols-2" : "sm:grid-cols-[minmax(0,32rem)]"}`}>
+                {gallery.map((shot) => (
+                  <figure class="figure-frame">
+                    <img src={shot.src} alt={shot.alt} loading="lazy" class="w-full object-cover" />
+                    <figcaption class="border-t border-rule px-3 py-2 text-xs leading-5 text-muted">{shot.alt}</figcaption>
+                  </figure>
+                ))}
+              </div>
+            </div>
+          </section>
+        )
+      }
 
       {
         architecture && (
