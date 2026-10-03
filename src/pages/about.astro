@@ -14,8 +14,9 @@ const strengths = [
 
 const contactLinks = [
   {
-    label: "Download Resume",
+    label: "Download resume (PDF)",
     href: "/assets/documents/Revanza_Raytama_Resume.pdf",
+    external: true,
   },
   {
     label: "LinkedIn",
@@ -28,8 +29,9 @@ const contactLinks = [
     external: true,
   },
   {
-    label: "Email",
+    label: "revanza.raytama@gmail.com",
     href: "mailto:revanza.raytama@gmail.com",
+    external: false,
   },
 ];
 ---
@@ -38,62 +40,59 @@ const contactLinks = [
   title="About Revanza Raytama | Backend & AI Systems Engineer"
   description="About Revanza Raytama: 8+ years building enterprise backend systems, data platforms, and LLM/RAG applications across energy, telecom, and insurance, including technical leadership of 7 Agile squads."
 >
-  <section class="relative z-20 max-w-3xl mx-auto my-12 px-7 lg:px-0">
+  <main class="mx-auto max-w-6xl px-5 pt-12 sm:px-8 sm:pt-20">
     <PageHeading
+      label="About"
       title="About Revanza"
       description="Senior Backend Engineer from Jakarta with 8+ years building enterprise backend systems, data integration layers, internal productivity platforms, and AI/LLM-enabled applications. I work best where software has to connect messy operations, legacy systems, reporting needs, and real production constraints."
     />
 
-    <img
-      src="/assets/images/revanza-raytama-wide.jpg"
-      alt="Revanza Raytama"
-      width="1600"
-      height="900"
-      class="relative z-30 w-full my-10 rounded-[8px]"
-    />
+    <figure class="figure-frame mt-12">
+      <img
+        src="/assets/images/revanza-raytama-wide.jpg"
+        alt="Revanza Raytama"
+        width="1600"
+        height="900"
+        class="w-full"
+      />
+    </figure>
 
-    <h2 class="mb-2 text-2xl font-bold dark:text-neutral-200">Profile</h2>
-    <p
-      class="text-sm leading-6 text-gray-600 dark:text-neutral-400 sm:leading-7 lg:leading-8 sm:text-base lg:text-lg"
-    >
-      My recent work sits across <strong>backend architecture</strong>,
-      <strong>AI/RAG systems</strong>, and <strong>data platforms</strong> for
-      energy, insurance, and telecom environments. I have built governed
-      reporting stores from 30+ internal databases, industrial data pipelines
-      that removed manual Excel workflows, and LLM-powered knowledge assistants
-      designed for enterprise use rather than demo-only interaction.
-    </p>
+    <div class="mt-16 border-t border-ink">
+      <section class="grid gap-4 border-b border-rule py-10 md:grid-cols-[13rem_1fr] md:gap-10">
+        <h2 class="font-serif text-2xl text-ink">Profile</h2>
+        <p class="max-w-measure text-[1.05rem] leading-8 text-ink-2">
+          My recent work sits across <strong class="font-medium text-ink"
+            >backend architecture</strong
+          >, <strong class="font-medium text-ink">AI/RAG systems</strong>, and
+          <strong class="font-medium text-ink">data platforms</strong> for energy, insurance,
+          and telecom environments. I have built governed reporting stores from 30+ internal
+          databases, industrial data pipelines that removed manual Excel workflows, and
+          LLM-powered knowledge assistants designed for enterprise use rather than demo-only
+          interaction.
+        </p>
+      </section>
 
-    <div
-      class="grid gap-3 mt-8 sm:grid-cols-2"
-      aria-label="Core strengths"
-    >
-      {
-        strengths.map((strength) => (
-          <div class="rounded-[8px] border border-neutral-200 bg-white/80 p-4 text-sm leading-6 text-neutral-600 shadow-sm dark:border-neutral-800 dark:bg-neutral-950/75 dark:text-neutral-400">
-            {strength}
-          </div>
-        ))
-      }
-    </div>
+      <section class="grid gap-4 border-b border-rule py-10 md:grid-cols-[13rem_1fr] md:gap-10">
+        <h2 class="font-serif text-2xl text-ink">Strengths</h2>
+        <ol class="max-w-measure">
+          {
+            strengths.map((strength, i) => (
+              <li class="grid grid-cols-[2.25rem_1fr] border-b border-rule py-4 text-[1rem] leading-7 text-ink-2 first:pt-0 last:border-b-0 last:pb-0">
+                <span class="pt-[3px] font-mono text-xs text-muted">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <span>{strength}</span>
+              </li>
+            ))
+          }
+        </ol>
+      </section>
 
-    <h2
-      class="mt-5 mb-2 text-2xl font-bold lg:mt-10 sm:mt-6 dark:text-neutral-200"
-    >
-      Experience
-    </h2>
-    <div class="py-8 sm:py-10 sm:pl-8">
-      {
-        experiences.map((experience, index) => {
-          const isLast = index === experiences.length - 1;
-          return (
-            <div
-              class={`relative ${
-                !isLast
-                  ? "sm:border-l sm:border-gray-200 sm:dark:border-neutral-700"
-                  : ""
-              } pb-5 sm:pb-12`}
-            >
+      <section class="pt-10" aria-labelledby="experience-heading">
+        <h2 id="experience-heading" class="font-serif text-2xl text-ink">Experience</h2>
+        <div class="mt-2">
+          {
+            experiences.map((experience) => (
               <AboutExperience
                 dates={experience.dates}
                 role={experience.role}
@@ -101,41 +100,47 @@ const contactLinks = [
                 description={experience.description}
                 logo={experience.logo}
               />
-            </div>
-          );
-        })
-      }
-    </div>
+            ))
+          }
+        </div>
+      </section>
 
-    <h2
-      class="mt-5 mb-2 text-2xl font-bold lg:mt-10 sm:mt-6 dark:text-neutral-200"
-    >
-      Let's Connect
-    </h2>
-    <p
-      class="text-sm leading-6 text-gray-600 dark:text-neutral-400 sm:leading-7 lg:leading-8 sm:text-base lg:text-lg"
-    >
-      For hiring, collaboration, or technical conversations, these are the
-      fastest ways to review my background and reach me.
-    </p>
-
-    <div class="flex flex-wrap gap-3 mt-5">
-      {
-        contactLinks.map((link) => (
-          <a
-            href={link.href}
-            target={link.external ? "_blank" : undefined}
-            rel={link.external ? "noopener noreferrer" : undefined}
-            class="inline-flex items-center justify-center rounded-full border border-neutral-200 bg-white px-4 py-2 text-sm font-semibold text-neutral-800 shadow-sm duration-200 hover:-translate-y-0.5 hover:border-blue-500 hover:text-blue-600 dark:border-neutral-800 dark:bg-neutral-950 dark:text-neutral-200 dark:hover:border-blue-500 dark:hover:text-blue-400"
-          >
-            {link.label}
-          </a>
-        ))
-      }
+      <section class="grid gap-4 py-10 md:grid-cols-[13rem_1fr] md:gap-10">
+        <h2 class="font-serif text-2xl text-ink">Let's connect</h2>
+        <div class="max-w-measure">
+          <p class="text-[1.05rem] leading-8 text-ink-2">
+            For hiring, collaboration, or technical conversations, these are the fastest ways
+            to review my background and reach me.
+          </p>
+          <ul class="mt-5 flex flex-wrap gap-x-6 gap-y-2 text-sm">
+            {
+              contactLinks.map((link) =>
+                link.external ? (
+                  <li>
+                    <a
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="link-underline text-ink"
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ) : (
+                  <li>
+                    <a href={link.href} class="link-underline text-ink">
+                      {link.label}
+                    </a>
+                  </li>
+                ),
+              )
+            }
+          </ul>
+          <div class="mt-6">
+            <ScheduleMeeting />
+          </div>
+        </div>
+      </section>
     </div>
-
-    <div class="mt-3">
-      <ScheduleMeeting />
-    </div>
-  </section>
+  </main>
 </Layout>

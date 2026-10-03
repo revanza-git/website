@@ -1,16 +1,13 @@
 ---
-const { title, description } = Astro.props;
+const { title, description, label } = Astro.props;
 ---
 
-<div class="relative z-20 w-full mx-auto lg:mx-0">
-  <h2
-    class="text-2xl font-bold tracking-tight text-neutral-900 dark:text-neutral-100 sm:text-3xl lg:text-4xl"
+<header class="max-w-3xl">
+  {label && <p class="label">{label}</p>}
+  <h1
+    class="mt-6 font-serif text-[2.6rem] leading-[1.04] tracking-[-0.02em] text-ink sm:text-6xl"
   >
     {title}
-  </h2>
-  <p
-    class="mt-3 text-sm leading-6 text-neutral-600 dark:text-neutral-400 sm:mt-4 lg:mt-6 sm:leading-7 lg:leading-8 sm:text-base lg:text-lg"
-  >
-    {description}
-  </p>
-</div>
+  </h1>
+  {description && <p class="mt-6 text-lg leading-8 text-ink-2">{description}</p>}
+</header>

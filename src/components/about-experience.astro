@@ -2,25 +2,23 @@
 const { logo, dates, role, company, description } = Astro.props;
 ---
 
-<article
-  class="relative rounded-[8px] border border-neutral-200 bg-white/80 p-4 shadow-sm dark:border-neutral-800 dark:bg-neutral-950/75 sm:border-0 sm:bg-transparent sm:p-0 sm:pl-12 sm:shadow-none sm:dark:bg-transparent"
->
-  <div
-    class="mb-3 flex h-10 w-10 items-center justify-center rounded-full border border-neutral-300 bg-white dark:border-neutral-700 dark:bg-neutral-950 sm:absolute sm:left-0 sm:top-0 sm:z-40 sm:mb-0 sm:h-14 sm:w-14 sm:-translate-x-1/2"
-  >
-    <img src={logo} alt={company} class="h-6 w-6 sm:h-8 sm:w-8" />
+<article class="grid gap-3 border-b border-rule py-8 md:grid-cols-[13rem_1fr] md:gap-10">
+  <p class="label pt-1.5">{dates}</p>
+  <div>
+    <div class="flex items-center gap-3">
+      <img
+        src={logo}
+        alt=""
+        width="32"
+        height="32"
+        loading="lazy"
+        class="h-8 w-8 shrink-0 rounded-full border border-rule bg-white object-contain p-1"
+      />
+      <div>
+        <h3 class="font-serif text-[1.4rem] leading-tight text-ink">{role}</h3>
+        <p class="text-sm text-muted">{company}</p>
+      </div>
+    </div>
+    <p class="mt-4 max-w-measure text-[0.98rem] leading-7 text-ink-2">{description}</p>
   </div>
-
-  <p
-    class="text-xs font-semibold uppercase tracking-widest text-neutral-400 dark:text-neutral-500"
-  >
-    {dates}
-  </p>
-  <h3 class="my-1 text-lg font-bold leading-6 dark:text-neutral-100">{role}</h3>
-  <p class="mb-2 text-sm font-medium text-neutral-800 dark:text-neutral-300">
-    {company}
-  </p>
-  <p class="text-sm leading-7 text-neutral-600 dark:text-neutral-400">
-    {description}
-  </p>
 </article>

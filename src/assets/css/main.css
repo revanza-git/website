@@ -2,72 +2,84 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Add Your Custom CSS Here */
+/* Editorial design tokens (RGB triplets so Tailwind can apply opacity) */
+:root {
+  --paper: 246 243 236;
+  --paper-2: 238 233 222;
+  --card: 251 249 244;
+  --ink: 22 19 15;
+  --ink-2: 61 56 49;
+  --muted: 110 103 92;
+  --rule: 218 211 198;
+  --accent: 194 65 12;
+  color-scheme: light;
+}
 
-/* Base text colors for consistent styling */
-body {
-  @apply text-neutral-900 dark:text-neutral-100;
+.dark {
+  --paper: 18 17 15;
+  --paper-2: 27 25 22;
+  --card: 24 22 19;
+  --ink: 237 232 223;
+  --ink-2: 205 198 186;
+  --muted: 156 148 135;
+  --rule: 52 48 42;
+  --accent: 240 120 70;
+  color-scheme: dark;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-paper font-sans text-ink antialiased;
+    font-feature-settings: "ss01", "cv11";
+  }
+
+  ::selection {
+    background: rgb(var(--accent) / 0.18);
+  }
+
+  :focus-visible {
+    outline: 2px solid rgb(var(--accent));
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+}
+
+@layer components {
+  /* Small uppercase monospace label used for eyebrows and metadata */
+  .label {
+    @apply font-mono text-[0.7rem] font-medium uppercase tracking-[0.14em] text-muted;
+  }
+
+  .link-underline {
+    @apply underline decoration-rule decoration-1 underline-offset-[6px] transition-colors duration-200 hover:text-accent hover:decoration-accent;
+  }
+
+  .btn-ink {
+    @apply inline-flex items-center gap-2 rounded-full bg-ink px-5 py-2.5 text-sm font-medium text-paper transition-colors duration-200 hover:bg-accent;
+  }
+
+  .btn-line {
+    @apply inline-flex items-center gap-2 rounded-full border border-rule px-5 py-2.5 text-sm font-medium text-ink transition-colors duration-200 hover:border-ink;
+  }
+
+  .figure-frame {
+    @apply overflow-hidden rounded-[6px] border border-rule bg-card;
+  }
 }
 
 .prose img {
-  border-radius: 30px;
+  border-radius: 6px;
 }
 
-#sun {
-  transform: translate3d(0, 0px, 0);
-}
-
-#moon {
-  transform: translate3d(0, 0px, 0);
-}
-
-#darkToggle:hover #sun {
-  transform: translate3d(0, 10px, 0);
-}
-
-#darkToggle:hover #moon {
-  transform: translate3d(0, 10px, 0);
-}
-
-html.dark #darkToggle:hover .horizon {
-  border-color: #718096 !important;
-}
-
-.horizon .setting {
-  animation: 1s ease 0s 1 setting;
-}
-
-.horizon .rising {
-  animation: 1s ease 0s 1 rising;
-}
-
-@keyframes setting {
-  0% {
-    transform: translate3d(0, 10px, 0);
-  }
-
-  40% {
-    transform: translate3d(0, -2px, 0);
-  }
-
-  to {
-    transform: translate3d(0, 30px, 0);
-  }
-}
-
-@keyframes rising {
-  0% {
-    opacity: 0;
-    transform: translate3d(0, 30px, 0);
-  }
-
-  40% {
-    opacity: 1;
-    transform: translate3d(0, -2px, 0);
-  }
-
-  to {
-    opacity: 1;
-    transform: translate3d(0, 10, 0);
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
   }
 }

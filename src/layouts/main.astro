@@ -1,7 +1,6 @@
 ---
 import Footer from "../components/footer.astro";
 import Header from "../components/header.astro";
-import SquareLines from "../components/square-lines.astro";
 import "../assets/css/main.css";
 const {
   title,
@@ -69,30 +68,29 @@ const footerInject = allowHtmlInject ? import.meta.env.FOOTER_INJECT : "";
       )
     }
 
-    <!-- Used to add dark mode right away, adding here prevents any flicker -->
+    <!-- Apply the saved (or system) colour scheme before paint to avoid a flash -->
     <script is:inline>
-      if (typeof Storage !== "undefined") {
-        if (
-          localStorage.getItem("dark_mode") &&
-          localStorage.getItem("dark_mode") == "true"
-        ) {
+      try {
+        const stored = localStorage.getItem("dark_mode");
+        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        if (stored === "true" || (stored === null && prefersDark)) {
           document.documentElement.classList.add("dark");
         }
-      }
+      } catch (e) {}
     </script>
+    <meta name="theme-color" content="#F6F3EC" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#12110F" media="(prefers-color-scheme: dark)" />
 
-    <style>
-      .prose img {
-        border-radius: 20px;
-      }
-    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&display=swap"
+    />
     <link rel="icon" type="image/x-icon" href="/assets/images/favicon.png" />
     {allowHtmlInject && <Fragment set:html={headerInject} />}
   </head>
-  <body
-    class="antialiased bg-white dark:bg-neutral-950 text-neutral-900 dark:text-neutral-100"
-  >
-    <SquareLines />
+  <body class="min-h-screen bg-paper text-ink">
     <Header />
     <slot />
     <Footer />

@@ -8,10 +8,6 @@
 			{
 				"src": "/assets/images/projects/meatlink/home-hero.webp",
 				"alt": "MeatLink homepage for business meat procurement"
-			},
-			{
-				"src": "/assets/images/projects/meatlink/architecture.webp",
-				"alt": "MeatLink system architecture: storefront, RFQ, orders, admin consoles and MCP server on Cloudflare Workers with Supabase, Midtrans and an AI market-insight pipeline"
 			}
 		],
 		"url": "/projects/meatlink-b2b-meat-commerce",
@@ -50,7 +46,12 @@
 			"AI writes are draft-only: every agent-generated insight is reviewed, edited, and published by a human from the admin console.",
 			"Built with an AI-native workflow (Lovable, Codex) while owning the architecture, data model, security policies, integrations, Vitest test suites, k6 load-test scenarios, and operational runbook."
 		],
-		"result": "MeatLink is live at meatlink.id with a self-serve catalog, RFQ, and checkout flow plus WhatsApp handoff for sales follow-up. It also demonstrates an agent-ready architecture: AI agents get authenticated, useful access to the business through MCP, while data privacy, evidence quality, and publishing stay under explicit server-side and human control."
+		"result": "MeatLink is live at meatlink.id with a self-serve catalog, RFQ, and checkout flow plus WhatsApp handoff for sales follow-up. It also demonstrates an agent-ready architecture: AI agents get authenticated, useful access to the business through MCP, while data privacy, evidence quality, and publishing stay under explicit server-side and human control.",
+		"architecture": {
+			"src": "/assets/images/projects/meatlink/architecture.webp",
+			"alt": "MeatLink system architecture: buyers, vendors, operations and AI agents reach one TanStack Start app on Cloudflare Workers, backed by Supabase with Row-Level Security, Midtrans, scheduled jobs and an AI insight pipeline behind the MCP boundary",
+			"caption": "One TanStack Start app on Cloudflare Workers serves buyers, vendors and operations. Supabase Row-Level Security guards every role, and AI agents reach the business only through the OAuth-protected MCP endpoint, where server-side gates and human review decide what gets published."
+		}
 	},
 	{
 		"slug": "dndmind-ai-copilot",
@@ -95,7 +96,12 @@
 			"Separates frontend, backend, inference, and database responsibilities across a multi-service Docker Compose setup.",
 			"Uses Gemini 2.5 Flash with structured AI outputs and tool/function calling patterns to make responses easier to validate and integrate."
 		],
-		"result": "The project demonstrates production-style AI application architecture beyond a prompt-only demo: persistent memory, retrieval, structured outputs, backend orchestration, and evaluation-ready workflows."
+		"result": "The project demonstrates production-style AI application architecture beyond a prompt-only demo: persistent memory, retrieval, structured outputs, backend orchestration, and evaluation-ready workflows.",
+		"architecture": {
+			"src": "/assets/images/projects/dndmind/architecture.webp",
+			"alt": "DNDMind architecture: Next.js client, ASP.NET Core 8 API, Python FastAPI AI worker with Gemini, PostgreSQL with pgvector indices, guardrails and an evaluation suite, deployed on Cloud Run",
+			"caption": "The Next.js client talks to an ASP.NET Core 8 API that owns campaign data in PostgreSQL. A Python FastAPI worker handles generation, retrieval over separate rules and homebrew indices in pgvector, tool calls and guardrail checks, and a deterministic evaluation suite runs against the same pipeline."
+		}
 	},
 	{
 		"slug": "enterprise-rag-knowledge-assistant",
@@ -130,7 +136,12 @@
 			"Moved from simple prompting toward retrieval-grounded answers using chunking, embeddings, vector retrieval, and context assembly.",
 			"Used Qwen with controlled response/output handling to reduce hallucination risk and make answers easier to integrate into internal workflows."
 		],
-		"result": "Improved the architecture of an internal AI assistant from general chat behavior into a more reliable enterprise knowledge workflow with retrieval grounding and clearer backend integration boundaries."
+		"result": "Improved the architecture of an internal AI assistant from general chat behavior into a more reliable enterprise knowledge workflow with retrieval grounding and clearer backend integration boundaries.",
+		"architecture": {
+			"src": "/assets/images/projects/enterprise-rag/architecture.webp",
+			"alt": "Enterprise RAG architecture: documents are chunked and embedded into a vector index; at question time the backend retrieves passages, assembles a grounded prompt for an on-premise Qwen model and checks the output before the enterprise UI shows it",
+			"caption": "Documents and SOPs are chunked and embedded into a vector index ahead of time. At question time the backend retrieves the most relevant passages, assembles a grounded prompt for the on-premise Qwen model, and checks the answer before it reaches the enterprise UI. Nothing leaves the company network."
+		}
 	},
 	{
 		"slug": "nr-emas-risk-monitoring",
@@ -172,7 +183,12 @@
 			"Risk workflows cover register import, top-risk weighting, periodic monitoring, multi-level approvals, and a full audit trail.",
 			"Production rollout owned end to end: containerized deployment, Nginx SSL reverse proxy, SQL Server initialization scripts, and Portal API email integration."
 		],
-		"result": "Moved risk monitoring from spreadsheet-based tracking into a centralized production platform with clearer ownership, structured approvals, KRI visibility, and real-time executive risk dashboards."
+		"result": "Moved risk monitoring from spreadsheet-based tracking into a centralized production platform with clearer ownership, structured approvals, KRI visibility, and real-time executive risk dashboards.",
+		"architecture": {
+			"src": "/assets/images/projects/nr-emas/architecture.webp",
+			"alt": "NR EMAS architecture: Blazor UI and Web API on .NET 8 Clean Architecture with MediatR, EF Core on SQL Server and Hangfire jobs, deployed in Docker behind an Nginx SSL reverse proxy with Portal API email",
+			"caption": "A .NET 8 Clean Architecture platform: a Blazor UI on a Web API, MediatR application workflows, EF Core on SQL Server and Hangfire background jobs. I directed the build and owned the production rollout: Docker, an Nginx SSL reverse proxy, SQL Server initialisation and Portal API email."
+		}
 	},
 	{
 		"slug": "automated-data-pipeline-power-bi-dashboard",
@@ -183,10 +199,6 @@
 			{
 				"src": "/assets/images/projects/executive-powerbi/energy-performance-dashboard.jpg",
 				"alt": "Sanitized executive energy performance dashboard showing operational, risk, KPI, and financial metrics"
-			},
-			{
-				"src": "/assets/images/projects/executive-powerbi/automated-data-pipeline-workflow.jpg",
-				"alt": "Automated data pipeline architecture from source systems through Airflow, Spark, PostgreSQL data mart, and Power BI reporting"
 			}
 		],
 		"url": "/projects/automated-data-pipeline-power-bi-dashboard",
@@ -207,7 +219,12 @@
 			"Pipeline supports scheduled refreshes, monthly updates, metric backfill handling, and centralized dashboard-ready tables.",
 			"Sanitized dashboard output shows executive-style performance views across operations, asset integrity, safety, risk, KPI, and financial metrics."
 		],
-		"result": "Reduced manual data preparation and improved the reliability, freshness, and consistency of dashboard reporting, giving executives a cleaner view of performance across reporting periods."
+		"result": "Reduced manual data preparation and improved the reliability, freshness, and consistency of dashboard reporting, giving executives a cleaner view of performance across reporting periods.",
+		"architecture": {
+			"src": "/assets/images/projects/executive-powerbi/architecture.webp",
+			"alt": "Data pipeline architecture: three operational databases feed Spark ETL jobs scheduled by Airflow twice a day, loading a PostgreSQL data mart of 13 metrics that Power BI reads",
+			"caption": "Airflow schedules two runs a day. Spark extracts from three operational databases, transforms and validates 13 metrics across seven domains, and loads a PostgreSQL data mart with month snapshots, so any run can be repeated or backfilled safely. Power BI reads only the mart."
+		}
 	},
 	{
 		"slug": "executive-reporting-data-store",
@@ -245,7 +262,12 @@
 			"Dashboard screenshots show management views for pasokan, penjualan, boil-off gas monitoring, performance gauges, and target-versus-realization trends.",
 			"The success story highlights unified monitoring across FSRU and onshore facilities, a 70% faster reporting cycle, and a real-time gas operation dashboard."
 		],
-		"result": "Improved operational visibility by giving stakeholders a centralized dashboard for gas operation monitoring, faster reporting cycles, and cleaner executive decision support."
+		"result": "Improved operational visibility by giving stakeholders a centralized dashboard for gas operation monitoring, faster reporting cycles, and cleaner executive decision support.",
+		"architecture": {
+			"src": "/assets/images/projects/lng-operations/architecture.webp",
+			"alt": "LNG operations platform architecture: SCADA telemetry and flowmeter feeds from the FSRU and onshore facility flow into an ASP.NET Core and SQL Server platform that produces daily reports and KPI dashboards for the control room, terminal and head office",
+			"caption": "SCADA telemetry and flowmeter feeds from the FSRU and the onshore receiving facility land in an ASP.NET Core and SQL Server platform. It generates the daily gas-operation summary automatically and serves KPI and trend dashboards to the control room, terminal and head office over the internal network."
+		}
 	},
 	{
 		"slug": "lng-corporate-website-platform",
@@ -278,20 +300,27 @@
 			}
 		],
 		"stacks": [
+			"Next.js",
 			"ASP.NET Core",
 			"CMS",
+			"IIS",
 			"Responsive UI",
 			"SEO",
 			"Analytics"
 		],
 		"problem": "A national LNG operator needed a stronger digital presence that reflected its role in Indonesia's LNG value chain. The existing website behaved like a static brochure: outdated design, limited mobile optimization, difficult content updates, and weak public visibility for stakeholders.",
-		"solution": "Built a modern ASP.NET Core corporate website platform with a cleaner information architecture, LNG-focused visual design, responsive layouts, CMS-managed publishing, SEO-ready metadata, analytics integration, and content sections for company profile, business chain, commitments, communication, and stakeholder information.",
+		"solution": "Built a modern corporate website platform: a Next.js front end on an ASP.NET Core CMS and API, hosted on IIS, with a cleaner information architecture, LNG-focused visual design, responsive layouts, CMS-managed publishing, SEO-ready metadata, analytics integration, and content sections for company profile, business chain, commitments, communication, and stakeholder information.",
 		"proof": [
 			"Public Rewire success story describes the project as moving from a static presence to a dynamic corporate platform.",
-			"The implementation uses ASP.NET Core with CMS-driven content management, responsive layouts, structured metadata, sitemap, and analytics.",
+			"The implementation pairs a Next.js front end with an ASP.NET Core CMS and API, responsive layouts, structured metadata, sitemap, and analytics.",
 			"Screenshots show a polished bilingual corporate interface with FSRU hero content, company profile sections, business-chain storytelling, news updates, and LNG business field pages."
 		],
-		"result": "Created a more credible and maintainable corporate digital identity, improving brand visibility, mobile access, content publishing, SEO discoverability, and public communication for a key LNG infrastructure operator."
+		"result": "Created a more credible and maintainable corporate digital identity, improving brand visibility, mobile access, content publishing, SEO discoverability, and public communication for a key LNG infrastructure operator.",
+		"architecture": {
+			"src": "/assets/images/projects/lng-website/architecture.webp",
+			"alt": "Corporate website architecture: a Next.js front end on IIS renders the public site and calls an ASP.NET Core CMS and API that editors use to publish content",
+			"caption": "A Next.js front end renders the public site and calls an ASP.NET Core CMS and API, hosted on IIS. Editors publish news and pages through the CMS, and structured metadata, a sitemap and analytics are built in."
+		}
 	},
 	{
 		"slug": "5tb-telco-data-to-bigquery",
@@ -333,7 +362,13 @@
 				"url": "https://nutriciaprofessional.id/"
 			}
 		],
-		"stacks": ["Next.js", "Lumen", "MySQL", "AWS EC2", "AWS RDS"],
+		"stacks": [
+			"Next.js",
+			"Lumen",
+			"MySQL",
+			"AWS EC2",
+			"AWS RDS"
+		],
 		"problem": "Danone's medical-professional program needed a learning platform for doctors that could launch on schedule and support a large professional audience.",
 		"solution": "Led a 3-person squad to deliver the LMS, coordinating backend delivery, deployment needs, and production readiness across the project lifecycle.",
 		"proof": [
@@ -355,7 +390,11 @@
 				"url": "https://github.com/revanza-git/Inventory-management"
 			}
 		],
-		"stacks": ["Blade", "Laravel", "MySQL"],
+		"stacks": [
+			"Blade",
+			"Laravel",
+			"MySQL"
+		],
 		"problem": "Inventory workflows depended heavily on spreadsheets, which made input slower, reporting harder, and operational tracking more error-prone.",
 		"solution": "Built a web-based inventory management system with structured input flows, operational tracking, analytics support, and reporting connectors.",
 		"proof": [
@@ -377,7 +416,11 @@
 				"url": "https://github.com/revanza-git/semar"
 			}
 		],
-		"stacks": ["Next.js", "ASP.NET Core", "SQL Server"],
+		"stacks": [
+			"Next.js",
+			"ASP.NET Core",
+			"SQL Server"
+		],
 		"problem": "Policy document handling needed a more reliable workflow for managing generated documents, delivery status, and transfer to downstream systems.",
 		"solution": "Built a document management service using Next.js, ASP.NET Core, and SQL Server to support structured policy document handling and operational visibility.",
 		"proof": [
@@ -399,7 +442,11 @@
 				"url": "https://github.com/revanza-git/eproc-vms"
 			}
 		],
-		"stacks": ["Bootstrap", "CodeIgniter", "MySQL"],
+		"stacks": [
+			"Bootstrap",
+			"CodeIgniter",
+			"MySQL"
+		],
 		"problem": "Procurement processes often involve fragmented requests, vendor coordination, approvals, and audit needs. Without a system, teams depend on manual tracking and scattered communication.",
 		"solution": "Built an e-procurement ecosystem to centralize procurement workflows, vendor-related processes, and approval visibility.",
 		"proof": [
@@ -421,7 +468,13 @@
 				"url": "https://github.com/revanza-git/portal-gas"
 			}
 		],
-		"stacks": ["Blazor", "ASP.NET Core", "Bootstrap", "jQuery", "SQL Server"],
+		"stacks": [
+			"Blazor",
+			"ASP.NET Core",
+			"Bootstrap",
+			"jQuery",
+			"SQL Server"
+		],
 		"problem": "Gas operations teams needed a more centralized portal for operational data, internal workflows, and dashboard access.",
 		"solution": "Built a gas operations portal using Blazor, ASP.NET Core, SQL Server, and dashboard-oriented UI patterns.",
 		"proof": [
@@ -443,7 +496,13 @@
 				"url": "https://github.com/revanza-git/tokopedia-scraper-api"
 			}
 		],
-		"stacks": ["Python", "Flask", "BeautifulSoup", "Selenium", "PostgreSQL"],
+		"stacks": [
+			"Python",
+			"Flask",
+			"BeautifulSoup",
+			"Selenium",
+			"PostgreSQL"
+		],
 		"problem": "Product research and market analysis can require repeatable extraction of product information from marketplace pages. Manual checking is slow and hard to reuse.",
 		"solution": "Built a scraper API using Python, Flask, BeautifulSoup, Selenium, and PostgreSQL to expose product scraping through a backend interface.",
 		"proof": [

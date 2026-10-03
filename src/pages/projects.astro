@@ -1,6 +1,5 @@
 ---
 import projects from "../collections/projects.json";
-import PageHeading from "../components/page-heading.astro";
 import Project from "../components/project.astro";
 import Layout from "../layouts/main.astro";
 ---
@@ -9,28 +8,33 @@ import Layout from "../layouts/main.astro";
   title="Project Case Studies | Revanza Raytama"
   description="Case studies of AI, backend, and data-platform systems built by Revanza Raytama, from an agent-ready B2B commerce platform to enterprise RAG, risk monitoring, and executive data pipelines."
 >
-  <section class="relative z-20 max-w-2xl mx-auto my-12 px-7 lg:px-0">
-    <PageHeading
-      title="Project Case Studies"
-      description="Selected AI, backend, and data-platform work explained through the same recruiter-friendly structure: problem, solution, proof, and result."
-    />
+  <main class="mx-auto max-w-6xl px-5 pt-12 sm:px-8 sm:pt-20">
+    <header class="max-w-3xl">
+      <p class="label">Work &middot; {projects.length} case studies</p>
+      <h1
+        class="mt-6 font-serif text-[2.6rem] leading-[1.04] tracking-[-0.02em] text-ink sm:text-6xl"
+      >
+        Case studies
+      </h1>
+      <p class="mt-6 text-lg leading-8 text-ink-2">
+        AI, backend and data-platform work, each told the same way: the problem,
+        the architecture, the proof and the result.
+      </p>
+    </header>
 
-    <div
-      class="z-50 grid items-stretch w-full grid-cols-1 my-8 gap-7 sm:gap-5 sm:grid-cols-2"
-    >
+    <ol class="mt-14 border-b border-rule">
       {
-        projects.map((project) => {
-          return (
-            <Project
-              name={project.name}
-              description={project.description}
-              image={project.image}
-              url={project.url}
-              stacks={project.stacks}
-            />
-          );
-        })
+        projects.map((project, i) => (
+          <Project
+            index={i + 1}
+            name={project.name}
+            description={project.description}
+            image={project.image}
+            url={project.url}
+            stacks={project.stacks}
+          />
+        ))
       }
-    </div>
-  </section>
+    </ol>
+  </main>
 </Layout>
