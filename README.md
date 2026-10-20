@@ -41,7 +41,7 @@ cd website
 cp .env.example .env
 ```
 
-3. Fill in required environment variables in `.env`:
+3. Optionally set environment variables in `.env` (the Sanity project id defaults to the one in `sanity.config.ts`):
 
 ```env
 SANITY_PROJECT_ID=your_project_id

@@ -15,7 +15,7 @@ npm run dev                              # same, without Docker
 npm run check                            # Biome lint (read-only); check:fix mutates
 npm run test:integration                 # Node test runner, tests/integration/*.test.js
 node --test --test-name-pattern="noopener" tests/integration/release-regression.test.js   # one test
-npm run build                            # astro check + astro build (needs SANITY_PROJECT_ID, see below)
+npm run build                            # astro check + astro build (SANITY_PROJECT_ID optional, see below)
 npm run test:monitoring                  # Playwright against the live site, not local code
 ```
 
@@ -29,7 +29,7 @@ Dependencies inside the Compose container live in an anonymous volume. After cha
 - Sanity drives the blog: `/blog`, `/blog/[slug]`, `/rss.xml`, and the `posts-loop` component. All of it goes through `src/lib/sanity.ts`.
 - `src/content/post/*.md` is an Astro content collection (schema in `src/content/config.js`) that no route currently renders. `src/portfolioData.js` is also unreferenced. Treat both as legacy.
 
-**Sanity is a build-time hard dependency.** `createClient` in `src/lib/sanity.ts` throws at import if `SANITY_PROJECT_ID` is empty, so any route that imports it returns 500 in dev and `astro build` fails inside `getStaticPaths`. The home page and project pages do not import it and keep working. The Studio config (`sanity.config.ts`, `sanity.cli.ts`) hardcodes the project id; the site reads it from env, exposed through `envPrefix: ["SANITY_"]` in `astro.config.mjs`. Astro does not load the root `vite.config.ts`; the `@/*` alias comes from `tsconfig.json` paths.
+**Sanity is a build-time dependency with a fallback.** `src/lib/sanity.ts` creates the client at import time from `SANITY_PROJECT_ID`, falling back to the Studio project id hardcoded in `sanity.config.ts` and `sanity.cli.ts`, so `/blog`, `/rss.xml`, the `/post/:slug` redirects and `astro build` work without a `.env`. Set the env var only to point at another project; it is exposed through `envPrefix: ["SANITY_"]` in `astro.config.mjs`. If the client ever fails to initialise, every route that imports it returns 500, and the dev server pushes that error to every open tab as an overlay, so it can appear on top of the home page. Astro does not load the root `vite.config.ts`; the `@/*` alias comes from `tsconfig.json` paths.
 
 **Two layouts with different jobs.**
 

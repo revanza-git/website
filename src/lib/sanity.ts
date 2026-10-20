@@ -34,8 +34,12 @@ export interface Post {
 	body: SanityBlock[];
 }
 
+// The Studio config (sanity.config.ts) hardcodes the same project id. Fall back to it so the
+// blog routes, the RSS feed and `astro build` work in dev and CI without a .env file.
+const STUDIO_PROJECT_ID = "px8q3nuz";
+
 export const client = createClient({
-	projectId: import.meta.env.SANITY_PROJECT_ID,
+	projectId: import.meta.env.SANITY_PROJECT_ID || STUDIO_PROJECT_ID,
 	dataset: import.meta.env.SANITY_DATASET || "production",
 	apiVersion: "2024-03-19",
 	useCdn: true,

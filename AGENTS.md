@@ -49,9 +49,9 @@ Copy environment defaults before local development:
 cp .env.example .env
 ```
 
-Required Sanity variables:
+Sanity variables:
 
-- `SANITY_PROJECT_ID`
+- `SANITY_PROJECT_ID` is optional; when empty, `src/lib/sanity.ts` falls back to the Studio project id in `sanity.config.ts`
 - `SANITY_DATASET` defaults to `production`
 
 Optional variables include `FORMSPREE_ENDPOINT`, `SITE_URL`, `FEED_URL`, `BLOG_URL`, `ENABLE_HTML_INJECT`, `HEADER_INJECT`, and `FOOTER_INJECT`.
