@@ -1,42 +1,73 @@
 ---
-import Layout from "../../layouts/Layout.astro";
-import { type Post, getPosts } from "../../lib/sanity";
-import { urlFor } from "../../lib/sanity";
+import PageHeading from "../../components/page-heading.astro";
+import Layout from "../../layouts/main.astro";
+import { type Post, getPosts, urlFor } from "../../lib/sanity";
 
 const posts = await getPosts();
+const count = `${posts.length} ${posts.length === 1 ? "post" : "posts"}`;
+const formatDate = (value: string) =>
+  new Date(value).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
 ---
 
-<Layout title="Blog">
-  <main class="container mx-auto px-4 py-8">
-    <h1 class="text-4xl font-bold mb-8">Blog Posts</h1>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<Layout
+  title="Blog | Revanza Raytama"
+  description="Writing by Revanza Raytama on backend systems, data platforms, and AI engineering, drawn from production work in energy, telecom, and insurance."
+>
+  <main class="mx-auto max-w-6xl px-5 pt-12 sm:px-8 sm:pt-20">
+    <PageHeading
+      label={`Writing · ${count}`}
+      title="Blog"
+      description="Notes on backend systems, data platforms and AI engineering, written from production work rather than demos."
+    />
+
+    {posts.length === 0 && <p class="mt-14 text-lg leading-8 text-ink-2">No posts yet.</p>}
+
+    <ol class="mt-14 border-b border-rule">
       {
         posts.map((post: Post) => (
-          <article class="bg-white rounded-lg shadow-lg overflow-hidden">
-            {post.mainImage && (
-              <img
-                src={urlFor(post.mainImage).width(600).url()}
-                alt={post.title}
-                class="w-full h-48 object-cover"
-              />
-            )}
-            <div class="p-6">
-              <h2 class="text-2xl font-semibold mb-2">
-                <a
-                  href={`/blog/${post.slug.current}`}
-                  class="hover:text-blue-600"
-                >
-                  {post.title}
-                </a>
-              </h2>
-              <p class="text-gray-600 mb-4">
-                {new Date(post.publishedAt).toLocaleDateString()}
-              </p>
-              {post.excerpt && <p class="text-gray-700">{post.excerpt}</p>}
-            </div>
-          </article>
+          <li class="border-t border-rule" data-reveal>
+            <a
+              href={`/blog/${post.slug.current}`}
+              class="group grid gap-x-6 gap-y-3 py-7 sm:grid-cols-[9rem_1fr] md:grid-cols-[9rem_1fr_11rem]"
+            >
+              <time datetime={post.publishedAt} class="pt-1.5 font-mono text-xs text-muted">
+                {formatDate(post.publishedAt)}
+              </time>
+              <span class="min-w-0">
+                <span class="flex items-baseline gap-2 font-serif text-[1.45rem] leading-tight text-ink transition-colors duration-200 group-hover:text-accent sm:text-[1.7rem]">
+                  <span transition:name={`post-${post.slug.current}`}>{post.title}</span>
+                  <span
+                    class="translate-y-[-1px] font-sans text-base text-muted transition-transform duration-200 group-hover:translate-x-1 group-hover:text-accent"
+                    aria-hidden="true"
+                  >
+                    &rarr;
+                  </span>
+                </span>
+                {post.excerpt && (
+                  <span class="mt-2 block max-w-measure text-[0.95rem] leading-7 text-ink-2">
+                    {post.excerpt}
+                  </span>
+                )}
+              </span>
+              {post.mainImage && (
+                <span class="hidden md:block">
+                  <img
+                    src={urlFor(post.mainImage).width(480).url()}
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                    class="aspect-[16/10] w-full rounded-[4px] border border-rule bg-paper-2 object-cover opacity-80 transition duration-300 group-hover:border-accent group-hover:opacity-100"
+                  />
+                </span>
+              )}
+            </a>
+          </li>
         ))
       }
-    </div>
+    </ol>
   </main>
 </Layout>

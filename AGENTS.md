@@ -4,7 +4,7 @@ Guidance for AI coding agents working in this repository.
 
 ## Project Overview
 
-This is Revanza Raytama's personal portfolio site. It is a static Astro app with Tailwind CSS, local JSON/Markdown content, and optional Sanity CMS integration for blog data.
+This is Revanza Raytama's personal portfolio site. It is a static Astro app with Tailwind CSS, local JSON content, and Sanity CMS for blog data.
 
 Primary stack:
 
@@ -18,19 +18,18 @@ Primary stack:
 
 ## Repository Layout
 
-- `src/pages/` contains Astro routes. Dynamic project and blog pages live here.
-- `src/layouts/` contains shared page layouts.
+- `src/pages/` contains Astro routes. Each section is a folder with `index.astro` and `[slug].astro` (`projects/`, `blog/`); `posts.astro` and `post/[slug].astro` are legacy redirect stubs.
+- `src/layouts/main.astro` is the single site shell used by every page.
 - `src/components/` contains reusable Astro components, including homepage sections.
 - `src/assets/css/main.css` contains Tailwind directives and small global styles.
 - `src/assets/js/main.js` contains client-side behavior: dark-mode toggling, header state, scroll reveals, and the view-transition hooks that re-run set-up on `astro:page-load`.
-- `src/collections/` contains local JSON data for projects, experiences, and menu entries.
-- `src/content/post/` contains local Markdown posts for Astro content collections.
+- `src/collections/` contains local JSON data: projects, experiences, menu entries, and the list-shaped copy of the home and about pages (`home.json`, `about.json`).
 - `src/lib/sanity.ts` contains Sanity client helpers and GROQ queries.
-- `src/schemas/` contains Sanity document schemas.
+- `studio/schemas/` contains the Sanity Studio document schemas. The Studio is a separate app that shares this package: `sanity.config.ts` and `sanity.cli.ts` stay at the repo root because the Sanity CLI reads them from the working directory, and `.sanity/` is its generated cache, not tracked.
 - `public/` contains static assets served at site-root paths such as `/assets/images/...`.
 - `tests/integration/` contains Node test-runner regression tests.
 - `tests/monitoring/` contains Playwright checks against the production site.
-- `docs/` contains release, QA, and monitoring notes.
+- `docs/` contains living guides and the backlog. `docs/releases/<date>/` holds the records of one release (planning, QA, monitoring, stakeholder note); they are history, not instructions.
 - `.claude/` contains Claude Code project settings and hooks (`settings.json`, `hooks/`). `CLAUDE.md` at the root adds Claude-specific architecture notes on top of this file.
 
 ## Local Setup
@@ -108,13 +107,9 @@ Projects are primarily maintained in `src/collections/projects.json`. Keep each 
 
 Navigation entries live in `src/collections/menu.json`.
 
-Local Markdown posts live in `src/content/post/` and must match the schema in `src/content/config.js`:
+Page copy that is a list (home metrics and practice areas, about strengths and contact links) lives in `src/collections/home.json` and `src/collections/about.json`. Paragraph prose stays in the page file.
 
-- `title`
-- `description`
-- `dateFormatted`
-
-Sanity-backed post helpers live in `src/lib/sanity.ts`; keep GROQ query fields aligned with the `Post` interface.
+Sanity-backed post helpers live in `src/lib/sanity.ts`; keep GROQ query fields aligned with the `Post` interface and the Studio schema in `studio/schemas/post.ts`.
 
 ## UI and Accessibility Notes
 

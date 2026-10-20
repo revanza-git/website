@@ -60,5 +60,3 @@ coverage/
 test-results/
 playwright-report/
 
-# Optional: Astro specific
-src/env.d.ts

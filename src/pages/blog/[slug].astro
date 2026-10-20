@@ -1,8 +1,7 @@
 ---
 import { toHTML } from "@portabletext/to-html";
-import Layout from "../../layouts/Layout.astro";
-import { type Post, getPosts } from "../../lib/sanity";
-import { urlFor } from "../../lib/sanity";
+import Layout from "../../layouts/main.astro";
+import { type Post, getPosts, urlFor } from "../../lib/sanity";
 
 export async function getStaticPaths() {
 	const posts = await getPosts();
@@ -13,6 +12,17 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
+
+const published = new Date(post.publishedAt).toLocaleDateString("en-US", {
+	year: "numeric",
+	month: "long",
+	day: "numeric",
+});
+const heroAlt = post.mainImage?.alt ?? post.title;
+// Social previews only reliably accept PNG/JPEG, so ask the Sanity CDN for a JPEG rendition.
+const ogImage = post.mainImage
+	? urlFor(post.mainImage).width(1200).height(630).fit("crop").format("jpg").url()
+	: undefined;
 
 const escapeHtml = (value = "") =>
 	String(value)
@@ -54,21 +64,58 @@ const html = toHTML(post.body ?? [], {
 });
 ---
 
-<Layout title={post.title}>
-  <article class="container mx-auto px-4 py-8 max-w-4xl">
-    {
-      post.mainImage && (
-        <img
-          src={urlFor(post.mainImage).width(1200).url()}
-          alt={post.title}
-          class="w-full h-96 object-cover rounded-lg mb-8"
-        />
-      )
-    }
-    <h1 class="text-4xl font-bold mb-4">{post.title}</h1>
-    <p class="text-gray-600 mb-8">
-      {new Date(post.publishedAt).toLocaleDateString()}
-    </p>
-    <div class="prose prose-lg max-w-none" set:html={html} />
-  </article>
+<Layout
+  title={`${post.title} | Revanza Raytama`}
+  description={post.excerpt}
+  image={ogImage}
+  imageAlt={ogImage ? heroAlt : undefined}
+  type="article"
+>
+  <main class="mx-auto max-w-6xl px-5 pt-10 sm:px-8 sm:pt-14">
+    <a href="/blog" class="label inline-flex items-center gap-2 hover:text-accent">
+      <span aria-hidden="true">&larr;</span> All posts
+    </a>
+
+    <article class="mt-10">
+      <header class="max-w-4xl">
+        <p class="label rise">
+          <time datetime={post.publishedAt}>{published}</time>
+        </p>
+        <h1
+          class="rise mt-5 font-serif text-[2.4rem] leading-[1.04] tracking-[-0.02em] text-ink [text-wrap:balance] sm:text-[3.6rem]"
+          style="--rise-i: 1"
+          transition:name={`post-${post.slug.current}`}
+        >
+          {post.title}
+        </h1>
+        {
+          post.excerpt && (
+            <p
+              class="rise mt-6 max-w-3xl text-lg leading-8 text-ink-2 sm:text-xl sm:leading-9"
+              style="--rise-i: 2"
+            >
+              {post.excerpt}
+            </p>
+          )
+        }
+      </header>
+
+      {
+        post.mainImage && (
+          <figure class="figure-frame mt-10">
+            <img
+              src={urlFor(post.mainImage).width(1600).url()}
+              alt={heroAlt}
+              class="w-full object-cover"
+            />
+          </figure>
+        )
+      }
+
+      <div
+        class="prose prose-lg mt-12 max-w-measure border-t border-rule pt-10 prose-headings:font-serif prose-headings:font-normal prose-a:text-accent dark:prose-invert"
+        set:html={html}
+      />
+    </article>
+  </main>
 </Layout>

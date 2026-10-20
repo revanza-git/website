@@ -1,39 +1,12 @@
 ---
+import about from "../collections/about.json";
 import experiences from "../collections/experiences.json";
 import AboutExperience from "../components/about-experience.astro";
 import PageHeading from "../components/page-heading.astro";
 import ScheduleMeeting from "../components/schedule-meeting.astro";
 import Layout from "../layouts/main.astro";
 
-const strengths = [
-  "Backend architecture for internal platforms, APIs, approval workflows, and operational systems.",
-  "LLM/RAG integration with embeddings, vector retrieval, prompt orchestration, and backend inference services.",
-  "Data integration and reporting layers across SQL Server, BigQuery, Airflow, NiFi, Power BI, and Microsoft Fabric.",
-  "Technical leadership across code review, mentoring, vendor coordination, Agile delivery, and production governance.",
-];
-
-const contactLinks = [
-  {
-    label: "Download resume (PDF)",
-    href: "/assets/documents/Revanza_Raytama_Resume.pdf?v=20261020",
-    external: true,
-  },
-  {
-    label: "LinkedIn",
-    href: "https://www.linkedin.com/in/revanzaraytama/",
-    external: true,
-  },
-  {
-    label: "GitHub",
-    href: "https://github.com/revanza-git",
-    external: true,
-  },
-  {
-    label: "revanza.raytama@gmail.com",
-    href: "mailto:revanza.raytama@gmail.com",
-    external: false,
-  },
-];
+const { strengths, contactLinks } = about;
 ---
 
 <Layout

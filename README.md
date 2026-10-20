@@ -18,7 +18,6 @@ This is Revanza Raytama's personal portfolio website, built from scratch using A
 - [@tailwindcss/typography](https://tailwindcss.com/docs/typography-plugin) v0.5.13 - Typography Plugin
 - [Sanity CMS](https://www.sanity.io/) v3.88.3 - Headless Content Management System
 - [RSS](https://www.rssboard.org/rss-specification) v1.2.2 - RSS Feed Generation
-- [Styled Components](https://styled-components.com/) v6.1.18 - CSS-in-JS Styling
 
 ## 📋 Prerequisites
 
@@ -87,33 +86,11 @@ Sanity Studio will be available at `http://localhost:3333`
 
 ## 🏗️ Project Structure
 
-```
-/
-├── src/
-│   ├── assets/         # Static assets like images and fonts
-│   ├── collections/    # Content collections and schemas
-│   ├── components/     # Reusable UI components
-│   │   ├── button.astro
-│   │   ├── schedule-meeting.astro  # Google Calendar meeting scheduler
-│   │   └── home/
-│   │       ├── projects.astro
-│   │       ├── separator.astro
-│   │       └── writings.astro
-│   ├── content/        # Content configuration
-│   ├── layouts/        # Page layouts and templates
-│   ├── lib/           # Utility functions and shared code
-│   ├── pages/         # Route components
-│   └── schemas/       # Sanity CMS schemas
-├── public/            # Public static files
-├── tests/             # QA test suites
-│   └── integration/   # Integration/regression tests
-├── .sanity/          # Sanity Studio configuration
-├── astro.config.mjs  # Astro configuration
-├── sanity.config.ts  # Sanity CMS configuration
-├── tailwind.config.mjs # Tailwind CSS configuration
-├── package.json      # Project dependencies and scripts
-└── .node-version     # Node.js version specification
-```
+The layout is documented once, in [AGENTS.md](AGENTS.md#repository-layout), so it cannot drift from the guidance contributors and agents follow. In short:
+
+- `src/` is the Astro site: routes in `pages/`, one shell in `layouts/main.astro`, local JSON content in `collections/`, and the Sanity client in `lib/sanity.ts`.
+- `studio/` plus the root `sanity.config.ts` and `sanity.cli.ts` are the Sanity Studio app that shares this package.
+- `public/` holds static assets served at the site root, `tests/` holds the integration and monitoring suites, and `docs/` holds guides with release records under `docs/releases/<date>/`.
 
 ## 🎨 Features
 
@@ -156,14 +133,10 @@ This feature streamlines the client onboarding process by removing friction from
 
 ## 📝 Content Management
 
-Content is managed through Sanity CMS, providing a user-friendly interface for managing:
+Two content sources, both rendered at build time:
 
-- Blog posts
-- Projects
-- Site settings
-- Media assets
-
-The content is fetched using GROQ queries and rendered using Portable Text components.
+- Local JSON in `src/collections/` drives the home page, `/projects`, the case-study pages, and `/about`. `projects.json` is the single source for case studies.
+- Sanity CMS drives the blog (`/blog`, `/blog/[slug]`, `/rss.xml`). Posts are fetched with GROQ queries in `src/lib/sanity.ts` and rendered with Portable Text. The Studio schemas live in `studio/schemas/`.
 
 ## 🌐 Deployment
 
@@ -193,14 +166,7 @@ This portfolio is configured for **production deployment on Vercel** and **local
      SANITY_DATASET=production
      ```
 
-4. Deploy Sanity Studio:
-
-   - Create a new project in Vercel for Sanity Studio
-   - Set the root directory to `.sanity`
-   - Configure build settings:
-     - Build Command: `npm run build`
-     - Output Directory: `dist`
-   - Add the same environment variables as above
+4. Deploy Sanity Studio with `npm run sanity:deploy` (see below). `.sanity/` is a generated cache, not a deployable app.
 
 5. Deploy your project:
    - Click "Deploy"
@@ -208,9 +174,7 @@ This portfolio is configured for **production deployment on Vercel** and **local
 
 `vercel.json` is already committed with these settings.
 
-### Alternative: Deploy Sanity Studio Separately
-
-If you prefer to deploy Sanity Studio separately:
+### Deploying Sanity Studio
 
 1. Deploy Sanity Studio to [Sanity's hosting](https://www.sanity.io/manage):
 
@@ -225,9 +189,7 @@ If you prefer to deploy Sanity Studio separately:
 After deployment:
 
 - Your main site will be available at `https://your-project.vercel.app`
-- Sanity Studio will be available at:
-  - `https://your-project.sanity.studio` (if using Sanity hosting)
-  - or `https://your-sanity-studio.vercel.app` (if deployed to Vercel)
+- Sanity Studio will be available at `https://your-project.sanity.studio`
 
 ### Development Workflow
 

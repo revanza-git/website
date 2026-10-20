@@ -1,32 +1,9 @@
 ---
+import home from "../collections/home.json";
 import Projects from "../components/home/projects.astro";
 import Layout from "../layouts/main.astro";
 
-const metrics = [
-  { value: "8+", label: "Years shipping backend & data systems" },
-  { value: "30+", label: "App databases consolidated for reporting" },
-  { value: "5 TB+", label: "National-scale telco data processed" },
-  { value: "80 h", label: "Manual work removed every month" },
-];
-
-const practice = [
-  {
-    title: "AI systems",
-    body: "RAG pipelines, embeddings and vector retrieval, MCP servers and tool calling, with guardrails enforced on the server and evaluation before trust.",
-  },
-  {
-    title: "Backend platforms",
-    body: ".NET, Laravel and TypeScript services: APIs, approval workflows, role-based access, audit trails, payments and event-driven processing.",
-  },
-  {
-    title: "Data & reporting",
-    body: "Airflow and Spark pipelines, SQL Server and PostgreSQL marts, Power BI and Fabric dashboards that leadership reads every day.",
-  },
-  {
-    title: "Technical delivery",
-    body: "Leading seven cross-functional squads and vendor developers: architecture, standards, code review and production rollouts.",
-  },
-];
+const { metrics, practice } = home;
 ---
 
 <Layout title="Revanza Raytama | Senior Backend & AI Systems Engineer">
