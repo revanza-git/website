@@ -15,5 +15,16 @@
 			"destination": "/blog/:slug",
 			"permanent": true
 		}
+	],
+	"headers": [
+		{
+			"source": "/assets/documents/(.*)",
+			"headers": [
+				{
+					"key": "Cache-Control",
+					"value": "public, max-age=0, must-revalidate"
+				}
+			]
+		}
 	]
 }
