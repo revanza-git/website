@@ -20,7 +20,7 @@ Select Projects:
 - FSRU Real-Time Operations Dashboard (PT Nusantara Regas – FSRU Division, 2025): Streamed 5,000+ sensor tags and surfaced near-instant KPIs; reduced latency from 12h to <5min. Orchestrated cross-team delivery (ops, instrumentation, IT). Tech: Apache Spark, MQTT Broker, SQL Server, Talend CDC, Power BI.
 - In-House SQL Warehouse & Data Lake (PT Nusantara Regas, 2025): Unified 20+ siloed apps into a lake-house (PostgreSQL/NiFi → BigQuery). Added scheduling, monitoring, and Slack alerting. Achieved ~30% infra cost savings. Tech: PostgreSQL, Apache NiFi 1.19, Google BigQuery, GCP Composer, Cloud Monitoring.
 - SINV – Warehouse Inventory Management System (2024): Replaced spreadsheet workflows with a web app; added analytics, barcode intake, and Power BI connectors. Cut input time by 60%, reduced error rate by 90%. Led requirements → deployment. Tech: Laravel 10, Blazor WASM, SQL Server, Power BI Embedded.
-- FP3/LP3 Invoice-Merge Dashboard (2025): Automated OCR extraction and merging of PR/PO PDFs; paperwork turnaround dropped from 3 days to same-day. Tech: ASP.NET Core 8.0, Tesseract OCR, SQL Server, Docker Compose.
+- FP3/LP3 Invoice-Merge Dashboard (2025): Automated OCR extraction and merging of PR/PO PDFs; paperwork turnaround dropped from 3 days to same-day. Tech: ASP.NET Core, Tesseract OCR, SQL Server, Docker Compose.
 - Tugboat Fuel Monitoring System (2023): Digital fuel logbook & anomaly alerting for offshore tugboats. Detected 12 fuel leak events, saving ~800L/month. Tech: React, Laravel 8, MySQL, Grafana.
 - DeFi Dashboard (Side Project, 2025): Next.js dashboard integrating MetaMask, RainbowKit, and ERC-20 balances. Tech: Next.js 14, RainbowKit, Ethers.js, Tailwind CSS.
 

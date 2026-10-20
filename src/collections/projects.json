@@ -98,9 +98,9 @@
 		],
 		"result": "The project demonstrates production-style AI application architecture beyond a prompt-only demo: persistent memory, retrieval, structured outputs, backend orchestration, and evaluation-ready workflows.",
 		"architecture": {
-			"src": "/assets/images/projects/dndmind/architecture.webp",
-			"alt": "DNDMind architecture: Next.js client, ASP.NET Core 8 API, Python FastAPI AI worker with Gemini, PostgreSQL with pgvector indices, guardrails and an evaluation suite, deployed on Cloud Run",
-			"caption": "The Next.js client talks to an ASP.NET Core 8 API that owns campaign data in PostgreSQL. A Python FastAPI worker handles generation, retrieval over separate rules and homebrew indices in pgvector, tool calls and guardrail checks, and a deterministic evaluation suite runs against the same pipeline."
+			"src": "/assets/images/projects/dndmind/architecture.webp?v=20261020",
+			"alt": "DNDMind architecture: Next.js client, ASP.NET Core API, Python FastAPI AI worker with Gemini, PostgreSQL with pgvector indices, guardrails and an evaluation suite, deployed on Cloud Run",
+			"caption": "The Next.js client talks to an ASP.NET Core API that owns campaign data in PostgreSQL. A Python FastAPI worker handles generation, retrieval over separate rules and homebrew indices in pgvector, tool calls and guardrail checks, and a deterministic evaluation suite runs against the same pipeline."
 		}
 	},
 	{
@@ -166,7 +166,7 @@
 			}
 		],
 		"stacks": [
-			".NET 8",
+			".NET",
 			"Clean Architecture",
 			"Blazor",
 			"EF Core",
@@ -176,7 +176,7 @@
 			"Nginx"
 		],
 		"problem": "Enterprise risk tracking was fragmented across Excel files and manual reporting flows. Risk registers, treatment plans, KRI monitoring, action plans, approvals, and dashboard reporting needed a centralized system so risk owners and executives could work from the same operational source.",
-		"solution": "Led the development of NR EMAS, directing the developer who built it as a .NET 8 platform with Clean Architecture: a Blazor (MudBlazor) interface, Web API, EF Core on SQL Server, MediatR, Hangfire background jobs, Serilog and Application Insights logging, and xUnit tests. The platform centralizes risk registers and treatment plans, routes action plans through a Manager, VP, and Risk Management approval chain, tracks KRIs and treatment progress, and gives executives real-time dashboards. Personally handled the production rollout: Docker deployment, an Nginx SSL reverse proxy, SQL Server initialization, and email notifications through the company Portal API.",
+		"solution": "Led the development of NR EMAS, directing the developer who built it as a .NET platform with Clean Architecture: a Blazor (MudBlazor) interface, Web API, EF Core on SQL Server, MediatR, Hangfire background jobs, Serilog and Application Insights logging, and xUnit tests. The platform centralizes risk registers and treatment plans, routes action plans through a Manager, VP, and Risk Management approval chain, tracks KRIs and treatment progress, and gives executives real-time dashboards. Personally handled the production rollout: Docker deployment, an Nginx SSL reverse proxy, SQL Server initialization, and email notifications through the company Portal API.",
 		"proof": [
 			"Public Rewire success story describes NR EMAS as replacing Excel-based risk tracking with a centralized workflow-driven platform.",
 			"Clean Architecture separates risk domain rules, application workflows (MediatR), infrastructure (EF Core, Hangfire), and the Blazor presentation layer, keeping the risk logic maintainable and testable with xUnit.",
@@ -185,9 +185,9 @@
 		],
 		"result": "Moved risk monitoring from spreadsheet-based tracking into a centralized production platform with clearer ownership, structured approvals, KRI visibility, and real-time executive risk dashboards.",
 		"architecture": {
-			"src": "/assets/images/projects/nr-emas/architecture.webp",
-			"alt": "NR EMAS architecture: Blazor UI and Web API on .NET 8 Clean Architecture with MediatR, EF Core on SQL Server and Hangfire jobs, deployed in Docker behind an Nginx SSL reverse proxy with Portal API email",
-			"caption": "A .NET 8 Clean Architecture platform: a Blazor UI on a Web API, MediatR application workflows, EF Core on SQL Server and Hangfire background jobs. I directed the build and owned the production rollout: Docker, an Nginx SSL reverse proxy, SQL Server initialisation and Portal API email."
+			"src": "/assets/images/projects/nr-emas/architecture.webp?v=20261020",
+			"alt": "NR EMAS architecture: Blazor UI and Web API on .NET Clean Architecture with MediatR, EF Core on SQL Server and Hangfire jobs, deployed in Docker behind an Nginx SSL reverse proxy with Portal API email",
+			"caption": "A .NET Clean Architecture platform: a Blazor UI on a Web API, MediatR application workflows, EF Core on SQL Server and Hangfire background jobs. I directed the build and owned the production rollout: Docker, an Nginx SSL reverse proxy, SQL Server initialisation and Portal API email."
 		}
 	},
 	{
