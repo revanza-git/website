@@ -118,6 +118,7 @@ Sanity Studio will be available at `http://localhost:3333`
 ## 🎨 Features
 
 - **🌙 Dark mode support** with system preference detection
+- **🎬 Subtle motion** with Astro view transitions, a staggered hero entrance, and scroll reveals that respect reduced-motion settings
 - **📱 Responsive design** optimized for all devices
 - **📝 Blog/Writing section** with rich text support
 - **🚀 Projects showcase** with filtering capabilities

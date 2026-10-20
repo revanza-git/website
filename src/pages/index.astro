@@ -34,15 +34,19 @@ const practice = [
     <section class="mx-auto max-w-6xl px-5 pb-16 pt-12 sm:px-8 sm:pt-20">
       <div class="grid gap-10 lg:grid-cols-[1fr_15rem] lg:items-end lg:gap-16">
         <div>
-          <p class="label">Senior Backend &amp; AI Engineer &middot; Jakarta</p>
+          <p class="label rise">Senior Backend &amp; AI Engineer &middot; Jakarta</p>
           <h1
-            class="mt-6 max-w-[17ch] font-serif text-[2.7rem] font-normal leading-[1.02] tracking-[-0.025em] text-ink [text-wrap:balance] sm:text-6xl lg:text-[4.4rem]"
+            class="rise mt-6 max-w-[17ch] font-serif text-[2.7rem] font-normal leading-[1.02] tracking-[-0.025em] text-ink [text-wrap:balance] sm:text-6xl lg:text-[4.4rem]"
+            style="--rise-i: 1"
           >
             Backend, data and AI systems that hold up in <em
               class="italic text-accent">real operations</em
             >.
           </h1>
-          <p class="mt-7 max-w-[38rem] text-lg leading-8 text-ink-2 [text-wrap:pretty]">
+          <p
+            class="rise mt-7 max-w-[38rem] text-lg leading-8 text-ink-2 [text-wrap:pretty]"
+            style="--rise-i: 2"
+          >
             I'm Revanza Raytama. For more than eight years I've built platforms for energy,
             telecom and insurance. Today I lead technical delivery at a Pertamina
             subsidiary, and I co-founded
@@ -50,7 +54,7 @@ const practice = [
               >MeatLink</a
             >, where I run the technology.
           </p>
-          <div class="mt-9 flex flex-wrap items-center gap-x-6 gap-y-4">
+          <div class="rise mt-9 flex flex-wrap items-center gap-x-6 gap-y-4" style="--rise-i: 3">
             <a
               href="/assets/documents/Revanza_Raytama_Resume.pdf?v=20261020"
               target="_blank"
@@ -87,7 +91,7 @@ const practice = [
           </div>
         </div>
 
-        <figure class="hidden w-full lg:block">
+        <figure class="rise hidden w-full lg:block" style="--rise-i: 2">
           <div class="figure-frame">
             <img
               src="/assets/images/revanza-raytama.jpg"
@@ -103,7 +107,10 @@ const practice = [
         </figure>
       </div>
 
-      <dl class="mt-16 grid grid-cols-2 gap-px border-y border-rule bg-rule md:grid-cols-4">
+      <dl
+        class="rise mt-16 grid grid-cols-2 gap-px border-y border-rule bg-rule md:grid-cols-4"
+        style="--rise-i: 4"
+      >
         {
           metrics.map((metric, i) => (
             <div class={`bg-paper py-5 pr-4 ${i % 2 === 1 ? "pl-5" : ""} ${i > 0 ? "md:pl-6" : ""}`}>
@@ -118,7 +125,11 @@ const practice = [
 
     <Projects />
 
-    <section class="mx-auto mt-24 max-w-6xl px-5 sm:px-8" aria-labelledby="practice-heading">
+    <section
+      class="mx-auto mt-24 max-w-6xl px-5 sm:px-8"
+      aria-labelledby="practice-heading"
+      data-reveal
+    >
       <div class="border-b border-ink pb-4">
         <h2 id="practice-heading" class="font-serif text-3xl leading-none text-ink sm:text-4xl">
           What I work on
@@ -138,7 +149,7 @@ const practice = [
     </section>
 
     <section class="mx-auto mt-24 max-w-6xl px-5 sm:px-8">
-      <div class="rounded-[6px] border border-rule bg-card px-6 py-12 sm:px-12 sm:py-16">
+      <div class="rounded-[6px] border border-rule bg-card px-6 py-12 sm:px-12 sm:py-16" data-reveal>
         <p class="label">Open to senior backend and AI engineering roles</p>
         <p
           class="mt-5 max-w-3xl font-serif text-[2rem] leading-[1.12] text-ink [text-wrap:balance] sm:text-[2.6rem]"

@@ -3,11 +3,18 @@ const { title, description, label } = Astro.props;
 ---
 
 <header class="max-w-3xl">
-  {label && <p class="label">{label}</p>}
+  {label && <p class="label rise">{label}</p>}
   <h1
-    class="mt-6 font-serif text-[2.6rem] leading-[1.04] tracking-[-0.02em] text-ink sm:text-6xl"
+    class="rise mt-6 font-serif text-[2.6rem] leading-[1.04] tracking-[-0.02em] text-ink sm:text-6xl"
+    style="--rise-i: 1"
   >
     {title}
   </h1>
-  {description && <p class="mt-6 text-lg leading-8 text-ink-2">{description}</p>}
+  {
+    description && (
+      <p class="rise mt-6 text-lg leading-8 text-ink-2" style="--rise-i: 2">
+        {description}
+      </p>
+    )
+  }
 </header>

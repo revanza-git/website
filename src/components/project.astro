@@ -3,9 +3,11 @@
 const { index, name, description, url, image, stacks = [] } = Astro.props;
 const number = String(index).padStart(2, "0");
 const stackList = Array.isArray(stacks) ? stacks.slice(0, 5) : [];
+// Shared view-transition name so the title morphs into the case-study heading.
+const slug = String(url).split("/").filter(Boolean).pop();
 ---
 
-<li class="border-t border-rule">
+<li class="border-t border-rule" data-reveal>
   <a
     href={url}
     class="group grid grid-cols-[2.25rem_1fr] gap-x-4 py-7 sm:grid-cols-[3rem_1fr_11rem] sm:gap-x-6 md:grid-cols-[3rem_1fr_11rem_14rem]"
@@ -15,7 +17,7 @@ const stackList = Array.isArray(stacks) ? stacks.slice(0, 5) : [];
       <span
         class="flex items-baseline gap-2 font-serif text-[1.45rem] leading-tight text-ink transition-colors duration-200 group-hover:text-accent sm:text-[1.7rem]"
       >
-        {name}
+        <span transition:name={`title-${slug}`}>{name}</span>
         <span
           class="translate-y-[-1px] font-sans text-base text-muted transition-transform duration-200 group-hover:translate-x-1 group-hover:text-accent"
           aria-hidden="true">&rarr;</span
@@ -37,7 +39,7 @@ const stackList = Array.isArray(stacks) ? stacks.slice(0, 5) : [];
         alt=""
         loading="lazy"
         decoding="async"
-        class="aspect-[16/10] w-full rounded-[4px] border border-rule bg-paper-2 object-cover object-top transition duration-300 group-hover:border-accent"
+        class="aspect-[16/10] w-full rounded-[4px] border border-rule bg-paper-2 object-cover object-top opacity-80 transition duration-300 group-hover:border-accent group-hover:opacity-100"
       />
     </span>
   </a>

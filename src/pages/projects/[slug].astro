@@ -38,13 +38,18 @@ const ogImage = /\.(png|jpe?g)$/i.test(project.image) ? project.image : undefine
     </a>
 
     <header class="mt-10 max-w-4xl">
-      <p class="label">Case study {number} / {total}</p>
+      <p class="label rise">Case study {number} / {total}</p>
       <h1
-        class="mt-5 font-serif text-[2.4rem] leading-[1.04] tracking-[-0.02em] text-ink [text-wrap:balance] sm:text-[3.6rem]"
+        class="rise mt-5 font-serif text-[2.4rem] leading-[1.04] tracking-[-0.02em] text-ink [text-wrap:balance] sm:text-[3.6rem]"
+        style="--rise-i: 1"
+        transition:name={`title-${project.slug}`}
       >
         {project.name}
       </h1>
-      <p class="mt-6 max-w-3xl text-lg leading-8 text-ink-2 sm:text-xl sm:leading-9">
+      <p
+        class="rise mt-6 max-w-3xl text-lg leading-8 text-ink-2 sm:text-xl sm:leading-9"
+        style="--rise-i: 2"
+      >
         {project.description}
       </p>
     </header>
@@ -168,6 +173,7 @@ const ogImage = /\.(png|jpe?g)$/i.test(project.image) ? project.image : undefine
           <span class="label">Next case study</span>
           <span
             class="mt-3 block font-serif text-[1.9rem] leading-tight text-ink transition-colors duration-200 group-hover:text-accent sm:text-[2.4rem]"
+            transition:name={`title-${next.slug}`}
           >
             {next.name}
           </span>

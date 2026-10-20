@@ -22,7 +22,7 @@ Primary stack:
 - `src/layouts/` contains shared page layouts.
 - `src/components/` contains reusable Astro components, including homepage sections.
 - `src/assets/css/main.css` contains Tailwind directives and small global styles.
-- `src/assets/js/main.js` contains client-side behavior such as dark-mode toggling.
+- `src/assets/js/main.js` contains client-side behavior: dark-mode toggling, header state, scroll reveals, and the view-transition hooks that re-run set-up on `astro:page-load`.
 - `src/collections/` contains local JSON data for projects, experiences, and menu entries.
 - `src/content/post/` contains local Markdown posts for Astro content collections.
 - `src/lib/sanity.ts` contains Sanity client helpers and GROQ queries.
@@ -122,6 +122,7 @@ Sanity-backed post helpers live in `src/lib/sanity.ts`; keep GROQ query fields a
 - Keep responsive layouts usable on mobile and desktop.
 - Use semantic headings and meaningful `alt` text for portfolio images.
 - Avoid adding hidden runtime dependencies for static pages unless Astro hydration is truly needed.
+- Motion is CSS-driven: `.rise` with `--rise-i` staggers page headings in on a full load, `data-reveal` fades sections in on scroll, and Astro view transitions cross-fade between pages. Keep animations short, keep them under the existing `prefers-reduced-motion` rule, and do not add a motion library.
 - Keep hero and project imagery inspectable; do not replace content images with purely decorative assets.
 
 ## Testing Notes
