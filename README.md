@@ -262,6 +262,12 @@ After deployment:
 - Edge 90+
 - **✅ Mobile browsers fully supported** for all site features
 
+## 🤖 AI Agent Guidance
+
+- `AGENTS.md` holds the shared guidance for AI coding agents: layout, commands, content rules, and safety.
+- `CLAUDE.md` adds Claude Code specifics on top of it: cross-file architecture, gotchas, and commit rules.
+- `.claude/settings.json` ships a commit hook that reminds the agent to keep these docs and `.gitignore` current, and turns off AI attribution in commits.
+
 ## 📜 License
 
 MIT License - feel free to use this project as inspiration for your own portfolio!

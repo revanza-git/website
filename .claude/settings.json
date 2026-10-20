@@ -1,0 +1,21 @@
+{
+	"attribution": {
+		"commit": "",
+		"pr": ""
+	},
+	"hooks": {
+		"PreToolUse": [
+			{
+				"matcher": "Bash|PowerShell",
+				"hooks": [
+					{
+						"type": "command",
+						"command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/commit-docs-check.js\"",
+						"timeout": 15,
+						"statusMessage": "Checking docs before commit"
+					}
+				]
+			}
+		]
+	}
+}

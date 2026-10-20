@@ -31,6 +31,7 @@ Primary stack:
 - `tests/integration/` contains Node test-runner regression tests.
 - `tests/monitoring/` contains Playwright checks against the production site.
 - `docs/` contains release, QA, and monitoring notes.
+- `.claude/` contains Claude Code project settings and hooks (`settings.json`, `hooks/`). `CLAUDE.md` at the root adds Claude-specific architecture notes on top of this file.
 
 ## Local Setup
 
@@ -154,3 +155,5 @@ The main site is configured for Vercel:
 - Prefer `rg` for searching.
 - Use `package-lock.json` with npm; do not introduce another package manager lockfile.
 - If adding dependencies, justify why they are needed and update `package-lock.json`.
+- Before every commit, check whether the change makes `README.md`, `CLAUDE.md`, `AGENTS.md`, or `.gitignore` stale, and update them in the same commit if so.
+- Do not add `Co-Authored-By` or any other AI attribution lines to commit messages or pull request descriptions.
