@@ -1,6 +1,6 @@
 {
 	"metrics": [
-		{ "value": "8+", "label": "Years shipping backend & data systems" },
+		{ "value": "9+", "label": "Years shipping backend & data systems" },
 		{ "value": "30+", "label": "App databases consolidated for reporting" },
 		{ "value": "5 TB+", "label": "National-scale telco data processed" },
 		{ "value": "80 h", "label": "Manual work removed every month" }
