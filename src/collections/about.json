@@ -1,14 +1,14 @@
 {
 	"strengths": [
-		"Backend architecture for internal platforms, APIs, approval workflows, and operational systems.",
-		"LLM/RAG integration with embeddings, vector retrieval, prompt orchestration, and backend inference services.",
-		"Data integration and reporting layers across SQL Server, BigQuery, Airflow, NiFi, Power BI, and Microsoft Fabric.",
-		"Technical leadership across code review, mentoring, vendor coordination, Agile delivery, and production governance."
+		"Workflow platforms with audit trails, idempotent commands, and server-side authorization, built to survive real operations.",
+		"AI features that ship: RAG assistants, LLM drafting and diagram generation, with guardrails enforced on the server and human review before trust.",
+		"Legacy modernization without drama: framework upgrades, Oracle to PostgreSQL migrations, CI quality gates, and containerized deployments.",
+		"Technical leadership across seven squads and vendor developers: architecture, standards, code review, mentoring, and production governance."
 	],
 	"contactLinks": [
 		{
 			"label": "Download resume (PDF)",
-			"href": "/assets/documents/Revanza_Raytama_Resume.pdf?v=20261030h",
+			"href": "/assets/documents/Revanza_Raytama_Resume.pdf?v=20261030i",
 			"external": true
 		},
 		{

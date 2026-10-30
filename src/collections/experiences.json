@@ -3,7 +3,7 @@
 		"dates": "Nov 2021 – Present",
 		"role": "Senior Software Engineer",
 		"company": "PT Nusantara Regas — Pertamina Subsidiary / SOE Energy Company",
-		"description": "Designed backend architecture for mission-critical platforms across LNG operations, procurement, risk, reporting, and executive decision support. Architected an on-premise LLM knowledge assistant and redesigned it into a RAG pipeline with document chunking, embeddings, vector retrieval, contextual prompt orchestration, and controlled output handling. Built Airflow pipelines and a centralized SQL Server reporting store consolidating data from 30+ internal application databases for Power BI/Fabric dashboards. Integrated SCADA and FSRU operational systems, eliminating manual Excel workflows and saving about 80 staff-hours per month. Led 7 cross-functional Agile squads across architecture, code review, mentoring, vendor coordination, deployment, and operational governance.",
+		"description": "Technical lead for 7 cross-functional Agile squads and vendor developers across LNG operations, procurement, CSR, risk, and executive reporting. Architected an on-premise LLM knowledge assistant and redesigned it into a RAG pipeline that is in production use. Designed and built NR PTW Online, a .NET 10 and Angular 22 permit-to-work platform that now handles around 1,000 permits a month, and led RASCI STK, a Blazor WebAssembly governance platform whose AI module cut first drafts of procedures from a week to under 30 minutes. Directed NR EMAS, a .NET Clean Architecture risk platform, and owned its production rollout. Built the Airflow and Spark pipeline behind 13 executive KPIs, the SQL Server reporting store consolidating 30+ application databases, and the SCADA and FSRU integrations that removed about 80 staff-hours of manual work a month. Modernized the Laravel CSR platform from Laravel 6 and Oracle to Laravel 8 and PostgreSQL 16 with CI quality gates.",
 		"logo": "/assets/images/experiences/nr-logo.png"
 	},
 	{
@@ -17,7 +17,7 @@
 		"dates": "Oct 2018 – Oct 2020",
 		"role": "IT Business Support & App Delivery",
 		"company": "Equity Life Indonesia",
-		"description": "Automated HCI claims and payment reporting with a Laravel CSV engine scheduled via SFTP, moving KPI turnaround from three-day follow-ups to same-day delivery and cutting runtime by about 70%. Rolled out a Laravel + React compensation and marketing program platform, replacing Excel macros for fee, contest, and referral tracking and reducing month-end processing effort by about 50%. Delivered the E-PDD policy-printing service, reducing issue-to-print time from 24 hours to under 1 hour.",
+		"description": "Automated insurance claims and payment reporting with a Laravel CSV engine scheduled via SFTP, moving KPI turnaround from three-day follow-ups to same-day delivery and cutting runtime by about 70%. Rolled out a Laravel and React compensation and marketing program platform, replacing Excel macros for fee, contest, and referral tracking and reducing month-end processing effort by about 50%. Delivered a policy-printing service that automated secure transfer of issued-policy PDFs, reducing issue-to-print time from 24 hours to under 1 hour.",
 		"logo": "/assets/images/experiences/equity-life.png"
 	},
 	{
