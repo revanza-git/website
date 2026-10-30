@@ -76,7 +76,7 @@ Sanity Studio will be available at `http://localhost:3333`
 - `npm run check` - Run Biome lint checks (non-mutating)
 - `npm run test` - Run all tests
 - `npm run test:integration` - Run integration regression tests (includes the assistant retrieval checks)
-- `npm run test:assistant` - Ask the running site's assistant the 30 eval questions in `tests/assistant/cases.json` (needs `GROQ_API_KEY`)
+- `npm run test:assistant` - Ask the running site's assistant the 33 eval questions in `tests/assistant/cases.json` (needs `GROQ_API_KEY`)
 - `npm run test:monitoring` - Run production browser client-error sweep
 - `npm run docker:dev` - Start local dev container
 - `npm run docker:dev:down` - Stop and remove local dev container
@@ -168,7 +168,7 @@ This portfolio is configured for **production deployment on Vercel** and **local
      SANITY_DATASET=production
      GROQ_API_KEY=your_groq_key          # portfolio assistant; omit to disable the chat endpoint
      GROQ_MODEL=openai/gpt-oss-120b
-     GROQ_FALLBACK_MODEL=llama-3.1-8b-instant
+     GROQ_FALLBACK_MODEL=openai/gpt-oss-20b
      ```
    - Optional: `PUBLIC_TURNSTILE_SITE_KEY` and `TURNSTILE_SECRET_KEY` turn on Cloudflare Turnstile for the assistant.
 

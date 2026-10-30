@@ -200,6 +200,59 @@
 		}
 	},
 	{
+		"slug": "portfolio-assistant-rag-chat",
+		"name": "Portfolio Assistant: Retrieval-Augmented Chat on a Static Site",
+		"description": "The \"Ask about my work\" panel on this site: a retrieval-augmented assistant that answers recruiters' questions from the published case studies and resume, streams answers from Groq through the site's only server route, and ships with retrieval tests and a 33-question eval.",
+		"image": "/assets/images/projects/portfolio-assistant/widget-answer.jpg",
+		"screenshots": [
+			{
+				"src": "/assets/images/projects/portfolio-assistant/widget-answer.jpg",
+				"alt": "The assistant panel open on a case-study page, answering which projects used .NET with linked case studies"
+			},
+			{
+				"src": "/assets/images/projects/portfolio-assistant/widget-sources.webp",
+				"alt": "An answer about the permit-to-work platform with the source line linking the case study it was drawn from"
+			},
+			{
+				"src": "/assets/images/projects/portfolio-assistant/widget-mobile.webp",
+				"alt": "The assistant panel on a phone-sized screen with the suggested questions"
+			}
+		],
+		"url": "/projects/portfolio-assistant-rag-chat",
+		"links": [
+			{
+				"label": "Source on GitHub",
+				"url": "https://github.com/revanza-git/website"
+			}
+		],
+		"stacks": [
+			"Astro",
+			"TypeScript",
+			"Groq",
+			"gpt-oss-120b",
+			"BM25 Retrieval",
+			"Streaming",
+			"Vercel Functions",
+			"Node Test Runner"
+		],
+		"problem": "Recruiters land on a portfolio with eighteen other case studies and a two-page resume and have about ninety seconds. They want answers to specific questions: has he shipped .NET 10, has he led teams, is he open to remote work. A search box cannot answer those, and a generic chatbot that invents a job title would be worse than nothing. The site is fully static on a free hosting tier, and the only free LLM access, Groq's free tier, allows about 8,000 tokens a minute, so a chatbot that stuffs the whole profile into every prompt would fail on its first question.",
+		"solution": "I built the assistant as a small retrieval-augmented system inside the site. At load, the API route builds a BM25 index over chunks cut from the same JSON that renders the pages: each case study's overview, solution and proof, the experience timeline, the About strengths, and a facts file for the few things that live nowhere else, such as title, languages and availability. Each question retrieves the top three chunks, adds the profile facts and a one-line-per-case-study directory, and sends about 2,000 tokens to Groq with a system prompt that allows answers only from that context, requires a plain admission when the context is missing, links the relevant case study, and declines off-topic requests. The answer streams back as text with the cited sources in a header; the widget renders a safe subset of markdown and keeps the conversation in session storage across page navigations. Everything else on the site stays prerendered: this is the only server route.",
+		"proof": [
+			"Grounded by construction: the corpus is generated from projects.json, experiences.json, about.json and assistant.json at module load, so the assistant cannot drift from the published pages.",
+			"Sized for the free tier: BM25 selects three chunks under a 4,500-character budget, so a question costs about 2,000 tokens against Groq's 8,000-tokens-per-minute limit, with a fallback model when the primary is rate-limited.",
+			"Guardrails on the server: message count and size caps, a per-instance per-IP limit, a 30-second upstream timeout, optional Cloudflare Turnstile, and a system prompt that refuses to invent facts or follow instructions embedded in questions.",
+			"Honest citations: the source line appears only when retrieval is confident, a clear top score with hits at least half as strong, so a weak match is never dressed up as evidence.",
+			"Tested at two levels: node --test retrieval checks that every case study is indexed and that recruiter questions rank the right one first, and a 33-question eval with required and forbidden phrases, covering co-founder framing, phone-number refusal, prompt injection and an Indonesian question, run against the live endpoint.",
+			"Zero added weight on the pages: one Astro component and a few hundred lines of script; no model runs in the browser and no key reaches it."
+		],
+		"result": "Visitors get specific, cited answers in a couple of seconds, and the assistant admits what the site does not say instead of guessing. It costs nothing to run at portfolio traffic, and it doubles as a live demonstration of the retrieval, prompt and evaluation discipline described in the other AI case studies.",
+		"architecture": {
+			"src": "/assets/images/projects/portfolio-assistant/architecture.webp",
+			"alt": "Portfolio assistant architecture: visitors use the widget on the static Astro site, which posts to the single server route; the route validates and rate-limits, retrieves BM25 chunks from the site's own JSON, builds a 2,000-token context and streams the answer from Groq, returning source links; evidence band with retrieval tests, the 33-question eval, confidence-gated citations and nothing running in the browser",
+			"caption": "The widget posts to the one server route on an otherwise static site. The route validates and limits the request, retrieves three chunks from a BM25 index built over the same JSON that renders the pages, adds the profile facts and case-study directory, and streams Groq's answer back with its sources. The green band is what makes it trustworthy: retrieval tests, a 33-question eval and citations that only appear when retrieval is confident."
+		}
+	},
+	{
 		"slug": "nr-ptw-online-permit-to-work",
 		"name": "NR PTW Online Permit-to-Work Platform",
 		"description": "Digital permit-to-work lifecycle for an LNG regasification operator: drafts, HSE validation, area-owner approval, issuance, suspension, renewal and closure, with every transition an explicit idempotent command and an official print package rendered from an immutable snapshot.",

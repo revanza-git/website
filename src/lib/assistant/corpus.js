@@ -2,7 +2,7 @@
 // Plain JavaScript so the Node test runner can import it without a build step.
 
 /**
- * @typedef {{ id: string, title: string, url: string, text: string, kind: "project" | "experience" | "about" | "facts" }} Chunk
+ * @typedef {{ id: string, title: string, url: string, text: string, kind: "project" | "experience" | "about" | "facts" | "directory", keywords?: string }} Chunk
  */
 
 const sentences = (text) => text.split(/(?<=[.!?])\s+/);
@@ -34,14 +34,15 @@ export function buildCorpus({ projects, about, experiences, assistant }) {
 		const title = project.name;
 		const url = project.url;
 		const number = String(index + 1).padStart(2, "0");
+		const keywords = `${title} ${project.stacks.join(" ")}`;
 		const head = `Case study ${number}: ${title}. Stack: ${project.stacks.join(", ")}. ${project.description}`;
-		chunks.push({ id: `${project.slug}:overview`, title, url, kind: "project", text: `${head} Problem: ${project.problem}` });
+		chunks.push({ id: `${project.slug}:overview`, title, url, kind: "project", keywords, text: `${head} Problem: ${project.problem}` });
 		for (const [i, part] of split(`What he built: ${project.solution}`, 1400).entries()) {
-			chunks.push({ id: `${project.slug}:solution:${i}`, title, url, kind: "project", text: `${title}. ${part}` });
+			chunks.push({ id: `${project.slug}:solution:${i}`, title, url, kind: "project", keywords, text: `${title}. ${part}` });
 		}
 		const proof = (project.proof ?? []).map((p, i) => `${i + 1}. ${p}`).join(" ");
 		for (const [i, part] of split(`Proof: ${proof} Result: ${project.result}`, 1600).entries()) {
-			chunks.push({ id: `${project.slug}:proof:${i}`, title, url, kind: "project", text: `${title}. ${part}` });
+			chunks.push({ id: `${project.slug}:proof:${i}`, title, url, kind: "project", keywords, text: `${title}. ${part}` });
 		}
 		if (project.links?.length) {
 			const links = project.links.map((l) => `${l.label}: ${l.url}`).join("; ");
@@ -66,6 +67,16 @@ export function buildCorpus({ projects, about, experiences, assistant }) {
 		url: "/about",
 		kind: "about",
 		text: `Strengths: ${about.strengths.join(" ")}`,
+	});
+
+	chunks.push({
+		id: "directory",
+		title: "All case studies",
+		url: "/projects",
+		kind: "directory",
+		text: `Case studies, in site order, with their stacks: ${projects
+			.map((p, i) => `${i + 1}. ${p.name} (${p.url}): ${p.stacks.slice(0, 5).join(", ")}`)
+			.join(" ")}`,
 	});
 
 	chunks.push({

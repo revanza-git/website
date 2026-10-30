@@ -17,6 +17,15 @@ const ask = async (question) => {
 	if (!res.ok) throw new Error(`${res.status} ${await res.text()}`);
 	return res.text();
 };
+const askWithRetry = async (question) => {
+	try {
+		return await ask(question);
+	} catch (error) {
+		if (!/^(429|503)/.test(error.message)) throw error;
+		await new Promise((r) => setTimeout(r, 45_000)); // wait out the free-tier token window
+		return ask(question);
+	}
+};
 
 const has = (answer, needle) => answer.toLowerCase().includes(needle.toLowerCase());
 
@@ -26,7 +35,7 @@ for (const [i, c] of cases.entries()) {
 	if (only !== null && i !== only) continue;
 	let answer;
 	try {
-		answer = await ask(c.q);
+		answer = await askWithRetry(c.q);
 	} catch (error) {
 		failed++;
 		console.log(`FAIL ${String(i).padStart(2)} ${c.q}\n     request failed: ${error.message}`);
@@ -44,8 +53,8 @@ for (const [i, c] of cases.entries()) {
 	if (!ok) failed++;
 	console.log(`${ok ? "ok  " : "FAIL"} ${String(i).padStart(2)} ${c.q}`);
 	if (!ok) console.log(`     ${problems.join("; ")}\n     answer: ${answer.replace(/\s+/g, " ").slice(0, 300)}`);
-	// Stay well inside the free-tier request rate.
-	await new Promise((r) => setTimeout(r, 2500));
+	// Stay inside the free-tier token-per-minute budget (about three questions a minute).
+	await new Promise((r) => setTimeout(r, 20_000));
 }
 const ran = only === null ? cases.length : 1;
 console.log(`\n${ran - failed}/${ran} passed in ${Math.round((Date.now() - start) / 1000)}s`);

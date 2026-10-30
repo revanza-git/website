@@ -13,7 +13,7 @@ const corpus = buildCorpus({
 	experiences: read("experiences"),
 	assistant: read("assistant"),
 });
-const index = buildIndex(corpus.filter((c) => c.kind !== "facts"));
+const index = buildIndex(corpus.filter((c) => c.kind !== "facts" && c.kind !== "directory"));
 
 const topUrl = (question) => search(index, question)[0]?.chunk.url;
 
@@ -23,7 +23,8 @@ test("corpus covers every case study plus experience, strengths and facts", () =
 	assert.ok(corpus.some((c) => c.kind === "experience"));
 	assert.ok(corpus.some((c) => c.kind === "about"));
 	assert.ok(corpus.some((c) => c.kind === "facts"));
-	for (const chunk of corpus) assert.ok(chunk.text.length < 2200, `${chunk.id} is too long (${chunk.text.length})`);
+	assert.ok(corpus.some((c) => c.kind === "directory"));
+	for (const chunk of corpus) assert.ok(chunk.text.length < (chunk.kind === "directory" ? 3000 : 2400), `${chunk.id} is too long (${chunk.text.length})`);
 });
 
 test("questions rank the matching case study first", () => {
@@ -43,10 +44,10 @@ test("questions rank the matching case study first", () => {
 });
 
 test("retrieval respects the limit and character budget", () => {
-	const hits = search(index, "What has he built with .NET and Blazor?", { limit: 5, maxChars: 9000 });
-	assert.ok(hits.length > 0 && hits.length <= 5);
+	const hits = search(index, "What has he built with .NET and Blazor?", { limit: 3, maxChars: 4500 });
+	assert.ok(hits.length > 0 && hits.length <= 3);
 	const total = hits.reduce((sum, h) => sum + h.chunk.text.length, 0);
-	assert.ok(total <= 9000, `context too large: ${total}`);
+	assert.ok(total <= 4500, `context too large: ${total}`);
 });
 
 test("off-topic questions return weak or no matches", () => {

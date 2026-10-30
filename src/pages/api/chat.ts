@@ -12,15 +12,16 @@ export const prerender = false;
 
 const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions";
 const PRIMARY_MODEL = import.meta.env.GROQ_MODEL ?? "openai/gpt-oss-120b";
-const FALLBACK_MODEL = import.meta.env.GROQ_FALLBACK_MODEL ?? "llama-3.1-8b-instant";
+const FALLBACK_MODEL = import.meta.env.GROQ_FALLBACK_MODEL ?? "openai/gpt-oss-20b";
 const MAX_TURNS = 6; // messages kept from the conversation (user + assistant)
 const MAX_MESSAGE_CHARS = 500;
-const MAX_OUTPUT_TOKENS = 400;
-const RATE_LIMIT = { windowMs: 60_000, max: 10 }; // per IP, per serverless instance (best effort)
+const MAX_OUTPUT_TOKENS = 320;
+const RATE_LIMIT = { windowMs: 60_000, max: 20 }; // per IP, per serverless instance (best effort)
 
 const corpus = buildCorpus({ projects, about, experiences, assistant });
-const index = buildIndex(corpus.filter((c) => c.kind !== "facts"));
+const index = buildIndex(corpus.filter((c) => c.kind !== "facts" && c.kind !== "directory"));
 const facts = corpus.find((c) => c.kind === "facts")?.text ?? "";
+const directory = corpus.find((c) => c.kind === "directory")?.text ?? "";
 
 type ChatMessage = { role: "user" | "assistant"; content: string };
 
@@ -69,7 +70,7 @@ const callGroq = async (model: string, messages: object[], signal: AbortSignal) 
 		model,
 		messages,
 		max_tokens: MAX_OUTPUT_TOKENS,
-		temperature: 0.3,
+		temperature: 0.2,
 		stream: true,
 	};
 	if (model.startsWith("openai/gpt-oss")) body.reasoning_effort = "low";
@@ -128,8 +129,9 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
 	// Retrieval query: the question plus the previous question, so follow-ups keep their subject.
 	const userTurns = messages.filter((m) => m.role === "user").map((m) => m.content);
 	const query = userTurns.slice(-2).join(" ");
-	const hits = search(index, query, { limit: 5, maxChars: 9000 });
-	const context = buildContext(hits, facts);
+	// Budget: the Groq free tier allows ~8k tokens per minute, so each request stays around 2.5k tokens.
+	const hits = search(index, query, { limit: 3, maxChars: 4500 });
+	const context = buildContext(hits, facts, directory);
 
 	const upstreamMessages = [
 		{ role: "system", content: `${SYSTEM_PROMPT}\n\n${context}` },
@@ -141,6 +143,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
 	try {
 		let res = await callGroq(PRIMARY_MODEL, upstreamMessages, controller.signal);
 		if ((res.status === 429 || res.status === 404 || res.status === 503) && FALLBACK_MODEL !== PRIMARY_MODEL) {
+			console.warn("assistant primary model", PRIMARY_MODEL, res.status, (await res.text().catch(() => "")).slice(0, 200));
 			res = await callGroq(FALLBACK_MODEL, upstreamMessages, controller.signal);
 		}
 		if (!res.ok || !res.body) {
@@ -153,7 +156,10 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
 					: "The assistant is unavailable right now. Please try again later.";
 			return json(503, { error: message });
 		}
-		const sources = hits.map(({ chunk }) => ({ title: chunk.title, url: chunk.url }));
+		// Cite only when retrieval is confident: a clear top match, and hits at least half as strong as it.
+		const top = hits[0]?.score ?? 0;
+		const confident = top >= 5 ? hits.filter((h) => h.score >= top * 0.5) : [];
+		const sources = confident.map(({ chunk }) => ({ title: chunk.title, url: chunk.url }));
 		const unique = sources.filter((s, i) => sources.findIndex((o) => o.url === s.url) === i).slice(0, 3);
 		return new Response(textStream(res.body), {
 			status: 200,

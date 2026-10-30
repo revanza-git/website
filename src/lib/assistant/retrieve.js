@@ -2,7 +2,9 @@
 // so a small in-process index is enough and nothing is sent to an embeddings API.
 
 const STOP = new Set(
-	"a an the and or of to in on for with by at from as is are was were be been it its this that these those he his him what which who how does did do has have had can could tell me about any his their you your i we they them there than then into over under up down out not no yes".split(" "),
+	"a an the and or of to in on for with by at from as is are was were be been it its this that these those he his him what which who how does did do has have had can could tell me about any their you your i we they them there than then into over under up down out not no yes project projects used use using built build made work worked working experience know like please also every where when why one some something".split(
+		" ",
+	),
 );
 
 const stem = (word) => word.replace(/(ing|ed|es|s)$/u, (m, _s, offset) => (offset > 3 ? "" : m));
@@ -14,6 +16,8 @@ export const tokenize = (text) =>
 		.replace(/[^\p{L}\p{N}+#.]+/gu, " ")
 		.split(/\s+/)
 		.map((t) => t.replace(/^\.+|\.+$/g, ""))
+		// "asp.net" also yields "asp" and "net" so ".NET" questions reach it
+		.flatMap((t) => (t.includes(".") ? [t, ...t.split(".")] : [t]))
 		.filter((t) => t.length > 1 && !STOP.has(t))
 		.map(stem);
 
@@ -22,8 +26,9 @@ export const tokenize = (text) =>
  */
 export function buildIndex(chunks) {
 	const docs = chunks.map((chunk) => {
-		// Title tokens count twice so a question that names a project ranks its chunks first.
-		const tokens = [...tokenize(chunk.title), ...tokenize(chunk.title), ...tokenize(chunk.text)];
+		// Title and stack keywords count twice so a question that names a project or a technology ranks its chunks first.
+		const keywords = tokenize(chunk.keywords ?? chunk.title);
+		const tokens = [...keywords, ...keywords, ...tokenize(chunk.text)];
 		const tf = new Map();
 		for (const t of tokens) tf.set(t, (tf.get(t) ?? 0) + 1);
 		return { chunk, tf, length: tokens.length };

@@ -133,7 +133,7 @@ The integration suite checks:
 - HTML injection remaining gated by `ENABLE_HTML_INJECT`.
 - Assistant retrieval: the corpus covers every case study, and recruiter-style questions rank the right case study first.
 
-The assistant eval (`npm run test:assistant`) asks the live endpoint thirty questions and checks required and forbidden phrases; run it after changing `assistant.json`, the prompt, the retrieval code, or the case-study copy.
+The assistant eval (`npm run test:assistant`) asks the live endpoint thirty-three questions and checks required and forbidden phrases; run it after changing `assistant.json`, the prompt, the retrieval code, or the case-study copy.
 
 The monitoring suite opens production URLs and fails on page errors, console errors, or failed requests. It requires network access and reflects the deployed site, not necessarily local changes.
 
