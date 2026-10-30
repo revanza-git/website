@@ -25,7 +25,7 @@ Dependencies inside the Compose container live in an anonymous volume. After cha
 
 **Two content sources, one static build.** Everything is pre-rendered by Astro at build time.
 
-- Local JSON in `src/collections/` drives the home page, `/projects`, `/projects/[slug]` and `/about`. `projects.json` is the single source for case studies: its array order sets the "Case study 01 / 14" numbering and the "Next case study" link in `src/pages/projects/[slug].astro`. `home.json` and `about.json` hold the list-shaped copy of those two pages (metrics, practice areas, strengths, contact links); paragraph prose stays in the page file.
+- Local JSON in `src/collections/` drives the home page, `/projects`, `/projects/[slug]` and `/about`. `projects.json` is the single source for case studies: its array order sets the "Case study 01 / 18" numbering and the "Next case study" link in `src/pages/projects/[slug].astro`. `home.json` and `about.json` hold the list-shaped copy of those two pages (metrics, practice areas, strengths, contact links); paragraph prose stays in the page file.
 - Sanity drives the blog: `/blog`, `/blog/[slug]` and `/rss.xml`. All of it goes through `src/lib/sanity.ts`. The Studio that edits that content is a separate app sharing this package: `sanity.config.ts` and `sanity.cli.ts` must stay at the repo root because the Sanity CLI reads them from the working directory, and its schemas live in `studio/schemas/`. `.sanity/` is its generated cache and is not tracked.
 
 **Sections are folders.** `src/pages/projects/` and `src/pages/blog/` each hold an `index.astro` and a `[slug].astro`. The legacy redirect stubs `posts.astro` and `post/[slug].astro` are the only flat routes because they mirror the old URLs.

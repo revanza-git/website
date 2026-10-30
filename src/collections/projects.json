@@ -104,6 +104,62 @@
 		}
 	},
 	{
+		"slug": "rasci-stk-process-governance",
+		"name": "RASCI STK Process Governance & Document Generator",
+		"description": "Internal platform, branded PRISMA, that turns RASCI process hierarchies into controlled STK documents, with revisioned content, DOCX and PDF generation from corporate templates, and an AI module that drafts sections and draws cross-functional flow diagrams.",
+		"image": "/assets/images/projects/rasci-stk/dashboard.jpg",
+		"screenshots": [
+			{
+				"src": "/assets/images/projects/rasci-stk/dashboard.jpg",
+				"alt": "PRISMA dashboard with STK status counts, the RASCI gap and overlap chart and the role distribution donut"
+			},
+			{
+				"src": "/assets/images/projects/rasci-stk/stk-generator.webp",
+				"alt": "STK generator on the content step, with the sticky document header and revision selector"
+			},
+			{
+				"src": "/assets/images/projects/rasci-stk/stk-ai-dialog.webp",
+				"alt": "The AI drafting dialog asking what the document should cover before it drafts every section"
+			},
+			{
+				"src": "/assets/images/projects/rasci-stk/rasci-browser.webp",
+				"alt": "Business process map with level and RASCI role filters, process counts and the hierarchy list"
+			}
+		],
+		"url": "/projects/rasci-stk-process-governance",
+		"links": [],
+		"stacks": [
+			".NET 8",
+			"Blazor WebAssembly",
+			"ASP.NET Core",
+			"MudBlazor",
+			"EF Core",
+			"Dapper",
+			"SQL Server",
+			"Syncfusion DocIO",
+			"LLM Integration",
+			"xUnit",
+			"Playwright",
+			"Docker"
+		],
+		"problem": "Nusantara Regas documents its business processes as RASCI matrices and a hierarchy of STK documents: Pedoman, TKO, TKI and TKPA. The matrices lived in spreadsheets, the documents were written by hand in Word from a controlled template, and nobody could see at a glance which process still lacked a document, which roles overlapped, or which revision was current. Writing the first draft of a procedure was the slowest step of all.",
+		"solution": "I led the team that built RASCI STK, a hosted Blazor WebAssembly application on .NET 8, and took three parts of it hands-on. I reworked the UI/UX: design tokens, shared grid components, a stepper-based STK generator with a sticky document header, and an inbox where a row click runs the document's next action. I owned the reliability work: JWT validation with key rotation and clean expiry handling, revision-scoped content and attachments, nvarchar migrations so non-Latin text survives, and test layers from xUnit and bUnit to database procedure checks and a Playwright browser run. And I built the AI module end to end: an LLM client against an OpenAI-compatible gateway, a service that drafts every section of a document as a placeholder template, writes a single section using the rest of the revision as context, and generates cross-functional flow diagrams as validated JSON rendered to SVG and attached as images.",
+		"proof": [
+			"Hosted Blazor WebAssembly on .NET 8: a WASM client, an ASP.NET Core API that hosts it, shared DTOs, EF Core for entity CRUD, and Dapper with stored procedures for the RASCI hierarchy, pivots and dashboards.",
+			"Document generation merges revision-scoped content, custom sub-sections and attachments into the corporate Word templates with Syncfusion DocIO and converts to PDF; tests inspect the output for header values, section openings and leftover placeholders.",
+			"AI features stay inside the server layer: the client never talks to the model. The server loads the document context, forbids inventing facts the context lacks, sanitises replies to an allowed XHTML subset, retries a malformed reply once, and only replaces editor text until the author saves.",
+			"Flow diagrams are produced as structured JSON (roles, steps, boxes, arrows), validated, drawn by a deterministic SVG renderer and exported to JPG, so the diagram template is changed in the renderer rather than in the prompt.",
+			"Authentication tries the corporate endpoint first and falls back to local accounts hashed with ASP.NET Identity; every API action validates the token inline, and permission rows gate both sidebar entries and per-page buttons.",
+			"Reliability improvements I owned: expired tokens answer 401 and return to login, historical-key fallback for JWT rotation, idempotent add-on migration scripts for production, and conversion of legacy text columns to nvarchar(max)."
+		],
+		"result": "Process owners now browse the RASCI hierarchy, run gap and overlap analysis, and start a controlled document from the process node itself. Authors get a first draft in minutes instead of a blank template, and every generated Pedoman, TKO, TKI and TKPA leaves the system as a template-faithful PDF with its revision history intact.",
+		"architecture": {
+			"src": "/assets/images/projects/rasci-stk/architecture.webp",
+			"alt": "RASCI STK architecture: a Blazor WebAssembly client on an ASP.NET Core API with EF Core and Dapper on SQL Server, Syncfusion DocIO for documents, an AI module calling an OpenAI-compatible gateway from the server, and a band of reliability work covering tokens, text integrity, document fidelity and test layers",
+			"caption": "A hosted Blazor WebAssembly client on an ASP.NET Core API, EF Core and Dapper on SQL Server, DocIO for document generation, and an AI module that talks to an OpenAI-compatible gateway from the server only. The highlighted parts, the client UI/UX, the AI module and the reliability work, are the ones I built myself while leading the team."
+		}
+	},
+	{
 		"slug": "enterprise-rag-knowledge-assistant",
 		"name": "Enterprise RAG Knowledge Assistant",
 		"description": "On-premise LLM assistant redesigned into a retrieval pipeline with document chunking, embeddings, vector retrieval, contextual prompts, and output handling.",
@@ -141,6 +197,61 @@
 			"src": "/assets/images/projects/enterprise-rag/architecture.webp",
 			"alt": "Enterprise RAG architecture: documents are chunked and embedded into a vector index; at question time the backend retrieves passages, assembles a grounded prompt for an on-premise Qwen model and checks the output before the enterprise UI shows it",
 			"caption": "Documents and SOPs are chunked and embedded into a vector index ahead of time. At question time the backend retrieves the most relevant passages, assembles a grounded prompt for the on-premise Qwen model, and checks the answer before it reaches the enterprise UI. Nothing leaves the company network."
+		}
+	},
+	{
+		"slug": "nr-ptw-online-permit-to-work",
+		"name": "NR PTW Online Permit-to-Work Platform",
+		"description": "Digital permit-to-work lifecycle for an LNG regasification operator: drafts, HSE validation, area-owner approval, issuance, suspension, renewal and closure, with every transition an explicit idempotent command and an official print package rendered from an immutable snapshot.",
+		"image": "/assets/images/projects/ptw-online/papan-operasi.jpg",
+		"screenshots": [
+			{
+				"src": "/assets/images/projects/ptw-online/papan-operasi.jpg",
+				"alt": "Papan Operasi monitoring board with issued, suspended and expiring permit metrics and the permit list under supervision"
+			},
+			{
+				"src": "/assets/images/projects/ptw-online/ptw-saya.webp",
+				"alt": "A requester's PTW Saya list with official permit numbers, status badges, search and page size"
+			},
+			{
+				"src": "/assets/images/projects/ptw-online/draft-form.webp",
+				"alt": "Buat draft PTW form filled by the demo auto-fill, with location, contractor, permit class and header classification"
+			},
+			{
+				"src": "/assets/images/projects/ptw-online/print-preview.webp",
+				"alt": "Draft preview of the official FM-001 hot work form rendered by the worker, carrying the DRAFT / TIDAK BERLAKU watermark"
+			}
+		],
+		"url": "/projects/nr-ptw-online-permit-to-work",
+		"links": [],
+		"stacks": [
+			".NET 10",
+			"ASP.NET Core",
+			"EF Core",
+			"SQL Server",
+			"Angular 22",
+			"Transactional Outbox",
+			"PDFsharp",
+			"xUnit",
+			"Testcontainers",
+			"Docker",
+			"Nginx"
+		],
+		"problem": "Permits to work at Nusantara Regas were paper forms: FM-001, FM-002 and FM-003 for hot work, cold work and confined-space entry. Every approval chain ran on hardcopy, permit numbers were assigned by hand, nobody could see which permits were live across the terminal, and a form that failed HSE validation went back and forth without a record. Field control still had to stay on the signed paper for compliance, so a pure digital replacement was not an option.",
+		"solution": "I designed and built NR PTW Online as a hybrid digital-to-paper system: a modular monolith on .NET 10 with an Angular 22 front end. The system owns the lifecycle from a requester's draft through sponsor approval, HSE validation, area-owner review of operating conditions, approval and issuance, suspension and resumption, renewal into a successor permit, and closure with digital verification. Every transition is a named command carrying an If-Match ETag and an Idempotency-Key; the aggregate, its task or decision, the audit event, the outbox message and the idempotency result commit in one transaction. A background worker renders the official print package from an immutable snapshot onto the controlled form as a vector template, with retry and backoff when rendering fails, and only READY packages count as official documents.",
+		"proof": [
+			"Domain state machine with eleven states and a PermitVersion rule under which only a resubmission after REVISION_REQUIRED raises the business version; concurrency is handled by ETags on every aggregate.",
+			"Separation of duty enforced server-side: a sponsor who is also PIC HSE may validate their own permit, but Section 7 review and issuance always need a different role, and delegated managers are recorded and printed as PJS.",
+			"Official permit numbers in the PTW/NNNN/DD/MM/YYYY format are allocated inside the submit transaction from a per-year sequence table, so concurrent submits produce no gaps or duplicates.",
+			"Attachments are checked for PDF, JPEG and PNG signatures, hashed with SHA-256, tied to an exact version and print package, and carry malware-scan evidence; anything not CLEAN cannot be downloaded.",
+			"Login verifies credentials against Active Directory through the corporate Portal API with a local password fallback, HTTP-only cookie sessions, per-address rate limiting and account lockout.",
+			"Quality gates: xUnit domain tests, integration tests through the API factory on a disposable SQL Server in Testcontainers, print-layout regression tests, Vitest on the SPA, and decision records for the workflow baseline and all 18 UAT findings."
+		],
+		"result": "Users and stakeholders signed off the operational baseline on 25 September 2026, the UAT of 12 October 2026 closed its 18 findings within the following fortnight, and the user guide is generated from the running system with Playwright screenshots. Area owners now see every live, suspended and expiring permit on one board, while the signed hardcopy remains the field document.",
+		"architecture": {
+			"src": "/assets/images/projects/ptw-online/architecture.webp",
+			"alt": "NR PTW Online architecture: requester, sponsor, HSE and area-owner users reach an Angular SPA behind nginx, a thin ASP.NET Core API over Application and Domain layers, EF Core with a transactional outbox, a worker that renders print packages, SQL Server, attachment volumes, the Portal API for Active Directory login, and the official print package",
+			"caption": "An Angular SPA behind nginx talks to a thin ASP.NET Core API. Use cases, authorization and location scope live in the Application layer, the state machine in the Domain, and EF Core with a transactional outbox in Infrastructure. A separate worker drains the outbox and renders print packages from immutable snapshots, and SQL Server allocates the yearly permit number inside the same transaction as the submit."
 		}
 	},
 	{
@@ -188,6 +299,60 @@
 			"src": "/assets/images/projects/nr-emas/architecture.webp?v=20261020",
 			"alt": "NR EMAS architecture: Blazor UI and Web API on .NET Clean Architecture with MediatR, EF Core on SQL Server and Hangfire jobs, deployed in Docker behind an Nginx SSL reverse proxy with Portal API email",
 			"caption": "A .NET Clean Architecture platform: a Blazor UI on a Web API, MediatR application workflows, EF Core on SQL Server and Hangfire background jobs. I directed the build and owned the production rollout: Docker, an Nginx SSL reverse proxy, SQL Server initialisation and Portal API email."
+		}
+	},
+	{
+		"slug": "nr-csr-program-management",
+		"name": "NR-CSR Program, Approval & Payment Management",
+		"description": "Corporate social responsibility management system: proposal intake, eligibility, multi-level evaluation and survey approvals, budgets and work programs, payment requests exported to the group payment platform, vendor and legal documents, and reporting. Modernised from Laravel 6 on Oracle to Laravel 8 on PostgreSQL 16.",
+		"image": "/assets/images/projects/nr-csr/dashboard.jpg",
+		"screenshots": [
+			{
+				"src": "/assets/images/projects/nr-csr/dashboard.jpg",
+				"alt": "NR-CSR budget monitoring dashboard with annual budget, realisation and remaining budget, split by SDG pillar and priority"
+			},
+			{
+				"src": "/assets/images/projects/nr-csr/realisasi.webp",
+				"alt": "Realisation list recording donations and contract instalments with reference numbers, recipients, amounts and evidence"
+			},
+			{
+				"src": "/assets/images/projects/nr-csr/program-kerja.webp",
+				"alt": "Work program planning page with the annual budget, allocated program budget and remaining budget"
+			},
+			{
+				"src": "/assets/images/projects/nr-csr/monev.webp",
+				"alt": "Monitoring and evaluation page listing program documents, evaluations and periodic reports per work program"
+			}
+		],
+		"url": "/projects/nr-csr-program-management",
+		"links": [],
+		"stacks": [
+			"PHP 7.4",
+			"Laravel 8",
+			"PostgreSQL",
+			"Blade",
+			"LDAP",
+			"PHPStan",
+			"PHPUnit",
+			"Docker",
+			"Nginx",
+			"IIS"
+		],
+		"problem": "CSR at Nusantara Regas runs through a long chain: a proposal is checked for eligibility, evaluated, surveyed and approved level by level up to the CEO, then funded from annual budgets and work programs, paid in instalments through the group's POPAY payment platform, and reported per pillar and SDG. The existing application carried that chain on Laravel 6 against an Oracle database that was being retired, with no static analysis, no CI, and production on an offline IIS server where every deployment was manual and risky.",
+		"solution": "I own NR-CSR end to end. I upgraded the framework from Laravel 6 to 8, migrated the schema and every environment from Oracle to PostgreSQL 16 and removed the Oracle driver, and restructured the code into Form Requests, Actions and Services behind domain route files with role middleware. I kept the Indonesian domain model and its 68 Eloquent and read-only view models intact, hardened authentication with LDAP fallback and email OTP, added liveness and dependency health endpoints for monitoring, and built the in-app user manual from screenshots of a test-seeded instance. The quality bar now runs in CI: a hardcoded-secret guardrail, PHPStan level 5, PHP-CS-Fixer and P0 to P2 regression suites on PHP 7.4 and 8.1.",
+		"proof": [
+			"Laravel 6 to 8 upgrade and Oracle to PostgreSQL migration delivered in October 2026 as the first steps of a written dependency-hygiene plan, with the schema conversion tooling kept in the repository.",
+			"Layered request pipeline: domain route files, login and inactivity-timeout middleware, narrow role aliases such as isAdmin, isApprove, isFinance, isLegal and isSubsidiary, 83 Form Request classes and single-purpose Actions and Services.",
+			"POPAY integration through a Guzzle wrapper: payment requests are created and listed per approved proposal and the platform calls back a status endpoint; JSON responses share one envelope with centralised exception mapping.",
+			"Reporting through 34 Excel export classes, DataTables grids and printable views, plus dashboards by pillar, priority and program for budget monitoring.",
+			"Two deployment shapes from one codebase: nginx, PHP-FPM and PostgreSQL in Docker for development and CI, and an offline IIS child application with PHP FastCGI for production.",
+			"Guardrails on every push: secret scan, PHPStan with Larastan, PHP-CS-Fixer and the critical regression suites, with a PHP 8.1 validation runner alongside the 7.4 baseline."
+		],
+		"result": "The platform now runs on a supported framework and a single database engine across local, container and production environments, with every deployment reproducible from the repository. Finance exports payment requests straight to POPAY instead of re-keying them, and the October 2026 releases simplified realisation per instalment so donations and contract payments are recorded once, with their evidence, and flow into the recap reports without re-entry.",
+		"architecture": {
+			"src": "/assets/images/projects/nr-csr/architecture.webp",
+			"alt": "NR-CSR architecture: inputers, approvers, finance, legal and subsidiary users reach a Laravel 8 application on PHP 7.4 behind IIS or nginx, structured as routes and middleware, authentication with LDAP fallback and OTP, controllers with Form Requests, Actions and Services, Eloquent models and reporting, on PostgreSQL 16 with POPAY, LDAP, SMTP and monitoring integrations, plus a band of modernisation work",
+			"caption": "Users reach the Laravel 8 application through IIS in production or nginx in Docker. Requests flow from domain route files and role middleware through Form Requests, Actions and Services to Eloquent models on PostgreSQL 16. POPAY, LDAP, SMTP and a monitoring client sit outside, and the green band is the modernisation work that moved the system off Laravel 6 and Oracle."
 		}
 	},
 	{
@@ -320,6 +485,62 @@
 			"src": "/assets/images/projects/lng-website/architecture.webp",
 			"alt": "Corporate website architecture: a Next.js front end on IIS renders the public site and calls an ASP.NET Core CMS and API that editors use to publish content",
 			"caption": "A Next.js front end renders the public site and calls an ASP.NET Core CMS and API, hosted on IIS. Editors publish news and pages through the CMS, and structured metadata, a sitemap and analytics are built in."
+		}
+	},
+	{
+		"slug": "csirt-nusantara-regas-website",
+		"name": "CSIRT Nusantara Regas Public Website",
+		"description": "Public website of the company's Computer Security Incident Response Team: incident reporting guidance, RFC 2350 documents, PGP public key and the BSSN guide library, built as a hardened static Angular 22 site with no backend to attack.",
+		"image": "/assets/images/projects/csirt-nr/home-hero.jpg",
+		"screenshots": [
+			{
+				"src": "/assets/images/projects/csirt-nr/home-hero.jpg",
+				"alt": "CSIRT Nusantara Regas home page hero with the report-incident call to action and the list of reportable incident types"
+			},
+			{
+				"src": "/assets/images/projects/csirt-nr/home-threatmap.webp",
+				"alt": "Live cyber threat map embedded on the home page inside a browser-styled frame"
+			},
+			{
+				"src": "/assets/images/projects/csirt-nr/panduan.webp",
+				"alt": "Guide library page with the BSSN incident-handling documents"
+			},
+			{
+				"src": "/assets/images/projects/csirt-nr/kontak.webp",
+				"alt": "Contact page with the official channels and the office location map"
+			}
+		],
+		"url": "/projects/csirt-nusantara-regas-website",
+		"links": [
+			{
+				"label": "Live Site",
+				"url": "https://csirt.nusantararegas.com/"
+			}
+		],
+		"stacks": [
+			"Angular 22",
+			"TypeScript",
+			"SCSS",
+			"Vitest",
+			"Nginx",
+			"Docker",
+			"CSP",
+			"TLS"
+		],
+		"problem": "A CSIRT needs a public, trustworthy front door: how to report an incident, which channels are official, the team's RFC 2350 description and its PGP key. For a security team the site itself must not become an attack surface: no forms to abuse, no server-side code to exploit, and headers that hold up under scrutiny.",
+		"solution": "I built the site as a static Angular 22 single-page application with standalone components, signals and lazy routes, served by an unprivileged nginx container. Incident reports go by email, optionally PGP-encrypted, so there is no backend and nothing is stored. The production stack adds an edge nginx with TLS, HSTS, request and connection rate limits, GET and HEAD only, a read-only root filesystem, dropped capabilities and an internal network between edge and app. Content lives in typed configuration files: services, reporting steps, incident types, the guide library and the organisation's contact details.",
+		"proof": [
+			"Angular 22 zoneless application with OnPush components, signal inputs and native control flow; production builds enforce bundle budgets of 500 kB warning and 1 MB error.",
+			"CSP and security headers included from every nginx location, SPA fallback, gzip, cache rules and a health endpoint; the app container runs nginx-unprivileged on Alpine.",
+			"Production Compose with an edge proxy: TLS and HSTS, limit_req and limit_conn per address, only GET and HEAD forwarded, read-only rootfs and cap_drop ALL on both containers.",
+			"Accessibility built in: skip link, aria attributes on navigation, visible focus styles, aria-current on active links, and a responsive menu that turns child links into a dropdown or an accordion.",
+			"Legacy routes redirect to their new homes, every page sets its own title, and the embedded live threat map falls back to a link-out when the provider blocks framing."
+		],
+		"result": "The CSIRT has a single public reference for reporting and verification that can be audited line by line: a static bundle, two nginx configurations and no runtime secrets. It is deployed at csirt.nusantararegas.com ahead of its public announcement.",
+		"architecture": {
+			"src": "/assets/images/projects/csirt-nr/architecture.webp",
+			"alt": "CSIRT website architecture: incident reporters, constituency staff and peer CSIRTs reach a rate-limited TLS edge nginx, which proxies to an unprivileged nginx serving the static Angular 22 SPA with CSP headers; reports leave by email, and the threat map and static documents sit outside the site",
+			"caption": "Visitors hit a rate-limited edge nginx that terminates TLS and forwards only GET and HEAD to an unprivileged nginx serving the static Angular bundle with CSP headers. There is no backend: incident reports travel by email, the threat map is embedded from its provider, and the documents are static assets copied at build time."
 		}
 	},
 	{
