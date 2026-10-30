@@ -245,7 +245,7 @@
 			"Tested at two levels: node --test retrieval checks that every case study is indexed and that recruiter questions rank the right one first, and a 33-question eval with required and forbidden phrases, covering co-founder framing, phone-number refusal, prompt injection and an Indonesian question, run against the live endpoint.",
 			"Zero added weight on the pages: one Astro component and a few hundred lines of script; no model runs in the browser and no key reaches it."
 		],
-		"result": "Visitors get specific, cited answers in a couple of seconds, and the assistant admits what the site does not say instead of guessing. It costs nothing to run at portfolio traffic, and it doubles as a live demonstration of the retrieval, prompt and evaluation discipline described in the other AI case studies.",
+		"result": "Visitors get specific, cited answers in a couple of seconds, and the assistant admits what the site does not say instead of guessing. The eval passes 33 of 33 questions against the live endpoint at the time of writing. It costs nothing to run at portfolio traffic, and it doubles as a live demonstration of the retrieval, prompt and evaluation discipline described in the other AI case studies.",
 		"architecture": {
 			"src": "/assets/images/projects/portfolio-assistant/architecture.webp",
 			"alt": "Portfolio assistant architecture: visitors use the widget on the static Astro site, which posts to the single server route; the route validates and rate-limits, retrieves BM25 chunks from the site's own JSON, builds a 2,000-token context and streams the answer from Groq, returning source links; evidence band with retrieval tests, the 33-question eval, confidence-gated citations and nothing running in the browser",

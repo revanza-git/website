@@ -78,7 +78,7 @@ Use the narrowest useful validation for the change:
 - `npm run test:integration` runs repository regression tests, including the assistant retrieval checks (no network).
 - `npm run test:assistant` runs the assistant eval (`tests/assistant/cases.json`) against a running site; it calls Groq and needs `GROQ_API_KEY`.
 - `npm run test` currently aliases integration tests.
-- `npm run build` runs `astro check` and `astro build`.
+- `npm run build` runs `astro check`, `astro build`, and `scripts/patch-vercel-runtime.mjs`, which sets the Vercel function runtime to Node 22 (the Astro 4 adapter can only emit Node 18 or 20).
 - `npm run build:memory` runs the production build with increased Node memory.
 - `npm run test:monitoring` runs Playwright checks against `https://revanza.vercel.app`.
 

@@ -16,7 +16,7 @@ npm run check                            # Biome lint (read-only); check:fix mut
 npm run test:integration                 # Node test runner, tests/integration/*.test.js (redirects, security, assistant retrieval)
 npm run test:assistant                   # 33-question eval against a running site, tests/assistant/cases.json; needs GROQ_API_KEY
 node --test --test-name-pattern="noopener" tests/integration/release-regression.test.js   # one test
-npm run build                            # astro check + astro build (SANITY_PROJECT_ID optional, see below)
+npm run build                            # astro check + astro build + scripts/patch-vercel-runtime.mjs (SANITY_PROJECT_ID optional, see below)
 npm run test:monitoring                  # Playwright against the live site, not local code
 ```
 
@@ -30,6 +30,8 @@ Dependencies inside the Compose container live in an anonymous volume. After cha
 - Sanity drives the blog: `/blog`, `/blog/[slug]` and `/rss.xml`. All of it goes through `src/lib/sanity.ts`. The Studio that edits that content is a separate app sharing this package: `sanity.config.ts` and `sanity.cli.ts` must stay at the repo root because the Sanity CLI reads them from the working directory, and its schemas live in `studio/schemas/`. `.sanity/` is its generated cache and is not tracked.
 
 **The assistant is a retrieval-augmented chat over the site's own content.** `src/components/assistant.astro` (mounted in `main.astro`) posts to `src/pages/api/chat.ts`, the only route with `export const prerender = false`. At module load the route builds a corpus from `projects.json`, `experiences.json`, `about.json` and `assistant.json` (`src/lib/assistant/corpus.js`), indexes it with BM25 (`retrieve.js`), and per request sends the top five chunks plus the always-included profile facts to Groq's OpenAI-compatible endpoint with the system prompt in `prompt.js`, streaming the answer back as plain text with the sources in an `x-assistant-sources` header. The prompt is kept small on purpose: the Groq free tier limits tokens per minute, so stuffing the whole corpus would fail on the first question. `GROQ_API_KEY` is read server-side only; without it the route answers 503 and the widget shows an error. Guardrails: input validation and size caps, a best-effort per-IP limit per instance, a 30-second upstream timeout, a fallback model on 429/404/503, and optional Cloudflare Turnstile (`PUBLIC_TURNSTILE_SITE_KEY` + `TURNSTILE_SECRET_KEY`). The lib files are plain `.js` so `tests/integration/assistant-retrieval.test.js` can import them without a build; `tests/assistant/eval.mjs` runs the question set in `cases.json` against a running site. Facts that live nowhere else on the site (title, languages, availability, how MeatLink is framed) belong in `assistant.json`.
+
+**The Vercel function runtime is patched after the build.** `@astrojs/vercel` 7 is the last adapter for Astro 4 and can only emit Node 18 or 20 for the server function; Vercel has retired Node 18, so deployments failed with an invalid runtime. `scripts/patch-vercel-runtime.mjs` runs at the end of `npm run build` and rewrites `.vercel/output/functions/*/.vc-config.json` to `nodejs22.x` (override with `VERCEL_NODE_RUNTIME`). Remove it when the site moves to Astro 5 and a current adapter.
 
 **Sections are folders.** `src/pages/projects/` and `src/pages/blog/` each hold an `index.astro` and a `[slug].astro`. The legacy redirect stubs `posts.astro` and `post/[slug].astro` are the only flat routes because they mirror the old URLs.
 

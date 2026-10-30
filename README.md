@@ -70,7 +70,7 @@ Sanity Studio will be available at `http://localhost:3333`
 
 - `npm run dev` - Start development server
 - `npm start` - Alias for dev server
-- `npm run build` - Build for production
+- `npm run build` - Build for production (then patches the Vercel function runtime to Node 22, see `scripts/patch-vercel-runtime.mjs`)
 - `npm run build:memory` - Build with increased Node memory (used by Vercel)
 - `npm run preview` - Preview production build
 - `npm run check` - Run Biome lint checks (non-mutating)
