@@ -1,0 +1,21 @@
+{
+	"facts": [
+		"Revanza Raytama is a Senior Backend & AI Systems Engineer based in Jakarta, Indonesia, with 9+ years of experience (first role in 2017).",
+		"Current employer: PT Nusantara Regas, a Pertamina subsidiary (LNG regasification). Official title: Senior Software Engineer, since November 2021. He acts as technical lead for 7 cross-functional Agile squads and vendor developers.",
+		"Open to remote and overseas roles, and to senior backend and AI engineering positions.",
+		"Languages: Indonesian (native), English (professional working proficiency).",
+		"Education: B.S. Computer Science, Bina Nusantara University, 2017.",
+		"Award: Silver Award (4 times) in the Pertamina Sub-Holding Gas Continuous Improvement Program, 2023 to 2025.",
+		"MeatLink (meatlink.id) is a live, revenue-generating B2B meat commerce platform he builds in his spare time with a partner. It is a side venture, not an employer, and he is not a co-founder by title.",
+		"On RASCI STK (PRISMA) he led the team and personally built the UI/UX, the reliability work and the whole AI module. NR PTW Online, NR-CSR and the CSIRT website he designed and built himself.",
+		"Core stack: .NET and ASP.NET Core, Laravel/PHP, Python, TypeScript, SQL Server and PostgreSQL, Apache Airflow and Spark, RabbitMQ and Redis, Docker. AI work: RAG pipelines, embeddings and vector retrieval, MCP servers, tool calling, structured outputs, LLM evaluation, on-premise LLM deployment. He uses Claude Code and OpenAI Codex daily with human review.",
+		"Contact: revanza.raytama@gmail.com. Resume PDF: /assets/documents/Revanza_Raytama_Resume.pdf. LinkedIn: linkedin.com/in/revanzaraytama. GitHub: github.com/revanza-git. All case studies: /projects.",
+		"Home page metrics: 9+ years shipping backend, data and AI systems; around 1,000 work permits a month on NR PTW Online; AI first drafts of procedures in about 30 minutes, down from a week, on RASCI STK; 7 cross-functional squads led end to end."
+	],
+	"suggestedQuestions": [
+		"What has Revanza built with AI?",
+		"Which projects used .NET?",
+		"Is he open to remote or overseas roles?",
+		"Tell me about the permit-to-work platform."
+	]
+}

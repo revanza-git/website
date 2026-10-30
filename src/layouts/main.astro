@@ -1,5 +1,6 @@
 ---
 import { ViewTransitions } from "astro:transitions";
+import Assistant from "../components/assistant.astro";
 import Footer from "../components/footer.astro";
 import Header from "../components/header.astro";
 import "../assets/css/main.css";
@@ -97,6 +98,7 @@ const footerInject = allowHtmlInject ? import.meta.env.FOOTER_INJECT : "";
     <Header />
     <slot />
     <Footer />
+    <Assistant />
     <script src="../assets/js/main.js"></script>
     {allowHtmlInject && <Fragment set:html={footerInject} />}
   </body>

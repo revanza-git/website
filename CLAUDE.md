@@ -13,7 +13,8 @@ npm ci                                   # Node 20, npm only
 npm run docker:dev                       # dev server in Compose on http://localhost:4321 (bind-mounted; hot reload)
 npm run dev                              # same, without Docker
 npm run check                            # Biome lint (read-only); check:fix mutates
-npm run test:integration                 # Node test runner, tests/integration/*.test.js
+npm run test:integration                 # Node test runner, tests/integration/*.test.js (redirects, security, assistant retrieval)
+npm run test:assistant                   # 30-question eval against a running site, tests/assistant/cases.json; needs GROQ_API_KEY
 node --test --test-name-pattern="noopener" tests/integration/release-regression.test.js   # one test
 npm run build                            # astro check + astro build (SANITY_PROJECT_ID optional, see below)
 npm run test:monitoring                  # Playwright against the live site, not local code
@@ -23,10 +24,12 @@ Dependencies inside the Compose container live in an anonymous volume. After cha
 
 ## Architecture
 
-**Two content sources, one static build.** Everything is pre-rendered by Astro at build time.
+**Two content sources, one static build, one server route.** Every page is pre-rendered by Astro at build time (`output: "hybrid"`); only `/api/chat` runs on the server, through `@astrojs/vercel/serverless`.
 
 - Local JSON in `src/collections/` drives the home page, `/projects`, `/projects/[slug]` and `/about`. `projects.json` is the single source for case studies: its array order sets the "Case study 01 / 18" numbering and the "Next case study" link in `src/pages/projects/[slug].astro`. `home.json` and `about.json` hold the list-shaped copy of those two pages (metrics, practice areas, strengths, contact links); paragraph prose stays in the page file.
 - Sanity drives the blog: `/blog`, `/blog/[slug]` and `/rss.xml`. All of it goes through `src/lib/sanity.ts`. The Studio that edits that content is a separate app sharing this package: `sanity.config.ts` and `sanity.cli.ts` must stay at the repo root because the Sanity CLI reads them from the working directory, and its schemas live in `studio/schemas/`. `.sanity/` is its generated cache and is not tracked.
+
+**The assistant is a retrieval-augmented chat over the site's own content.** `src/components/assistant.astro` (mounted in `main.astro`) posts to `src/pages/api/chat.ts`, the only route with `export const prerender = false`. At module load the route builds a corpus from `projects.json`, `experiences.json`, `about.json` and `assistant.json` (`src/lib/assistant/corpus.js`), indexes it with BM25 (`retrieve.js`), and per request sends the top five chunks plus the always-included profile facts to Groq's OpenAI-compatible endpoint with the system prompt in `prompt.js`, streaming the answer back as plain text with the sources in an `x-assistant-sources` header. The prompt is kept small on purpose: the Groq free tier limits tokens per minute, so stuffing the whole corpus would fail on the first question. `GROQ_API_KEY` is read server-side only; without it the route answers 503 and the widget shows an error. Guardrails: input validation and size caps, a best-effort per-IP limit per instance, a 30-second upstream timeout, a fallback model on 429/404/503, and optional Cloudflare Turnstile (`PUBLIC_TURNSTILE_SITE_KEY` + `TURNSTILE_SECRET_KEY`). The lib files are plain `.js` so `tests/integration/assistant-retrieval.test.js` can import them without a build; `tests/assistant/eval.mjs` runs the question set in `cases.json` against a running site. Facts that live nowhere else on the site (title, languages, availability, how MeatLink is framed) belong in `assistant.json`.
 
 **Sections are folders.** `src/pages/projects/` and `src/pages/blog/` each hold an `index.astro` and a `[slug].astro`. The legacy redirect stubs `posts.astro` and `post/[slug].astro` are the only flat routes because they mirror the old URLs.
 

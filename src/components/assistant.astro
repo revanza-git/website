@@ -1,0 +1,252 @@
+---
+// Floating "Ask about my work" assistant. The panel talks to /api/chat, the only
+// server route on the site; everything it knows comes from the published case studies,
+// resume and About page. Set-up runs on astro:page-load like the rest of main.js.
+import assistant from "../collections/assistant.json";
+
+const suggestions = assistant.suggestedQuestions;
+const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? "";
+---
+
+<div id="assistant" class="fixed bottom-5 right-5 z-40 flex flex-col items-end gap-3 sm:bottom-8 sm:right-8" data-turnstile={turnstileSiteKey}>
+  <section
+    id="assistant-panel"
+    class="hidden w-[calc(100vw-2.5rem)] max-w-[26rem] flex-col overflow-hidden rounded-[6px] border border-rule bg-card shadow-[0_18px_50px_-20px_rgba(22,19,15,0.35)]"
+    aria-labelledby="assistant-title"
+    role="dialog"
+  >
+    <header class="flex items-center justify-between border-b border-rule px-4 py-3">
+      <div>
+        <p id="assistant-title" class="font-serif text-lg leading-tight text-ink">Ask about my work</p>
+        <p class="label mt-1">Answers come from the published case studies and resume</p>
+      </div>
+      <button id="assistant-close" type="button" class="text-muted hover:text-ink" aria-label="Close assistant">&times;</button>
+    </header>
+
+    <div id="assistant-log" class="flex max-h-[50vh] min-h-[14rem] flex-col gap-3 overflow-y-auto px-4 py-4 text-[0.95rem] leading-6 text-ink-2" aria-live="polite">
+      <div class="assistant-intro">
+        <p>I can answer questions about Revanza's projects, skills and availability. Try one of these:</p>
+        <ul class="mt-3 flex flex-col gap-2">
+          {suggestions.map((q) => (
+            <li>
+              <button type="button" class="assistant-suggest link-underline text-left text-ink" data-q={q}>{q}</button>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <form id="assistant-form" class="flex items-end gap-2 border-t border-rule px-3 py-3">
+      <label for="assistant-input" class="sr-only">Your question</label>
+      <textarea
+        id="assistant-input"
+        rows="1"
+        maxlength="500"
+        placeholder="Ask a question…"
+        class="max-h-32 min-h-[2.5rem] flex-1 resize-none rounded-[4px] border border-rule bg-paper px-3 py-2 text-[0.95rem] text-ink placeholder:text-muted focus:border-ink focus:outline-none"
+      ></textarea>
+      <button id="assistant-send" type="submit" class="btn-ink shrink-0 px-4 py-2 text-sm" aria-label="Send">Ask</button>
+    </form>
+    {turnstileSiteKey && <div id="assistant-turnstile" class="px-3 pb-3"></div>}
+  </section>
+
+  <button
+    id="assistant-toggle"
+    type="button"
+    class="inline-flex items-center gap-2 rounded-full border border-ink bg-ink px-4 py-2.5 text-sm font-medium text-paper shadow-[0_10px_30px_-12px_rgba(22,19,15,0.6)] transition-transform duration-200 hover:-translate-y-0.5"
+    aria-expanded="false"
+    aria-controls="assistant-panel"
+  >
+    <span class="h-2 w-2 rounded-full bg-accent" aria-hidden="true"></span>
+    Ask about my work
+  </button>
+</div>
+
+<style>
+  #assistant-log :global(p + p) { margin-top: 0.5rem; }
+  #assistant-log :global(ul.answer-list) { margin-top: 0.5rem; padding-left: 1.1rem; list-style: disc; }
+  #assistant-log :global(a) { color: rgb(var(--ink)); text-decoration: underline; text-underline-offset: 3px; }
+  #assistant-log :global(.msg-user) { align-self: flex-end; max-width: 85%; border-radius: 6px; background: rgb(var(--paper-2)); padding: 0.5rem 0.75rem; color: rgb(var(--ink)); }
+  #assistant-log :global(.msg-assistant) { max-width: 95%; }
+  #assistant-log :global(.msg-sources) { margin-top: 0.4rem; font-family: var(--font-mono, ui-monospace, monospace); font-size: 0.72rem; letter-spacing: 0.04em; color: rgb(var(--muted)); }
+  #assistant-log :global(.msg-error) { color: rgb(var(--accent)); }
+  #assistant-log :global(.cursor::after) { content: "▍"; margin-left: 1px; animation: assistant-blink 1s steps(2) infinite; }
+  @keyframes assistant-blink { 50% { opacity: 0; } }
+</style>
+
+<script>
+  type Msg = { role: "user" | "assistant"; content: string };
+  const STORAGE = "assistant_messages";
+  const MAX_HISTORY = 6;
+
+  const escapeHtml = (s: string) =>
+    s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c] ?? c);
+
+  // Minimal, safe markdown: paragraphs, "- " bullets, **bold**, [text](url) with a URL allowlist.
+  const render = (text: string) => {
+    const inline = (s: string) =>
+      escapeHtml(s)
+        .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+        .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (_m, label, url) =>
+          /^(\/|https?:\/\/|mailto:)/.test(url) ? `<a href="${url}" target="_blank" rel="noopener noreferrer">${label}</a>` : label,
+        );
+    const blocks = text.trim().split(/\n{2,}/);
+    return blocks
+      .map((block) => {
+        const lines = block.split("\n");
+        if (lines.every((l) => /^\s*[-*]\s+/.test(l))) {
+          return `<ul class="answer-list">${lines.map((l) => `<li>${inline(l.replace(/^\s*[-*]\s+/, ""))}</li>`).join("")}</ul>`;
+        }
+        return `<p>${lines.map(inline).join("<br>")}</p>`;
+      })
+      .join("");
+  };
+
+  const load = (): Msg[] => {
+    try {
+      return JSON.parse(sessionStorage.getItem(STORAGE) ?? "[]");
+    } catch {
+      return [];
+    }
+  };
+  const save = (messages: Msg[]) => {
+    try {
+      sessionStorage.setItem(STORAGE, JSON.stringify(messages.slice(-MAX_HISTORY)));
+    } catch {
+      // storage unavailable: the conversation lives for this page only
+    }
+  };
+
+  const setup = () => {
+    const root = document.getElementById("assistant");
+    if (!root || root.dataset.bound) return;
+    root.dataset.bound = "true";
+    const panel = document.getElementById("assistant-panel")!;
+    const toggle = document.getElementById("assistant-toggle")!;
+    const close = document.getElementById("assistant-close")!;
+    const log = document.getElementById("assistant-log")!;
+    const form = document.getElementById("assistant-form") as HTMLFormElement;
+    const input = document.getElementById("assistant-input") as HTMLTextAreaElement;
+    const send = document.getElementById("assistant-send") as HTMLButtonElement;
+    const intro = log.querySelector(".assistant-intro") as HTMLElement | null;
+    let messages = load();
+    let busy = false;
+
+    const open = (show: boolean) => {
+      panel.classList.toggle("hidden", !show);
+      panel.classList.toggle("flex", show);
+      toggle.classList.toggle("hidden", show);
+      toggle.setAttribute("aria-expanded", String(show));
+      if (show) input.focus();
+    };
+    toggle.addEventListener("click", () => open(true));
+    close.addEventListener("click", () => open(false));
+
+    const bubble = (role: Msg["role"], html: string) => {
+      const el = document.createElement("div");
+      el.className = role === "user" ? "msg-user" : "msg-assistant";
+      el.innerHTML = html;
+      log.appendChild(el);
+      log.scrollTop = log.scrollHeight;
+      return el;
+    };
+    const showSources = (el: HTMLElement, header: string | null) => {
+      if (!header) return;
+      try {
+        const sources = JSON.parse(decodeURIComponent(header)) as { title: string; url: string }[];
+        if (!sources.length) return;
+        const p = document.createElement("p");
+        p.className = "msg-sources";
+        p.innerHTML = `From: ${sources.map((s) => `<a href="${escapeHtml(s.url)}">${escapeHtml(s.title)}</a>`).join(" · ")}`;
+        el.appendChild(p);
+      } catch {
+        // malformed header: skip the source line
+      }
+    };
+
+    // Restore an earlier conversation from this session.
+    if (messages.length && intro) intro.remove();
+    for (const m of messages) bubble(m.role, m.role === "user" ? escapeHtml(m.content) : render(m.content));
+
+    const turnstileToken = () => {
+      const field = root.querySelector<HTMLInputElement>('input[name="cf-turnstile-response"]');
+      return field?.value ?? "";
+    };
+
+    const ask = async (question: string) => {
+      const q = question.trim();
+      if (!q || busy) return;
+      busy = true;
+      send.disabled = true;
+      input.value = "";
+      intro?.remove();
+      bubble("user", escapeHtml(q));
+      messages.push({ role: "user", content: q });
+      const el = bubble("assistant", "");
+      el.classList.add("cursor");
+      let answer = "";
+      try {
+        const res = await fetch("/api/chat", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ messages: messages.slice(-MAX_HISTORY), turnstileToken: turnstileToken() }),
+        });
+        if (!res.ok || !res.body) {
+          const data = await res.json().catch(() => ({}));
+          el.innerHTML = `<p class="msg-error">${escapeHtml(data.error ?? "Something went wrong.")}</p>`;
+          messages.pop();
+          return;
+        }
+        const reader = res.body.getReader();
+        const decoder = new TextDecoder();
+        while (true) {
+          const { value, done } = await reader.read();
+          if (done) break;
+          answer += decoder.decode(value, { stream: true });
+          el.innerHTML = render(answer);
+          log.scrollTop = log.scrollHeight;
+        }
+        el.innerHTML = render(answer);
+        showSources(el, res.headers.get("x-assistant-sources"));
+        messages.push({ role: "assistant", content: answer });
+        save(messages);
+      } catch {
+        el.innerHTML = '<p class="msg-error">The assistant is unavailable right now. Please try again later.</p>';
+        messages.pop();
+      } finally {
+        el.classList.remove("cursor");
+        busy = false;
+        send.disabled = false;
+        input.focus();
+      }
+    };
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      ask(input.value);
+    });
+    input.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" && !event.shiftKey) {
+        event.preventDefault();
+        ask(input.value);
+      }
+    });
+    for (const button of root.querySelectorAll<HTMLButtonElement>(".assistant-suggest")) {
+      button.addEventListener("click", () => ask(button.dataset.q ?? ""));
+    }
+
+    // Optional Cloudflare Turnstile: rendered only when a site key is configured.
+    const siteKey = root.dataset.turnstile;
+    const holder = document.getElementById("assistant-turnstile");
+    if (siteKey && holder && !document.querySelector("script[data-turnstile]")) {
+      const script = document.createElement("script");
+      script.src = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
+      script.async = true;
+      script.dataset.turnstile = "true";
+      script.onload = () => (window as any).turnstile?.render(holder, { sitekey: siteKey, size: "flexible" });
+      document.head.appendChild(script);
+    }
+  };
+
+  document.addEventListener("astro:page-load", setup);
+</script>

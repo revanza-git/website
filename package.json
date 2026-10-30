@@ -12,7 +12,8 @@
 		"check": "biome lint .",
 		"check:fix": "biome check --write .",
 		"test": "npm run test:integration",
-		"test:integration": "node --test \"tests/integration/*.test.js\"",
+		"test:integration": "node --test tests/integration/",
+		"test:assistant": "node tests/assistant/eval.mjs",
 		"test:monitoring": "playwright test tests/monitoring/client-errors.spec.js --reporter=line",
 		"docker:dev": "docker compose up --build",
 		"docker:dev:down": "docker compose down --remove-orphans",
@@ -39,6 +40,7 @@
 	},
 	"packageManager": "npm@11.3.0",
 	"dependencies": {
+		"@astrojs/vercel": "^7.8.2",
 		"@portabletext/to-html": "^2.0.14",
 		"@sanity/client": "^7.2.1",
 		"@sanity/image-url": "^1.1.0",

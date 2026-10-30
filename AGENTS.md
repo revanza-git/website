@@ -4,11 +4,11 @@ Guidance for AI coding agents working in this repository.
 
 ## Project Overview
 
-This is Revanza Raytama's personal portfolio site. It is a static Astro app with Tailwind CSS, local JSON content, and Sanity CMS for blog data.
+This is Revanza Raytama's personal portfolio site. It is an Astro app with Tailwind CSS, local JSON content, and Sanity CMS for blog data. Every page is prerendered; the one server route, `/api/chat`, powers the portfolio assistant.
 
 Primary stack:
 
-- Astro 4 static output
+- Astro 4 hybrid output: prerendered pages plus `/api/chat` on `@astrojs/vercel/serverless`
 - Tailwind CSS with `darkMode: "class"`
 - TypeScript config based on `astro/tsconfigs/strict`
 - Sanity client and schemas for CMS-backed content
@@ -55,6 +55,8 @@ Sanity variables:
 
 Optional variables include `FORMSPREE_ENDPOINT`, `SITE_URL`, `FEED_URL`, `BLOG_URL`, `ENABLE_HTML_INJECT`, `HEADER_INJECT`, and `FOOTER_INJECT`.
 
+Assistant variables (server-side only, never exposed to the browser): `GROQ_API_KEY` enables `/api/chat`; `GROQ_MODEL` and `GROQ_FALLBACK_MODEL` pick the Groq models; `PUBLIC_TURNSTILE_SITE_KEY` and `TURNSTILE_SECRET_KEY` optionally enable Cloudflare Turnstile.
+
 Do not commit real `.env`, `.env.local`, secrets, tokens, or production credentials.
 
 ## Development Commands
@@ -73,7 +75,8 @@ The local site normally runs at `http://localhost:4321`.
 Use the narrowest useful validation for the change:
 
 - `npm run check` runs Biome lint checks.
-- `npm run test:integration` runs repository regression tests.
+- `npm run test:integration` runs repository regression tests, including the assistant retrieval checks (no network).
+- `npm run test:assistant` runs the assistant eval (`tests/assistant/cases.json`) against a running site; it calls Groq and needs `GROQ_API_KEY`.
 - `npm run test` currently aliases integration tests.
 - `npm run build` runs `astro check` and `astro build`.
 - `npm run build:memory` runs the production build with increased Node memory.
@@ -128,6 +131,9 @@ The integration suite checks:
 - Redirect pages' canonical and noindex semantics.
 - `target="_blank"` link security attributes.
 - HTML injection remaining gated by `ENABLE_HTML_INJECT`.
+- Assistant retrieval: the corpus covers every case study, and recruiter-style questions rank the right case study first.
+
+The assistant eval (`npm run test:assistant`) asks the live endpoint thirty questions and checks required and forbidden phrases; run it after changing `assistant.json`, the prompt, the retrieval code, or the case-study copy.
 
 The monitoring suite opens production URLs and fails on page errors, console errors, or failed requests. It requires network access and reflects the deployed site, not necessarily local changes.
 
@@ -137,8 +143,9 @@ The main site is configured for Vercel:
 
 - Framework preset: Astro
 - Build command: `npm run build:memory`
-- Output directory: `dist`
 - Install command: `npm ci`
+- No output directory setting: `@astrojs/vercel` writes `.vercel/output` and Vercel reads it through the Build Output API
+- Environment variables: the Sanity pair plus `GROQ_API_KEY` (and the optional assistant variables above)
 
 `vercel.json` contains redirect and deployment configuration. Be careful when changing it because regression tests assert specific redirect behavior.
 

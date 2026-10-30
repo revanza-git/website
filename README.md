@@ -75,7 +75,8 @@ Sanity Studio will be available at `http://localhost:3333`
 - `npm run preview` - Preview production build
 - `npm run check` - Run Biome lint checks (non-mutating)
 - `npm run test` - Run all tests
-- `npm run test:integration` - Run integration regression tests
+- `npm run test:integration` - Run integration regression tests (includes the assistant retrieval checks)
+- `npm run test:assistant` - Ask the running site's assistant the 30 eval questions in `tests/assistant/cases.json` (needs `GROQ_API_KEY`)
 - `npm run test:monitoring` - Run production browser client-error sweep
 - `npm run docker:dev` - Start local dev container
 - `npm run docker:dev:down` - Stop and remove local dev container
@@ -108,6 +109,7 @@ The layout is documented once, in [AGENTS.md](AGENTS.md#repository-layout), so i
 - **🌍 Environment variable management** with dotenv
 - **✨ Code quality enforcement** with Biome
 - **📅 Google Calendar integration** for easy meeting scheduling
+- **🤖 Portfolio assistant** ("Ask about my work"): a chat panel that answers from the published case studies, resume facts and About page through the site's only server route, `/api/chat`, with lexical retrieval, streaming answers from Groq, and an eval suite
 
 ## 📅 Google Calendar Meeting Scheduler
 
@@ -154,8 +156,8 @@ This portfolio is configured for **production deployment on Vercel** and **local
    - Configure the project settings:
      - Framework Preset: Astro
      - Build Command: `npm run build:memory`
-     - Output Directory: `dist`
      - Install Command: `npm ci`
+     - Leave the output directory unset: `@astrojs/vercel` writes `.vercel/output` (Build Output API)
 
 3. Add Environment Variables in Vercel:
 
@@ -164,7 +166,11 @@ This portfolio is configured for **production deployment on Vercel** and **local
      ```
      SANITY_PROJECT_ID=your_project_id
      SANITY_DATASET=production
+     GROQ_API_KEY=your_groq_key          # portfolio assistant; omit to disable the chat endpoint
+     GROQ_MODEL=openai/gpt-oss-120b
+     GROQ_FALLBACK_MODEL=llama-3.1-8b-instant
      ```
+   - Optional: `PUBLIC_TURNSTILE_SITE_KEY` and `TURNSTILE_SECRET_KEY` turn on Cloudflare Turnstile for the assistant.
 
 4. Deploy Sanity Studio with `npm run sanity:deploy` (see below). `.sanity/` is a generated cache, not a deployable app.
 

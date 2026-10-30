@@ -1,11 +1,14 @@
 import { defineConfig } from "astro/config";
 
 import tailwind from "@astrojs/tailwind";
+import vercel from "@astrojs/vercel/serverless";
 
 // https://astro.build/config
 export default defineConfig({
   site: "https://revanza.dev",
-  output: "static",
+  // Every page is prerendered; "hybrid" exists only for the assistant's /api/chat route.
+  output: "hybrid",
+  adapter: vercel(),
   integrations: [tailwind()],
   vite: {
     envPrefix: ["SANITY_"],
