@@ -8,9 +8,9 @@
 	},
 	{
 		"dates": "Aug 2026 – Present",
-		"role": "Co-founder & Technology Lead",
+		"role": "Technology Lead",
 		"company": "MeatLink.id",
-		"description": "Co-founded and lead the technology behind meatlink.id, a live B2B meat sourcing and commerce platform for restaurants, hotels, caterers, and retailers in Indonesia: catalog with per-kilogram pricing, multi-item RFQs, Midtrans checkout, orders and invoices, and admin and vendor consoles. Built on TanStack Start (React 19, TypeScript) on Cloudflare Workers with Supabase Postgres and role-based Row-Level Security, plus an OAuth 2.1-protected MCP server that lets AI agents check stock, place and look up orders, and draft market insights behind evidence, privacy, and human-review gates.",
+		"description": "Lead the technology behind meatlink.id, a live B2B meat sourcing and commerce platform for restaurants, hotels, caterers, and retailers in Indonesia: catalog with per-kilogram pricing, multi-item RFQs, Midtrans checkout, orders and invoices, and admin and vendor consoles. Built on TanStack Start (React 19, TypeScript) on Cloudflare Workers with Supabase Postgres and role-based Row-Level Security, plus an OAuth 2.1-protected MCP server that lets AI agents check stock, place and look up orders, and draft market insights behind evidence, privacy, and human-review gates.",
 		"logo": "/assets/images/experiences/meatlink.png"
 	},
 	{
