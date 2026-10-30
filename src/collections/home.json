@@ -1,9 +1,9 @@
 {
 	"metrics": [
-		{ "value": "9+", "label": "Years shipping backend & data systems" },
-		{ "value": "30+", "label": "App databases consolidated for reporting" },
-		{ "value": "5 TB+", "label": "National-scale telco data processed" },
-		{ "value": "80 h", "label": "Manual work removed every month" }
+		{ "value": "9+", "label": "Years shipping backend, data & AI systems" },
+		{ "value": "1,000+", "label": "Work permits a month on the platform I built" },
+		{ "value": "30 min", "label": "AI first drafts of procedures, down from a week" },
+		{ "value": "30+", "label": "App databases consolidated for reporting" }
 	],
 	"practice": [
 		{
