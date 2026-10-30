@@ -3,8 +3,11 @@
 // server route on the site; everything it knows comes from the published case studies,
 // resume and About page. Set-up runs on astro:page-load like the rest of main.js.
 import assistant from "../collections/assistant.json";
+import projects from "../collections/projects.json";
 
 const suggestions = assistant.suggestedQuestions;
+// Case-study URL -> name, so the widget can label links the model writes as bare paths.
+const titles = Object.fromEntries(projects.map((p) => [p.url, p.name]));
 const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? "";
 const contact = [
   { label: "Email", href: "mailto:revanza.raytama@gmail.com" },
@@ -13,7 +16,7 @@ const contact = [
 ];
 ---
 
-<div id="assistant" class="fixed bottom-5 right-5 z-40 flex flex-col items-end sm:bottom-8 sm:right-8" data-turnstile={turnstileSiteKey}>
+<div id="assistant" class="fixed bottom-5 right-5 z-40 flex flex-col items-end sm:bottom-8 sm:right-8" data-turnstile={turnstileSiteKey} data-titles={JSON.stringify(titles)}>
   <section
     id="assistant-panel"
     class="assistant-panel hidden w-[calc(100vw-2.5rem)] max-w-[25rem] flex-col overflow-hidden rounded-2xl border border-rule bg-card shadow-[0_24px_60px_-24px_rgba(22,19,15,0.4)]"
@@ -150,14 +153,24 @@ const contact = [
   const escapeHtml = (s: string) =>
     s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c] ?? c);
 
+  // Case-study URL -> name, filled in by setup() from the data-titles attribute.
+  let titles: Record<string, string> = {};
+  const anchor = (url: string, label: string) =>
+    `<a href="${url}" target="_blank" rel="noopener noreferrer">${label}</a>`;
   // Minimal, safe markdown: paragraphs, "- " bullets, **bold**, [text](url) with a URL allowlist.
+  // The model occasionally writes a case-study path bare or in square brackets; those become
+  // links labelled with the case study's name.
   const render = (text: string) => {
     const inline = (s: string) =>
       escapeHtml(s)
         .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
-        .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (_m, label, url) =>
-          /^(\/|https?:\/\/|mailto:)/.test(url) ? `<a href="${url}" target="_blank" rel="noopener noreferrer">${label}</a>` : label,
-        );
+        .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (_m, label, url) => {
+          if (!/^(\/|https?:\/\/|mailto:)/.test(url)) return label;
+          const name = titles[url];
+          return anchor(url, name && label.startsWith("/") ? name : label);
+        })
+        .replace(/\[(\/projects\/[a-z0-9-]+)\]/g, (_m, url) => anchor(url, titles[url] ?? "case study"))
+        .replace(/(^|[\s(])(\/projects\/[a-z0-9-]+)(?=$|[\s).,;:])/g, (_m, before, url) => `${before}${anchor(url, titles[url] ?? "case study")}`);
     const blocks = text.trim().split(/\n{2,}/);
     return blocks
       .map((block) => {
@@ -204,6 +217,11 @@ const contact = [
     const input = document.getElementById("assistant-input") as HTMLTextAreaElement;
     const send = document.getElementById("assistant-send") as HTMLButtonElement;
     const intro = log.querySelector(".assistant-intro") as HTMLElement | null;
+    try {
+      titles = JSON.parse(root.dataset.titles ?? "{}");
+    } catch {
+      titles = {};
+    }
     let messages = load();
     let busy = false;
 
